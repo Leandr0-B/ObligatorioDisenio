@@ -8,7 +8,7 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class LlamadaEnEspera extends EstadoLlamada{
+public class LlamadaEnEspera implements EstadoLlamada{
     
     @Override
     public void next(Llamada l) throws Exception{

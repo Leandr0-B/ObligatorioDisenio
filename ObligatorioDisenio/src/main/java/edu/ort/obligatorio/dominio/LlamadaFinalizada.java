@@ -8,7 +8,9 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class LlamadaFinalizada extends EstadoLlamada{
-    
+public class LlamadaFinalizada implements EstadoLlamada{
+    public void next(Llamada l) throws Exception{
+       throw new Exception("No se puede Finalizar una llamada Finalizada");
+    };
     
 }

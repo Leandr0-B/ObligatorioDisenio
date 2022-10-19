@@ -8,8 +8,6 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public abstract class EstadoLlamada {
-    public void next(Llamada l) throws Exception{
-       throw new Exception("No se puede Finalizar una llamada Finalizada");
-    };
+public interface EstadoLlamada {
+    public void next(Llamada l) throws Exception;
 }
