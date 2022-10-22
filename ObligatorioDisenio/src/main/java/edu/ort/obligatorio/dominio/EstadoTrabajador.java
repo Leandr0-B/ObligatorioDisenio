@@ -8,6 +8,10 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public interface EstadoTrabajador {
-     public void next(Trabajador p);
+public abstract class EstadoTrabajador {
+     public abstract void next(Trabajador p);
+     
+     public boolean estaLibre() {
+        return true;
+    }
 }

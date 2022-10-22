@@ -8,6 +8,12 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public interface EstadoPuesto {
-    public void next(Puesto p);
+public abstract class  EstadoPuesto {
+    public abstract void next(Puesto p);
+    
+    public boolean estaLibre() {
+        return true;
+    }
+    
+    
 }

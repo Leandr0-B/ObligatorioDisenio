@@ -8,11 +8,15 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class TrabajadorNoDisponible implements EstadoTrabajador{
+public class TrabajadorNoDisponible extends EstadoTrabajador{
 
     @Override
     public void next(Trabajador p) {
         p.setEstado(new TrabajadorDisponible());
+    }
+    
+    public boolean estaLibre() {
+        return false;
     }
     
 }

@@ -8,15 +8,37 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class Cliente {
+public class Cliente extends Usuario{
     private TipoCliente tipo;
+    private Float saldo;
 
+    public Cliente(String ci, String nombreCompleto, TipoCliente tipo, Float saldo) {
+        super(ci, nombreCompleto);
+        this.tipo = tipo;
+        this.saldo = saldo;
+    }
+
+    public Cliente(TipoCliente tipo, Float saldo, String ci) {
+        super(ci);
+        this.tipo = tipo;
+        this.saldo = saldo;
+    }
+
+    
     public TipoCliente getTipo() {
         return tipo;
     }
 
     public void setTipo(TipoCliente tipo) {
         this.tipo = tipo;
+    }
+
+    public Float getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Float saldo) {
+        this.saldo = saldo;
     }
     
     
