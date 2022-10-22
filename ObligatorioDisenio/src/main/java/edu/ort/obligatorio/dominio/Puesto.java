@@ -10,6 +10,7 @@ package edu.ort.obligatorio.dominio;
  */
 public class Puesto {
     private EstadoPuesto estado;
+    private Trabajador trabajador;
 
     public EstadoPuesto getEstado() {
         return estado;
@@ -17,6 +18,23 @@ public class Puesto {
 
     public void setEstado(EstadoPuesto estado) {
         this.estado = estado;
+    }
+
+    public Trabajador getTrabajador() {
+        return this.trabajador;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
+    }
+    
+    public void asignarTrabajador(Trabajador t) {
+        this.setTrabajador(trabajador);
+        this.cambiarEstado();
+    }
+    
+    public void cambiarEstado() {
+        this.estado.next(this);
     }
     
     
