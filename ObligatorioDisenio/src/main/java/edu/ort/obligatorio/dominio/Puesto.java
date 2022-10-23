@@ -59,7 +59,7 @@ public class Puesto {
         return this.estado.estaDisponible();
     }
     
-    public boolean estadoDelTrabajador() {
+    public boolean trabajadorDisponible() {
         return this.trabajador.estaDisponible();
     }
     
