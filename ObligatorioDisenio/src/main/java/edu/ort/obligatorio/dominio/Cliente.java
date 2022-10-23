@@ -8,7 +8,7 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class Cliente extends Usuario{
+public class Cliente extends Persona{
     private TipoCliente tipo;
     private Float saldo;
 

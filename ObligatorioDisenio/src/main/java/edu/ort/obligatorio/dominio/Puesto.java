@@ -4,13 +4,16 @@
  */
 package edu.ort.obligatorio.dominio;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author leand
  */
 public class Puesto {
-    private EstadoPuesto estado;
+    private EstadoPuesto estado;    
     private Trabajador trabajador;
+    private ArrayList<Llamada> llamadas;
 
     public EstadoPuesto getEstado() {
         return estado;
@@ -35,6 +38,29 @@ public class Puesto {
     
     public void cambiarEstado() {
         this.estado.next(this);
+    }
+    
+    public int cantidadDeLlamadas() {
+        return llamadas.size();
+    }
+    
+    public float tiempoPromedioLlamadas() {
+        return this.duracionTotalLlamadas()/this.cantidadDeLlamadas();
+    }
+    private long duracionTotalLlamadas() {
+        long duracionTotal = 0;
+        for(Llamada l: this.llamadas) {
+            duracionTotal+=l.duracionLlamada();
+        }
+        return duracionTotal;
+    }
+    
+    public boolean estaDisponible() {
+        return this.estado.estaDisponible();
+    }
+    
+    public boolean estadoDelTrabajador() {
+        return this.trabajador.estaDisponible();
     }
     
     

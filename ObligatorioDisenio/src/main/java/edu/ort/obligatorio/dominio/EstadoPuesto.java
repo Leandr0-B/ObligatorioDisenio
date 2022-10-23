@@ -11,7 +11,7 @@ package edu.ort.obligatorio.dominio;
 public abstract class  EstadoPuesto {
     public abstract void next(Puesto p);
     
-    public boolean estaLibre() {
+    public boolean estaDisponible() {
         return true;
     }
     

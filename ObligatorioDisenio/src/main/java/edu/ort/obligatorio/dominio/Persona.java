@@ -8,16 +8,16 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public abstract class Usuario {
+public abstract class Persona {
     private String ci;
     private String nombreCompleto;
 
-    public Usuario(String ci, String nombreCompleto) {
+    public Persona(String ci, String nombreCompleto) {
         this.ci = ci;
         this.nombreCompleto = nombreCompleto;
     }
     
-    public Usuario(String ci) {
+    public Persona(String ci) {
         this.ci = ci;
     }
     

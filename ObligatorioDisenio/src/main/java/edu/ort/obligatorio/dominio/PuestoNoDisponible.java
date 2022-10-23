@@ -8,11 +8,11 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class PuestoLibre extends EstadoPuesto{
+public class PuestoNoDisponible extends EstadoPuesto{
 
     @Override
     public void next(Puesto p) {
-        p.setEstado(new PuestoOcupado());
+        p.setEstado(new PuestoDisponible());
     }
     
 }

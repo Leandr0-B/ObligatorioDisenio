@@ -4,26 +4,20 @@
  */
 package edu.ort.obligatorio.logica;
 
-import edu.ort.obligatorio.dominio.Cliente;
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
-import edu.ort.obligatorio.dominio.Trabajador;
-import edu.ort.obligatorio.dominio.Usuario;
+import edu.ort.obligatorio.dominio.Persona;
 import edu.ort.obligatorio.dominio.Sector;
-
+import edu.ort.obligatorio.dominio.Trabajador;
 import java.util.HashMap;
 
 /**
  *
  * @author leand
  */
-public class ServicioUsuario {
-    private HashMap<String, Usuario> usuarios = new HashMap<>();
+public class ServicioTrabajador {
+    private HashMap<String, Trabajador> trabajadores = new HashMap<>();
     private static final String ACCESO_DENEGADO = "Acceso denegado";
-    
-    public Boolean agregar(Cliente cliente) {
-        return agregarUsuario(cliente);
-    }
-    
+        
     // el trabajador no va a ser agregado si el sector no existe
     public Boolean agregar(Trabajador trabajador, Integer numeroSector) {
         // Nadia es feliz con esta nueva variable; =)
@@ -32,7 +26,7 @@ public class ServicioUsuario {
         // Lea opiona que Retorno no es necesaria , con agregarOk era suficiente =);
         Boolean agregarOk = false;
         if(sector != null) {
-        agregarOk = agregarUsuario(trabajador);
+        agregarOk = agregarTrabajador(trabajador);
         if (agregarOk) {
                 trabajador.setSector(sector);
                 sector.agregarTrabajador(trabajador);
@@ -41,11 +35,11 @@ public class ServicioUsuario {
         }
         return retorno;
     }
-
-    private Boolean agregarUsuario(Usuario usuario) {
+    
+    private Boolean agregarTrabajador(Trabajador trabajador) {
         Boolean usuarioAgregado = false;
         try {
-            usuarios.put(usuario.getCi(), usuario);
+            trabajadores.put(trabajador.getCi(), trabajador);
             usuarioAgregado = true;
         } finally {
             // TO DO
@@ -54,10 +48,11 @@ public class ServicioUsuario {
     }
     
     public Trabajador login(String ci, String password) throws LoginException {
-        Trabajador t = (Trabajador)usuarios.get(ci);
+        Trabajador t = trabajadores.get(ci);
         if (t == null || !t.esPasswordValido(password)) {
             throw new LoginException(ACCESO_DENEGADO);
         }
         return t;
     }
+
 }
