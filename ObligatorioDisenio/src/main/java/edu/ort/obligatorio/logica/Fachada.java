@@ -11,13 +11,15 @@ import edu.ort.obligatorio.dominio.Sector;
  * @author leand
  */
 public class Fachada {
-    private ServicioUsuario servicioUsuario;
+    private ServicioTrabajador servicioTrabajador;
+    private ServicioCliente servicioCliente;
     private ServicioLlamada servicioLlamada;
 
     private static Fachada instancia;
 
     private Fachada() {
-        servicioUsuario = new ServicioUsuario();
+        servicioTrabajador = new ServicioTrabajador();
+        servicioCliente = new ServicioCliente();
         servicioLlamada = new ServicioLlamada();
     }
 

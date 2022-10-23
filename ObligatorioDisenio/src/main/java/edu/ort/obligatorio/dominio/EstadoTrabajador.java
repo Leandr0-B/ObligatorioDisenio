@@ -11,7 +11,7 @@ package edu.ort.obligatorio.dominio;
 public abstract class EstadoTrabajador {
      public abstract void next(Trabajador p);
      
-     public boolean estaLibre() {
+     public boolean estaDisponible() {
         return true;
     }
 }

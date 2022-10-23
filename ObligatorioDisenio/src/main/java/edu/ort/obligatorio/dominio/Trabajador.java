@@ -8,7 +8,7 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class Trabajador extends Usuario{
+public class Trabajador extends Persona{
     private EstadoTrabajador estado;
     private Puesto puestoTrabajo;
     private String password;
@@ -59,9 +59,13 @@ public class Trabajador extends Usuario{
         this.estado.next(this);
     }
 
-    void asignarPuesto(Puesto auxPuestolibre) {
+    public void asignarPuesto(Puesto auxPuestolibre) {
         this.setPuestoTrabajo(auxPuestolibre);
         this.cambiarEstado();
+    }
+
+    public boolean estaDisponible() {
+        return this.estado.estaDisponible();
     }
     
     
