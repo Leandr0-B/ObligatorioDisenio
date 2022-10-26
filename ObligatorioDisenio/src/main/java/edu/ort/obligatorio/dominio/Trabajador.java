@@ -55,13 +55,16 @@ public class Trabajador extends Persona{
         this.sector = sector;
     }
     
-    public void cambiarEstado() {
-        this.estado.next(this);
+    public void cambiarEstadoADisponble() throws Exception{
+        this.estado.trabajadorDisponible(this);
+    }
+    
+    public void cambiarEstadoANoDisponble() throws Exception{
+        this.estado.trabajadorNoDisponible(this);
     }
 
-    public void asignarPuesto(Puesto auxPuestolibre) {
+    public void asignarPuesto(Puesto auxPuestolibre) throws Exception{
         this.setPuestoTrabajo(auxPuestolibre);
-        this.cambiarEstado();
     }
 
     public boolean estaDisponible() {

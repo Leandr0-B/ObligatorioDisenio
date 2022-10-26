@@ -27,17 +27,21 @@ public class Puesto {
         return this.trabajador;
     }
 
-    public void setTrabajador(Trabajador trabajador) {
+    private void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
     }
     
-    public void asignarTrabajador(Trabajador t) {
+    public void asignarTrabajador(Trabajador t) throws Exception {
         this.setTrabajador(trabajador);
-        this.cambiarEstado();
+        this.cambiarEstadoANoDisponible();
     }
     
-    public void cambiarEstado() {
-        this.estado.next(this);
+    public void cambiarEstadoADisponible() throws Exception {
+        this.estado.puestoDisponible(this);
+    }
+    
+    public void cambiarEstadoANoDisponible() throws Exception {
+        this.estado.puestoNoDisponible(this);
     }
     
     public int cantidadDeLlamadas() {
@@ -63,5 +67,8 @@ public class Puesto {
         return this.trabajador.estaDisponible();
     }
     
+    public void agregarLlamada(Llamada l) {
+        this.llamadas.add(l);
+    }
     
 }

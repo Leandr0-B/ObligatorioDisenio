@@ -16,6 +16,24 @@ public class Llamada {
     private ZonedDateTime fechaHoraInicioAtencion;
     private ZonedDateTime fechaHoraFin;
     private EstadoLlamada estado;
+    private Puesto puesto;
+    private Trabajador trabajador;
+
+    public Trabajador getTrabajador() {
+        return trabajador;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
+    }
+
+    public Puesto getPuesto() {
+        return puesto;
+    }
+
+    public void setPuesto(Puesto puesto) {
+        this.puesto = puesto;
+    }
 
     public EstadoLlamada getEstado() {
         return estado;
@@ -51,5 +69,16 @@ public class Llamada {
     
     public long duracionLlamada(){
         return Duration.between(fechaHoraInicioAtencion, fechaHoraFin).toSeconds();
+    }
+    
+    public void cambiarALLamadaEnCurso() throws Exception {
+        this.estado.llamadaEnCurso(this);
+    }
+    public void cambiarALLamadaFinalizada() throws Exception {
+        this.estado.llamadaFinalizada(this);
+    }
+    
+    public boolean esLlamadaFinalizada() {
+        return this.estado.finalizada();
     }
 }
