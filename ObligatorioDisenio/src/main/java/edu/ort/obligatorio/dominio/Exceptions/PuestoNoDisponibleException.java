@@ -8,8 +8,8 @@ package edu.ort.obligatorio.dominio.Exceptions;
  *
  * @author leand
  */
-public class PuestoDisponibleException extends Exception{
-    public PuestoDisponibleException(String mensaje){
+public class PuestoNoDisponibleException extends Exception{
+    public PuestoNoDisponibleException(String mensaje){
         super(mensaje);
     };
 }

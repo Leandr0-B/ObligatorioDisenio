@@ -11,11 +11,12 @@ package edu.ort.obligatorio.dominio;
 public class TrabajadorNoDisponible extends EstadoTrabajador{
 
     @Override
-    public void next(Trabajador p) {
+    public void trabajadorDisponible(Trabajador p) {
         p.setEstado(new TrabajadorDisponible());
     }
     
-    public boolean estaLibre() {
+    @Override
+    public boolean estaDisponible() {
         return false;
     }
     

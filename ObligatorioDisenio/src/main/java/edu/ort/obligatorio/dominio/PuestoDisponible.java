@@ -11,13 +11,8 @@ package edu.ort.obligatorio.dominio;
 public class PuestoDisponible extends EstadoPuesto {
 
     @Override
-    public void next(Puesto p) {
+    public void puestoNoDisponible(Puesto p) {
         p.setEstado(new PuestoNoDisponible());
-    }
-    
-    @Override
-    public boolean estaDisponible() {
-        return false;
     }
     
 }

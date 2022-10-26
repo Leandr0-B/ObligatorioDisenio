@@ -9,7 +9,12 @@ package edu.ort.obligatorio.dominio;
  * @author leand
  */
 public abstract class  EstadoPuesto {
-    public abstract void next(Puesto p);
+    public void puestoDisponible(Puesto P) throws Exception{
+	throw new Exception("El estado del puesto ya es disponible");
+    }
+    public void puestoNoDisponible(Puesto P) throws Exception{
+        throw new Exception("El estado del puesto ya es no disponible");
+    }
     
     public boolean estaDisponible() {
         return true;

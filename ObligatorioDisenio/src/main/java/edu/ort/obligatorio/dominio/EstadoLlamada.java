@@ -8,6 +8,18 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public interface EstadoLlamada {
-    public void next(Llamada l) throws Exception;
+public abstract class EstadoLlamada {
+    public void llamadaEnEspera(Llamada l) throws Exception{
+	throw new Exception("El estado de la llamada ya es en Espera/ o no puede cambiar a Espera");
+    }
+    public void llamadaEnCurso(Llamada l) throws Exception{
+        throw new Exception("El estado de la llamada ya es en Curso/ o no puede cambiar a en Curso");
+    }
+    public void llamadaFinalizada(Llamada l) throws Exception{
+        throw new Exception("El estado de la llamada ya es Finalizada/ o no puede cambiar a Finalizada");
+    }
+    
+    public boolean finalizada() {
+        return false;
+    }
 }
