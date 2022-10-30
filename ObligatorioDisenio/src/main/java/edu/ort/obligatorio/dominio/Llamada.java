@@ -18,6 +18,41 @@ public class Llamada {
     private EstadoLlamada estado;
     private Puesto puesto;
     private Trabajador trabajador;
+    private Cliente cliente;
+    private Sector sector;
+    private String descripcion;
+
+    public Llamada(Cliente cliente, Sector sector) {
+        this.fechaHoraInicio = ZonedDateTime.now();
+        this.sector= sector;
+        this.cliente= cliente;
+    }
+
+    public Sector getSector() {
+        return sector;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
+    
+    
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public Trabajador getTrabajador() {
         return trabajador;
@@ -73,12 +108,18 @@ public class Llamada {
     
     public void cambiarALLamadaEnCurso() throws Exception {
         this.estado.llamadaEnCurso(this);
+        setFechaHoraInicioAtencion(ZonedDateTime.now());
     }
     public void cambiarALLamadaFinalizada() throws Exception {
         this.estado.llamadaFinalizada(this);
+        setFechaHoraFin(ZonedDateTime.now());
     }
     
     public boolean esLlamadaFinalizada() {
         return this.estado.finalizada();
+    }
+    
+    public boolean esLlamadaEnEspera() {
+        return this.estado.enEspera();
     }
 }

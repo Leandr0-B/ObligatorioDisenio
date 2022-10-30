@@ -18,4 +18,8 @@ public class LlamadaEnEspera extends EstadoLlamada{
     public void llamadaFinalizada(Llamada l) throws Exception{
         l.setEstado(new LlamadaFinalizada());
     }
+    
+    public boolean enEspera(){
+        return true;
+    }
 }

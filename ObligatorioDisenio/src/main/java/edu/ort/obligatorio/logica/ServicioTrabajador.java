@@ -5,16 +5,17 @@
 package edu.ort.obligatorio.logica;
 
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
-import edu.ort.obligatorio.dominio.Persona;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
+import edu.ort.obligatorio.observador.Observable;
+import edu.ort.obligatorio.observador.Observador;
 import java.util.HashMap;
 
 /**
  *
  * @author leand
  */
-public class ServicioTrabajador {
+public class ServicioTrabajador extends Observable{
     private HashMap<String, Trabajador> trabajadores = new HashMap<>();
     private static final String ACCESO_DENEGADO = "Acceso denegado";
         
@@ -47,11 +48,17 @@ public class ServicioTrabajador {
         return usuarioAgregado;
     }
     
-    public Trabajador login(String ci, String password) throws LoginException {
+    public Trabajador login(String ci, String password) throws LoginException, Exception {
+        
         Trabajador t = trabajadores.get(ci);
         if (t == null || !t.esPasswordValido(password)) {
             throw new LoginException(ACCESO_DENEGADO);
         }
+        if(!t.estaDisponible()){
+            //Siempre que se loguea le cambiamos el estado a disponible para que pueda antender llamadas
+            t.cambiarEstadoADisponble();   
+        }
+        this.avisar(Observador.Eventos.LOGIN_TRABAJADOR);
         return t;
     }
 

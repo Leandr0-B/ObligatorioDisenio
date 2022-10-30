@@ -38,6 +38,7 @@ public class Puesto {
     
     public void cambiarEstadoADisponible() throws Exception {
         this.estado.puestoDisponible(this);
+        this.setTrabajador(null);
     }
     
     public void cambiarEstadoANoDisponible() throws Exception {
@@ -70,5 +71,16 @@ public class Puesto {
     public void agregarLlamada(Llamada l) {
         this.llamadas.add(l);
     }
+   
+    //puesto con trabajador Disponible para atender Llamadas
+    public void puestoConTrabajadorDisponible()throws Exception{
+        this.trabajador.cambiarEstadoADisponble();
+        //avisar
+    }
     
+     
+    //puesto con trabajador No Disponible para atender Llamadas
+     public void puestoConTrabajadorNoDisponible()throws Exception{
+        this.trabajador.cambiarEstadoANoDisponble();
+    }
 }

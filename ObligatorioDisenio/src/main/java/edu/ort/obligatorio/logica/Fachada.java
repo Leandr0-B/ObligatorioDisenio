@@ -4,7 +4,10 @@
  */
 package edu.ort.obligatorio.logica;
 
+import edu.ort.obligatorio.dominio.Exceptions.LoginException;
 import edu.ort.obligatorio.dominio.Sector;
+import edu.ort.obligatorio.dominio.Trabajador;
+
 
 /**
  *
@@ -22,6 +25,7 @@ public class Fachada {
         servicioCliente = new ServicioCliente();
         servicioLlamada = new ServicioLlamada();
     }
+    
 
     public synchronized static Fachada getInstancia() {
         if (instancia == null) {
@@ -32,5 +36,23 @@ public class Fachada {
     
     public Sector getSector(Integer numeroSector) {
         return servicioLlamada.getSector(numeroSector);
+    }
+
+    public ServicioTrabajador getServicioTrabajador() {
+        return servicioTrabajador;
+    }
+
+    public ServicioCliente getServicioCliente() {
+        return servicioCliente;
+    }
+
+    public ServicioLlamada getServicioLlamada() {
+        return servicioLlamada;
+    }
+    
+    public Trabajador login(String ci, String password) throws LoginException, Exception{
+        
+        return servicioTrabajador.login(ci, password);
+        
     }
 }

@@ -17,6 +17,7 @@ public class Trabajador extends Persona{
     public Trabajador(String ci, String password) {
         super(ci);
         this.password = password;
+        this.estado = new TrabajadorDisponible();
     }
     
     private String getPassword() {

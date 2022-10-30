@@ -4,6 +4,7 @@
  */
 package edu.ort.obligatorio.dominio;
 
+import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -17,10 +18,35 @@ public class Sector {
     private ArrayList<Trabajador> trabajadores;
     private int numeroSector; 
     private ArrayList<Puesto> puestos;
-    private static final String NO_HAY_PUESTOS_DISPONIBLES = "no hay puestos disponibles";
     private ArrayList<Llamada> llamadasEnEspera;
     private ArrayList<Llamada> llamadasEnCursoOFinalizadas;
+    private static final String NO_HAY_PUESTOS_DISPONIBLES = "no hay puestos disponibles";
+    private final String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a "+ cantidadLlamadasEnEspera() +" llamadas de ser " +
+       "atendido, la espera estimada es de " + tiempoPromedioDeAtencionDelSector() + " minutos";
 
+    public Sector() {
+    }
+
+    
+    
+    public ArrayList<Llamada> getLlamadasEnEspera() {
+        return llamadasEnEspera;
+    }
+
+    public void setLlamadasEnEspera(ArrayList<Llamada> llamadasEnEspera) {
+        this.llamadasEnEspera = llamadasEnEspera;
+    }
+
+    public ArrayList<Llamada> getLlamadasEnCursoOFinalizadas() {
+        return llamadasEnCursoOFinalizadas;
+    }
+
+    public void setLlamadasEnCursoOFinalizadas(ArrayList<Llamada> llamadasEnCursoOFinalizadas) {
+        this.llamadasEnCursoOFinalizadas = llamadasEnCursoOFinalizadas;
+    }
+    
+    
+    
     public String getNombre() {
         return nombre;
     }
@@ -71,22 +97,28 @@ public class Sector {
         }
     }
     
-    public void asignarLlamadaAPuesto(Llamada l) throws Exception {
-        Puesto puestoAux = obtenerPuestoConTrabajadorDisponible();
-        if(puestoAux != null) {
+    
+    public void asignarLlamadaAPuesto(Llamada l) throws Exception{
+        
+        Puesto p = obtenerPuestoConTrabajadorDisponible();
+        asignarLlamadaAPuesto(l,p);
+    }
+    
+    public void asignarLlamadaAPuesto(Llamada l, Puesto p) throws Exception {
+        
+        if(p != null) {
             
             // cambiamos el estado del trabajador // asignar la llamada al trabajador
-            Trabajador t = puestoAux.getTrabajador();
+            Trabajador t = p.getTrabajador();
             t.cambiarEstadoANoDisponble();
             l.setTrabajador(t);
             
             // asignar la llamada al puesto y al reves
             // TO DO: en lugar de agregar llamada, deberia ser atender llamada?
-            puestoAux.agregarLlamada(l);
-            l.setPuesto(puestoAux);
+            p.agregarLlamada(l);
+            l.setPuesto(p);
             // asignar la llamada al sector , ver
             
-          
             //hay un puesto disponbile voy a poder mover la llamda de la lista de espera
             // a la lista de en curso o finalizada
             // setear hora de atender
@@ -116,20 +148,69 @@ public class Sector {
         return auxPuesto;
     }
     
-    public void nuevaLlamada(Llamada l) throws Exception{
+    public void iniciarLlamada(Llamada l) throws Exception{
         // primero recibo la llamada y la agrego a la lista de espera
         llamadasEnEspera.add(l);
-        // luego intento asignar la llamda a un puesto
-        asignarLlamadaAPuesto(l);
-        
+        if(hayPuestoConTrabajadorDisponible()){
+            // luego intento asignar la llamda a un puesto
+            asignarLlamadaAPuesto(l);
+        }
+        else{        
+            throw new LlamadaEnEsperaException(LLAMADA_EN_ESPERA);
+        }
     }
     
     // pasa de una lista a la otra y tambien setea la hora de atencion
     private void moverLlamadaDeEsperaAAtendida(Llamada l) throws Exception{
         llamadasEnEspera.remove(l);
         llamadasEnCursoOFinalizadas.add(l);
-        // TO DO: ver si esto es correcto hacerlo aca
-        l.setFechaHoraInicioAtencion(ZonedDateTime.now());
         l.cambiarALLamadaEnCurso();
     }
+    
+    public boolean estaDisponible(){
+        boolean disponible = false;
+        for(Puesto p: puestos){ 
+            //el puesto no tiene un trabajador asignado
+            if(p.estaDisponible()){
+                disponible = true;
+            }
+        }
+        return disponible;
+    }
+    
+    public boolean hayPuestoConTrabajadorDisponible(){
+        
+        boolean hay = false;
+        for(Puesto p:puestos){
+            if(p.trabajadorDisponible()){
+                hay = true;
+            }
+        }
+        return hay;
+    }
+    
+    public int cantidadLlamadasEnEspera(){
+        return this.llamadasEnEspera.size();
+    }
+    
+    public float esperaEstimadaParaElSector(){
+        return tiempoPromedioDeAtencionDelSector()*cantidadLlamadasEnEspera();
+    }
+   
+    //Es el promedio De Los Tiempos Promedio De Atencion De Cada Puesto
+    public float tiempoPromedioDeAtencionDelSector(){
+        float promedioAcumulado = 0;
+        for(Puesto p:puestos){
+            promedioAcumulado += p.tiempoPromedioLlamadas();
+        }
+        return promedioAcumulado/puestos.size();
+    }
+    
+    public void finalizarLlamadaSinSerAtendida(Llamada l) throws Exception{
+        this.llamadasEnCursoOFinalizadas.add(l);
+        this.llamadasEnEspera.remove(l);    
+        l.cambiarALLamadaFinalizada();
+    }
+    
+   
 }

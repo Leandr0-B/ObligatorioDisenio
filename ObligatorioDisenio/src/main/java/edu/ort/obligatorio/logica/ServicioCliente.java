@@ -24,4 +24,9 @@ public class ServicioCliente {
         }
         return usuarioAgregado;
     }
+    
+    public Cliente buscarCliente(String ci) {
+        Cliente c = clientes.get(ci);
+        return c;
+    }
 }

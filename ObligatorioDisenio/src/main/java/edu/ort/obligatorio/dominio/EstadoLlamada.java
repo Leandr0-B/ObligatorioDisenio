@@ -22,4 +22,8 @@ public abstract class EstadoLlamada {
     public boolean finalizada() {
         return false;
     }
+    
+    public boolean enEspera(){
+        return false;
+    }
 }

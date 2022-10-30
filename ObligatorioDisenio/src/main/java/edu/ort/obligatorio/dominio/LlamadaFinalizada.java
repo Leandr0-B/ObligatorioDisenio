@@ -10,6 +10,7 @@ package edu.ort.obligatorio.dominio;
  */
 public class LlamadaFinalizada extends EstadoLlamada{
    
+    
     @Override
     public boolean finalizada(){
         return true;
