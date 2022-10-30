@@ -25,7 +25,13 @@ public class Sector {
        "atendido, la espera estimada es de " + tiempoPromedioDeAtencionDelSector() + " minutos";
 
     public Sector() {
+       
+        this.puestos = new ArrayList<>();
+        this.llamadasEnEspera = new ArrayList<>();
+        this.llamadasEnCursoOFinalizadas = new ArrayList<>();
     }
+
+    
 
     
     

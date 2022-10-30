@@ -64,4 +64,14 @@ public class ServicioLlamada {
         }
         return atendidas;
     }
+    
+    public Boolean agregar(Sector s){
+        Boolean agregado = false;
+        
+        if(sectores.get(s.getNumeroSector())== null){
+            sectores.put(s.getNumeroSector(), s);
+            agregado = true;
+        }
+        return agregado;
+    }
 }

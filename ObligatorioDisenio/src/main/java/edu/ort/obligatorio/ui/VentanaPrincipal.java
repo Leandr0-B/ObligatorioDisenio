@@ -7,6 +7,7 @@ package edu.ort.obligatorio.ui;
 
 import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.logica.ServicioTrabajador;
+import edu.ort.obligatorio.utilidades.DatosDePrueba;
 
 /**
  *
@@ -19,6 +20,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public VentanaPrincipal() {
         initComponents();
+        
     }
     
     
@@ -129,10 +131,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                DatosDePrueba.cargar();
                 new VentanaPrincipal().setVisible(true);
             }
         });
