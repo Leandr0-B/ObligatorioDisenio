@@ -21,16 +21,16 @@ public class Sector {
     private ArrayList<Llamada> llamadasEnEspera;
     private ArrayList<Llamada> llamadasEnCursoOFinalizadas;
     private static final String NO_HAY_PUESTOS_DISPONIBLES = "no hay puestos disponibles";
-    private final String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a "+ cantidadLlamadasEnEspera() +" llamadas de ser " +
-       "atendido, la espera estimada es de " + tiempoPromedioDeAtencionDelSector() + " minutos";
+    private final String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a N llamadas de ser " +
+       "atendido, la espera estimada es de X minutos";
 
     public Sector() {
-       
         this.puestos = new ArrayList<>();
         this.llamadasEnEspera = new ArrayList<>();
         this.llamadasEnCursoOFinalizadas = new ArrayList<>();
-    }  
-    
+        this.trabajadores = new ArrayList<>();
+    }
+
     public ArrayList<Llamada> getLlamadasEnEspera() {
         return llamadasEnEspera;
     }

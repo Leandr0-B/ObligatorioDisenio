@@ -19,8 +19,8 @@ public class DatosDePrueba {
         Trabajador trabajador = new Trabajador("123","pass");
         Sector sector = new Sector();
         sector.setNumeroSector(1);
-        Fachada.getInstancia().agregar(sector);
-        Fachada.getInstancia().agregar(trabajador, 1);
+        System.out.println(Fachada.getInstancia().agregar(sector));
+        System.out.println(Fachada.getInstancia().agregar(trabajador, 1));
         
     }
     

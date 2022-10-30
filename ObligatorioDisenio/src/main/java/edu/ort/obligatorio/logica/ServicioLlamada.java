@@ -66,8 +66,8 @@ public class ServicioLlamada {
         return atendidas;
     }
     
-    public Boolean agregar(Sector s){
-        Boolean agregado = false;
+    public boolean agregar(Sector s){
+        boolean agregado = false;
         
         if(sectores.get(s.getNumeroSector())== null){
             sectores.put(s.getNumeroSector(), s);

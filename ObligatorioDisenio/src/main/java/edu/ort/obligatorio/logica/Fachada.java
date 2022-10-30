@@ -54,11 +54,11 @@ public class Fachada {
         return servicioTrabajador.login(ci, password);      
     }
     
-    public Boolean agregar(Trabajador trabajador, Integer numeroSector){
+    public boolean agregar(Trabajador trabajador, Integer numeroSector){
         return servicioTrabajador.agregar(trabajador, numeroSector);
     }
     
-    public Boolean agregar(Sector s){
+    public boolean agregar(Sector s){
         return servicioLlamada.agregar(s);
     }
 }

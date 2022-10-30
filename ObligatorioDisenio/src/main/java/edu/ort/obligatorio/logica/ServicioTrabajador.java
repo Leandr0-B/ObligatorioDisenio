@@ -20,7 +20,7 @@ public class ServicioTrabajador extends Observable{
     private static final String ACCESO_DENEGADO = "Acceso denegado";
         
     // el trabajador no va a ser agregado si el sector no existe
-    public Boolean agregar(Trabajador trabajador, Integer numeroSector) {
+    public boolean agregar(Trabajador trabajador, Integer numeroSector) {
         // Nadia es feliz con esta nueva variable; =)
         Boolean retorno = false;
         Sector sector = Fachada.getInstancia().getSector(numeroSector);
