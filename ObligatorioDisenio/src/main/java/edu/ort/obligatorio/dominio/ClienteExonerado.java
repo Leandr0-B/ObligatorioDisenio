@@ -12,6 +12,6 @@ public class ClienteExonerado extends TipoCliente{
     
     @Override
     public void cambiarAClienteExonerado(Cliente c) throws Exception{
-        throw new Exception("Cliente Exonerador no puede cambiarse a Cliente Exonerado");
+        throw new Exception("Cliente Exonerado no puede cambiarse a Cliente Exonerado");
     }
 }

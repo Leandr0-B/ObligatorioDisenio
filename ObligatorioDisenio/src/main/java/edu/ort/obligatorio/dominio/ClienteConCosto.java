@@ -9,6 +9,7 @@ package edu.ort.obligatorio.dominio;
  * @author leand
  */
 public class ClienteConCosto extends TipoCliente{
+    
     @Override
     public void cambiarAClienteConCosto(Cliente c) throws Exception{
         throw new Exception("Cliente Con Costo no puede cambiarse a Cliente Con Costo");

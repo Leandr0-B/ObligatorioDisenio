@@ -95,8 +95,8 @@ public class VistaLogin extends javax.swing.JDialog implements VistaLoginInterfa
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String ci= lCedula.getText();
-        String password = lPassword.getText();
+        String ci= txtCedula.getText();
+        String password = txtPassword.getText();
         this.login(ci, password);
     }//GEN-LAST:event_btnLoginActionPerformed
 

@@ -24,8 +24,7 @@ public class Fachada {
         servicioTrabajador = new ServicioTrabajador();
         servicioCliente = new ServicioCliente();
         servicioLlamada = new ServicioLlamada();
-    }
-    
+    }  
 
     public synchronized static Fachada getInstancia() {
         if (instancia == null) {
@@ -52,8 +51,7 @@ public class Fachada {
     
     public Trabajador login(String ci, String password) throws LoginException, Exception{
         
-        return servicioTrabajador.login(ci, password);
-        
+        return servicioTrabajador.login(ci, password);      
     }
     
     public Boolean agregar(Trabajador trabajador, Integer numeroSector){

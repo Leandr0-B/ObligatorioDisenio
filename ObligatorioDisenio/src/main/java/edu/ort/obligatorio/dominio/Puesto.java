@@ -31,11 +31,6 @@ public class Puesto {
         this.trabajador = trabajador;
     }
     
-    public void asignarTrabajador(Trabajador t) throws Exception {
-        this.setTrabajador(trabajador);
-        this.cambiarEstadoANoDisponible();
-    }
-    
     public void cambiarEstadoADisponible() throws Exception {
         this.estado.puestoDisponible(this);
         this.setTrabajador(null);
@@ -45,19 +40,10 @@ public class Puesto {
         this.estado.puestoNoDisponible(this);
     }
     
-    public int cantidadDeLlamadas() {
-        return llamadas.size();
-    }
-    
-    public float tiempoPromedioLlamadas() {
-        return this.duracionTotalLlamadas()/this.cantidadDeLlamadas();
-    }
-    private long duracionTotalLlamadas() {
-        long duracionTotal = 0;
-        for(Llamada l: this.llamadas) {
-            duracionTotal+=l.duracionLlamada();
-        }
-        return duracionTotal;
+    //le asigna un trabajador al puesto y el T pasa a estar no disponible
+    public void asignarTrabajador(Trabajador t) throws Exception {
+        this.setTrabajador(trabajador);
+        this.cambiarEstadoANoDisponible();
     }
     
     public boolean estaDisponible() {
@@ -76,11 +62,25 @@ public class Puesto {
     public void puestoConTrabajadorDisponible()throws Exception{
         this.trabajador.cambiarEstadoADisponble();
         //avisar
-    }
-    
+    } 
      
     //puesto con trabajador No Disponible para atender Llamadas
      public void puestoConTrabajadorNoDisponible()throws Exception{
         this.trabajador.cambiarEstadoANoDisponble();
+    }
+     
+     public int cantidadDeLlamadas() {
+        return llamadas.size();
+    }
+    
+    public float tiempoPromedioLlamadas() {
+        return this.duracionTotalLlamadas()/this.cantidadDeLlamadas();
+    }
+    private long duracionTotalLlamadas() {
+        long duracionTotal = 0;
+        for(Llamada l: this.llamadas) {
+            duracionTotal+=l.duracionLlamada();
+        }
+        return duracionTotal;
     }
 }

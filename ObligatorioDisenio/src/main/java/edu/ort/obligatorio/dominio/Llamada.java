@@ -15,12 +15,13 @@ public class Llamada {
     private ZonedDateTime fechaHoraInicio;
     private ZonedDateTime fechaHoraInicioAtencion;
     private ZonedDateTime fechaHoraFin;
+    private String descripcion;
     private EstadoLlamada estado;
     private Puesto puesto;
     private Trabajador trabajador;
     private Cliente cliente;
     private Sector sector;
-    private String descripcion;
+    
 
     public Llamada(Cliente cliente, Sector sector) {
         this.fechaHoraInicio = ZonedDateTime.now();
@@ -34,17 +35,7 @@ public class Llamada {
 
     public void setSector(Sector sector) {
         this.sector = sector;
-    }
-    
-    
-    
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    } 
 
     public Cliente getCliente() {
         return cliente;
@@ -100,6 +91,14 @@ public class Llamada {
 
     public void setFechaHoraFin(ZonedDateTime fechaHoraFin) {
         this.fechaHoraFin = fechaHoraFin;
+    }
+       
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
     public long duracionLlamada(){

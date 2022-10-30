@@ -29,11 +29,7 @@ public class Sector {
         this.puestos = new ArrayList<>();
         this.llamadasEnEspera = new ArrayList<>();
         this.llamadasEnCursoOFinalizadas = new ArrayList<>();
-    }
-
-    
-
-    
+    }  
     
     public ArrayList<Llamada> getLlamadasEnEspera() {
         return llamadasEnEspera;
@@ -50,9 +46,7 @@ public class Sector {
     public void setLlamadasEnCursoOFinalizadas(ArrayList<Llamada> llamadasEnCursoOFinalizadas) {
         this.llamadasEnCursoOFinalizadas = llamadasEnCursoOFinalizadas;
     }
-    
-    
-    
+      
     public String getNombre() {
         return nombre;
     }
@@ -93,6 +87,7 @@ public class Sector {
         this.trabajadores.add(t);
     }
     
+    //le asigna un puesto disponible al T
     public void asignarPuesto(Trabajador t) throws PuestoNoDisponibleException, Exception {
         Puesto auxPuestoDisponible = this.obtenerPuestoDisponible();
         if(auxPuestoDisponible != null) {
@@ -173,6 +168,7 @@ public class Sector {
         l.cambiarALLamadaEnCurso();
     }
     
+    //devueve si el puesto esta disponible?
     public boolean estaDisponible(){
         boolean disponible = false;
         for(Puesto p: puestos){ 
@@ -203,7 +199,7 @@ public class Sector {
         return tiempoPromedioDeAtencionDelSector()*cantidadLlamadasEnEspera();
     }
    
-    //Es el promedio De Los Tiempos Promedio De Atencion De Cada Puesto
+    //Es el promedio De Los Tiempos Promedio De Atención De Cada Puesto
     public float tiempoPromedioDeAtencionDelSector(){
         float promedioAcumulado = 0;
         for(Puesto p:puestos){

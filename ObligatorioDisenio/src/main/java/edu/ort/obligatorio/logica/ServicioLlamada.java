@@ -15,15 +15,20 @@ import java.util.HashMap;
  * @author leand
  */
 public class ServicioLlamada {
-    private HashMap<Integer, Sector> sectores = new HashMap<>();
+    
     public static int cantidadMaximaLLamadaEnCursoyEnEspera = 5;
     private float costoFijoLlamadaPorSegundo = 1;
+    private HashMap<Integer, Sector> sectores = new HashMap<>();
     private ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
     private static final String SECTOR_NO_DISPONIBLE = "Sector No Disponible";
     
     public Sector getSector(Integer numeroSector) {
         return sectores.get(numeroSector);
     }
+        
+    public HashMap<Integer, Sector> getListaSectores(){
+        return sectores;
+    }    
     
     public void iniciarLlamada(Llamada l) throws Exception{
        Sector s = l.getSector();
@@ -34,11 +39,7 @@ public class ServicioLlamada {
            throw new SectorNoDisponibleException(SECTOR_NO_DISPONIBLE);
        }  
     }
-    
-    public HashMap<Integer, Sector> getListaSectores(){
-        return sectores;
-    }
-    
+       
     private int cantidadLlamadasEnCursoOEspera(){
         int cantidad = 0;
         for(Llamada l: llamadas){
