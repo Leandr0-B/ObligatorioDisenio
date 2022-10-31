@@ -5,6 +5,7 @@
 package edu.ort.obligatorio.logica;
 
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
+import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.observador.Observable;
@@ -48,7 +49,7 @@ public class ServicioTrabajador extends Observable{
         return usuarioAgregado;
     }
     
-    public Trabajador login(String ci, String password) throws LoginException, Exception {
+    public Trabajador login(String ci, String password) throws LoginException, PuestoNoDisponibleException, Exception {
         
         Trabajador t = trabajadores.get(ci);
         if (t == null || !t.esPasswordValido(password)) {
@@ -58,6 +59,10 @@ public class ServicioTrabajador extends Observable{
             //Siempre que se loguea le cambiamos el estado a disponible para que pueda antender llamadas
             t.cambiarEstadoADisponble();   
         }
+        Sector sector = t.getSector();
+        sector.asignarPuesto(t);
+        
+        
         this.avisar(Observador.Eventos.LOGIN_TRABAJADOR);
         return t;
     }

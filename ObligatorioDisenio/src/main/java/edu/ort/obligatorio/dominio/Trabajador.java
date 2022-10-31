@@ -72,6 +72,9 @@ public class Trabajador extends Persona{
         return this.estado.estaDisponible();
     }
     
+    public String getNombreDelSector() {
+       return sector.getNombre();
+    }
     
     
 }

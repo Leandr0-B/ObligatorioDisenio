@@ -4,16 +4,40 @@
  */
 package edu.ort.obligatorio.dominio;
 
+import edu.ort.obligatorio.observador.Observable;
 import java.util.ArrayList;
 
 /**
  *
  * @author leand
  */
-public class Puesto {
+public class Puesto extends Observable{
+    private int numeroPuesto;
     private EstadoPuesto estado;    
     private Trabajador trabajador;
     private ArrayList<Llamada> llamadas;
+    private Llamada llamadaEnCurso;
+
+    public Puesto() {
+        this.llamadas = new ArrayList();
+        this.estado = new PuestoDisponible();
+    }
+
+    public Llamada getLlamadaEnCurso() {
+        return llamadaEnCurso;
+    }
+
+    public void setLlamadaEnCurso(Llamada llamadaEnCurso) {
+        this.llamadaEnCurso = llamadaEnCurso;
+    }
+
+    public int getNumeroPuesto() {
+        return numeroPuesto;
+    }
+
+    public void setNumeroPuesto(int numeroPuesto) {
+        this.numeroPuesto = numeroPuesto;
+    }
 
     public EstadoPuesto getEstado() {
         return estado;
@@ -42,7 +66,7 @@ public class Puesto {
     
     //le asigna un trabajador al puesto y el T pasa a estar no disponible
     public void asignarTrabajador(Trabajador t) throws Exception {
-        this.setTrabajador(trabajador);
+        this.setTrabajador(t);
         this.cambiarEstadoANoDisponible();
     }
     
@@ -82,5 +106,16 @@ public class Puesto {
             duracionTotal+=l.duracionLlamada();
         }
         return duracionTotal;
+    }
+    
+    // se cuentan solamente las llamadas finalizadas del puesto;
+    public int cantidadLlamadasAtendidas() {
+        int contador = 0;
+        for(Llamada l: llamadas) {
+            if(l.esLlamadaFinalizada()) {
+                contador++;
+            }
+        }
+        return contador;
     }
 }

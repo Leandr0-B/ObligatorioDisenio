@@ -7,6 +7,8 @@ package edu.ort.obligatorio.ui;
 
 import edu.ort.obligatorio.controladores.ControladorVistaLogin;
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
+import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
+import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.logica.ServicioTrabajador;
 import javax.swing.JOptionPane;
 
@@ -21,7 +23,6 @@ public class VistaLogin extends javax.swing.JDialog implements VistaLoginInterfa
      * Creates new form DialogoLogin
      */
     public VistaLogin(ServicioTrabajador modelo) {
-    
         initComponents();
         controlador = new ControladorVistaLogin(this,modelo);
     }
@@ -116,9 +117,15 @@ public class VistaLogin extends javax.swing.JDialog implements VistaLoginInterfa
     public void login(String ci, String password) {
         
         try{
-            controlador.login(ci, password);
+            Trabajador t = controlador.login(ci, password);
+            VistaAtenderLlamada vistaAtenderLlamada = new VistaAtenderLlamada(t.getPuestoTrabajo());
+            vistaAtenderLlamada.setVisible(true);
         }
         catch(LoginException ex){
+            mostrarMensajeDeError(ex.getMessage());
+            
+        }
+        catch(PuestoNoDisponibleException ex){
             mostrarMensajeDeError(ex.getMessage());
             
         }

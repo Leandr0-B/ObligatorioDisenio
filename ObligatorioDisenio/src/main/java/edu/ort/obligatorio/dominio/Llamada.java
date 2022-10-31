@@ -121,4 +121,8 @@ public class Llamada {
     public boolean esLlamadaEnEspera() {
         return this.estado.enEspera();
     }
+    
+    public String getNombreDelCliente() {
+        return this.getCliente().getNombreCompleto();
+    }
 }

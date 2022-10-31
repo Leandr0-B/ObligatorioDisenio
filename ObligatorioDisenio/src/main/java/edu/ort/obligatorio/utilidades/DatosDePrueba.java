@@ -5,6 +5,7 @@
  */
 package edu.ort.obligatorio.utilidades;
 
+import edu.ort.obligatorio.dominio.Puesto;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.logica.Fachada;
@@ -16,11 +17,20 @@ import edu.ort.obligatorio.logica.Fachada;
 public class DatosDePrueba {
     
     public static void cargar(){
-        Trabajador trabajador = new Trabajador("123","pass");
-        Sector sector = new Sector();
-        sector.setNumeroSector(1);
-        System.out.println(Fachada.getInstancia().agregar(sector));
-        System.out.println(Fachada.getInstancia().agregar(trabajador, 1));
+        Trabajador trabajador1 = new Trabajador("123","pass");
+        trabajador1.setNombreCompleto("Nombre Completo");
+        Puesto puesto1 = new Puesto();
+        puesto1.setNumeroPuesto(1);
+        Sector sector1 = new Sector();
+        sector1.setNombre("Sector1");
+        sector1.agregarPuesto(puesto1);
+        sector1.setNumeroSector(1);
+        Fachada.getInstancia().agregar(sector1);
+        Fachada.getInstancia().agregar(trabajador1, 1);
+        
+        Trabajador trabajador2 = new Trabajador("234","pass");
+        Fachada.getInstancia().agregar(trabajador2, 1);
+        
         
     }
     
