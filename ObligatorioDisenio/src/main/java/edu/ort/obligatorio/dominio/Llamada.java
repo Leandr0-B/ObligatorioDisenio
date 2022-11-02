@@ -27,6 +27,7 @@ public class Llamada {
         this.fechaHoraInicio = ZonedDateTime.now();
         this.sector= sector;
         this.cliente= cliente;
+        this.estado = new LlamadaEnEspera();
     }
 
     public Sector getSector() {

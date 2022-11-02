@@ -5,6 +5,7 @@
 package edu.ort.obligatorio.dominio;
 
 import edu.ort.obligatorio.observador.Observable;
+import edu.ort.obligatorio.observador.Observador;
 import java.util.ArrayList;
 
 /**
@@ -74,12 +75,15 @@ public class Puesto extends Observable{
         return this.estado.estaDisponible();
     }
     
+    // si el puesto tiene trabajador y ademas esta el trabajador disponible para atender llamadas
     public boolean trabajadorDisponible() {
-        return this.trabajador.estaDisponible();
+        return this.trabajador != null && this.trabajador.estaDisponible();
     }
     
     public void agregarLlamada(Llamada l) {
+        this.llamadaEnCurso = l;
         this.llamadas.add(l);
+        this.avisar(Observador.Eventos.LLAMADA_EN_CURSO);
     }
    
     //puesto con trabajador Disponible para atender Llamadas
@@ -98,7 +102,8 @@ public class Puesto extends Observable{
     }
     
     public float tiempoPromedioLlamadas() {
-        return this.duracionTotalLlamadas()/this.cantidadDeLlamadas();
+        int cantidadDeLlamadas = this.cantidadDeLlamadas();
+        return cantidadDeLlamadas > 0 ? this.duracionTotalLlamadas()/this.cantidadDeLlamadas() : 0;
     }
     private long duracionTotalLlamadas() {
         long duracionTotal = 0;
@@ -118,4 +123,14 @@ public class Puesto extends Observable{
         }
         return contador;
     }
+
+    public String getNombreDelTrabajador() {
+        return this.getTrabajador().getNombreCompleto();
+    }
+
+    public String getNombreDelSector() {
+        return this.getTrabajador().getNombreDelSector();
+    }
+    
 }
+

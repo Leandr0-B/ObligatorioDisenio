@@ -4,6 +4,7 @@
  */
 package edu.ort.obligatorio.logica;
 
+import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
@@ -21,6 +22,7 @@ public class ServicioLlamada {
     private HashMap<Integer, Sector> sectores = new HashMap<>();
     private ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
     private static final String SECTOR_NO_DISPONIBLE = "Sector No Disponible";
+    private static final String CANTIDAD_MAXIMA_DE_LLAMADAS = "Comuníquese más tarde, cantidad máxima de llamadas alcanzada";
     
     public Sector getSector(Integer numeroSector) {
         return sectores.get(numeroSector);
@@ -30,14 +32,20 @@ public class ServicioLlamada {
         return sectores;
     }    
     
-    public void iniciarLlamada(Llamada l) throws Exception{
-       Sector s = l.getSector();
-       if(s.estaDisponible()){
-           llamadas.add(l);
-           s.iniciarLlamada(l); 
-       }else{
-           throw new SectorNoDisponibleException(SECTOR_NO_DISPONIBLE);
-       }  
+    // TO DO , ver como manejar esa Exception que viene del los tipos de llamada
+    public void iniciarLlamada(Llamada l) throws SectorNoDisponibleException, CantidadMaximaDeLlamadasException, Exception{
+       if(esPosibleIniciarLlamada()) {
+            Sector s = l.getSector();
+            // al menos un puesto del sector tiene un trabajador asignado
+            if(s.estaDisponible()){
+                llamadas.add(l);
+                s.iniciarLlamada(l); 
+            }else{
+                throw new SectorNoDisponibleException(SECTOR_NO_DISPONIBLE);
+            }
+        } else {
+            throw new CantidadMaximaDeLlamadasException(CANTIDAD_MAXIMA_DE_LLAMADAS);
+        }
     }
        
     private int cantidadLlamadasEnCursoOEspera(){
@@ -50,8 +58,8 @@ public class ServicioLlamada {
         return cantidad;
     }
     
-    public boolean esPosibleIniciarLlamada() throws Exception{
-        return cantidadLlamadasEnCursoOEspera()<cantidadMaximaLLamadaEnCursoyEnEspera;
+    private boolean esPosibleIniciarLlamada(){
+        return cantidadLlamadasEnCursoOEspera() < cantidadMaximaLLamadaEnCursoyEnEspera;
     }
     
     public ArrayList<Llamada> listarLlamadasAtendidas(){

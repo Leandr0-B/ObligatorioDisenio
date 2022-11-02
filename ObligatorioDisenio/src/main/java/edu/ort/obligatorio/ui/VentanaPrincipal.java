@@ -5,9 +5,15 @@
  */
 package edu.ort.obligatorio.ui;
 
+import edu.ort.obligatorio.dominio.Cliente;
+import edu.ort.obligatorio.dominio.ClienteGestor;
+import edu.ort.obligatorio.dominio.Llamada;
+import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.logica.ServicioTrabajador;
 import edu.ort.obligatorio.utilidades.DatosDePrueba;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -21,11 +27,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public VentanaPrincipal() {
         initComponents();
+        System.out.println("componentes");
         
     }
-    
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,6 +46,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mMonitoreo = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jMenu1.setText("Menú");
 
@@ -89,22 +98,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void mLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mLoginActionPerformed
         // TODO add your handling code here:
+        // TODO: el Servicio de Trabajo no puede ser el modelo, deberia ser la fachada
+        // esperar a la clase del Lunes 7/11 
         ServicioTrabajador modelo = Fachada.getInstancia().getServicioTrabajador();
-        VistaLogin login = new VistaLogin(modelo);
+        VistaLoginImp login = new VistaLoginImp(modelo);
         login.setVisible(true);        
     }//GEN-LAST:event_mLoginActionPerformed
 
     private void mSimularLlamadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSimularLlamadaActionPerformed
         // TODO add your handling code here:
-        DialogoSimularLlamada simular = new DialogoSimularLlamada(this,true);
+        DialogoSimularLlamadaImp simular = new DialogoSimularLlamadaImp(this,true);
         simular.setVisible(true);
     }//GEN-LAST:event_mSimularLlamadaActionPerformed
 
     private void mMonitoreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMonitoreoActionPerformed
         // TODO add your handling code here:
-        DialogoAplicacionDeMonitoreo monitoreo = new DialogoAplicacionDeMonitoreo(this,true);
+        DialogoAplicacionDeMonitoreoImp monitoreo = new DialogoAplicacionDeMonitoreoImp(this,true);
         monitoreo.setVisible(true);
     }//GEN-LAST:event_mMonitoreoActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here: 
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -137,7 +152,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 DatosDePrueba.cargar();
+                System.out.println("cargue todo");
                 new VentanaPrincipal().setVisible(true);
+
             }
         });
     }

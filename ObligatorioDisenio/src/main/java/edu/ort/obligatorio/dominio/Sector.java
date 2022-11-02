@@ -21,7 +21,7 @@ public class Sector {
     private ArrayList<Llamada> llamadasEnEspera;
     private ArrayList<Llamada> llamadasEnCursoOFinalizadas;
     private static final String NO_HAY_PUESTOS_DISPONIBLES = "no hay puestos disponibles";
-    private final String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a N llamadas de ser " +
+    private String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a N llamadas de ser " +
        "atendido, la espera estimada es de X minutos";
 
     public Sector() {
@@ -156,7 +156,9 @@ public class Sector {
             // luego intento asignar la llamda a un puesto
             asignarLlamadaAPuesto(l);
         }
-        else{        
+        else{
+            LLAMADA_EN_ESPERA = LLAMADA_EN_ESPERA.replace("N",String.valueOf(cantidadLlamadasEnEspera()));
+            LLAMADA_EN_ESPERA = LLAMADA_EN_ESPERA.replace("X",String.valueOf(tiempoPromedioDeAtencionDelSector()));
             throw new LlamadaEnEsperaException(LLAMADA_EN_ESPERA);
         }
     }
@@ -168,16 +170,16 @@ public class Sector {
         l.cambiarALLamadaEnCurso();
     }
     
-    //devueve si el puesto esta disponible?
     public boolean estaDisponible(){
-        boolean disponible = false;
+        boolean sectorDisponible = false;
         for(Puesto p: puestos){ 
-            //el puesto no tiene un trabajador asignado
-            if(p.estaDisponible()){
-                disponible = true;
+            // si el puesto esta disponible es porque no tiene un trabajador asignado
+            // si el puesto NO esta disponible es porque el puesto TIENE un trabajador asignado
+            if(!p.estaDisponible()){
+                sectorDisponible = true;
             }
         }
-        return disponible;
+        return sectorDisponible;
     }
     
     public boolean hayPuestoConTrabajadorDisponible(){
@@ -202,10 +204,11 @@ public class Sector {
     //Es el promedio De Los Tiempos Promedio De Atención De Cada Puesto
     public float tiempoPromedioDeAtencionDelSector(){
         float promedioAcumulado = 0;
+        int cantidadPuestos = puestos.size();
         for(Puesto p:puestos){
             promedioAcumulado += p.tiempoPromedioLlamadas();
         }
-        return promedioAcumulado/puestos.size();
+        return cantidadPuestos > 0 ? promedioAcumulado/cantidadPuestos : 0;
     }
     
     public void finalizarLlamadaSinSerAtendida(Llamada l) throws Exception{

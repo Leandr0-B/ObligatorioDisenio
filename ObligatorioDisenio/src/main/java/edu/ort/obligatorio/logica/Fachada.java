@@ -4,7 +4,10 @@
  */
 package edu.ort.obligatorio.logica;
 
+import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
+import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
+import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
 
@@ -60,5 +63,9 @@ public class Fachada {
     
     public boolean agregar(Sector s){
         return servicioLlamada.agregar(s);
+    }
+    
+    public void iniciarLlamada(Llamada l) throws SectorNoDisponibleException, CantidadMaximaDeLlamadasException,Exception {
+        servicioLlamada.iniciarLlamada(l);
     }
 }

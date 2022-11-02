@@ -22,10 +22,8 @@ public class ServicioTrabajador extends Observable{
         
     // el trabajador no va a ser agregado si el sector no existe
     public boolean agregar(Trabajador trabajador, Integer numeroSector) {
-        // Nadia es feliz con esta nueva variable; =)
         Boolean retorno = false;
         Sector sector = Fachada.getInstancia().getSector(numeroSector);
-        // Lea opiona que Retorno no es necesaria , con agregarOk era suficiente =);
         Boolean agregarOk = false;
         if(sector != null) {
         agregarOk = agregarTrabajador(trabajador);
