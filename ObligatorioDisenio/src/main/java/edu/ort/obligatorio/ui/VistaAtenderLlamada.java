@@ -21,6 +21,13 @@ public interface VistaAtenderLlamada {
     
     public void nombreCliente(String nombreCliente);
     
-    public void estadoLlamada(String estadoLlamada);
+    public void estadoLlamadaEnCurso();
     
+    public void estadoLlamadaEsperandoLlamada();
+    
+    public void estadoLlamadaFinalizada();
+
+    public void mostrarMensajeDeError(String mensaje);
+    
+    public void reset();
 }

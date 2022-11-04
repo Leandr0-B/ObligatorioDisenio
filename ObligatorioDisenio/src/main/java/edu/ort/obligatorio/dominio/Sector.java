@@ -6,14 +6,18 @@ package edu.ort.obligatorio.dominio;
 
 import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
+import edu.ort.obligatorio.observador.Observable;
+import edu.ort.obligatorio.observador.Observador;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author leand
  */
-public class Sector {
+public class Sector implements Observador{
     private String nombre;
     private ArrayList<Trabajador> trabajadores;
     private int numeroSector; 
@@ -157,9 +161,9 @@ public class Sector {
             asignarLlamadaAPuesto(l);
         }
         else{
-            LLAMADA_EN_ESPERA = LLAMADA_EN_ESPERA.replace("N",String.valueOf(cantidadLlamadasEnEspera()));
-            LLAMADA_EN_ESPERA = LLAMADA_EN_ESPERA.replace("X",String.valueOf(tiempoPromedioDeAtencionDelSector()));
-            throw new LlamadaEnEsperaException(LLAMADA_EN_ESPERA);
+            String LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA.replace("N",String.valueOf(cantidadLlamadasEnEspera()));
+            LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA_Mensaje.replace("X",String.valueOf(tiempoPromedioDeAtencionDelSector()));
+            throw new LlamadaEnEsperaException(LLAMADA_EN_ESPERA_Mensaje);
         }
     }
     
@@ -216,6 +220,34 @@ public class Sector {
         this.llamadasEnEspera.remove(l);    
         l.cambiarALLamadaFinalizada();
     }
+    
+    public Llamada obtenerPrimeraLlamadaEnEspera() {
+        Llamada llamada = null;
+        if (!this.llamadasEnEspera.isEmpty()) {
+            llamada = this.llamadasEnEspera.get(0);
+        }
+        return llamada;
+    }
+     
+    public void asignarPrimeraLlamaEnEsperaAPuesto(Puesto p) throws Exception {
+        Llamada primerLlamadaEnEspera = obtenerPrimeraLlamadaEnEspera();
+        if(primerLlamadaEnEspera != null) {
+            asignarLlamadaAPuesto(primerLlamadaEnEspera, p);
+        }
+    }
+
+    @Override
+    public void actualizar(Observable origen, Object evento) {
+        if(evento.equals(Observador.Eventos.LLAMADA_FINALIZADA)) {
+            try {
+                asignarPrimeraLlamaEnEsperaAPuesto((Puesto)origen);
+            } catch (Exception ex) {
+                Logger.getLogger(Sector.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+   
     
    
 }

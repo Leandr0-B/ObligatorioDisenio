@@ -11,7 +11,10 @@ import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Puesto;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.logica.Fachada;
-import javax.swing.JFrame;
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -118,6 +121,11 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
 
         bFinalizarLlamada.setText("Finalizar Llamada");
         bFinalizarLlamada.setEnabled(false);
+        bFinalizarLlamada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bFinalizarLlamadaActionPerformed(evt);
+            }
+        });
 
         bSalir.setText("Salir");
 
@@ -229,16 +237,66 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         Cliente c = new Cliente("789","Cliente1",new ClienteGestor(),500f);
+        Cliente c2 = new Cliente("4568","Cliente2",new ClienteGestor(),500f);
+
         Sector sector1 = Fachada.getInstancia().getSector(1);
         Llamada l = new Llamada(c,sector1);
+        Llamada l2 = new Llamada(c2,sector1);
+        Llamada l3 = new Llamada(c,sector1);
+        Llamada l4 = new Llamada(c,sector1);
+        Llamada l5 = new Llamada(c,sector1);
+        Llamada l6 = new Llamada(c,sector1);
+
+
+
         try {
-            Thread.sleep(5000);
             Fachada.getInstancia().iniciarLlamada(l);
         } catch (Exception ex) {
-            System.out.println(ex);
-            System.out.println("mensaje " + ex.getMessage());
+            mostrarMensajeDeError(ex.getMessage());
+        }
+        
+        try {
+            Fachada.getInstancia().iniciarLlamada(l2);
+        } catch (Exception ex) {
+            mostrarMensajeDeError(ex.getMessage());
+        }
+        
+        try {
+            Fachada.getInstancia().iniciarLlamada(l3);
+        } catch (Exception ex) {
+            mostrarMensajeDeError(ex.getMessage());
+        }
+        
+        try {
+            Fachada.getInstancia().iniciarLlamada(l4);
+        } catch (Exception ex) {
+            mostrarMensajeDeError(ex.getMessage());
+        }
+        
+        try {
+            Fachada.getInstancia().iniciarLlamada(l5);
+        } catch (Exception ex) {
+            mostrarMensajeDeError(ex.getMessage());
+        }
+        
+        try {
+            Fachada.getInstancia().iniciarLlamada(l6);
+        } catch (Exception ex) {
+            mostrarMensajeDeError(ex.getMessage());
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void bFinalizarLlamadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFinalizarLlamadaActionPerformed
+        // TODO add your handling code here:
+        try {
+            String descripcionDeLLamada = txtaDescripcionLlamada.getText();
+            controlador.setearDescirpcionDeLlamada(descripcionDeLLamada);
+            controlador.finalizarLlamada();
+        }
+        catch(Exception ex){
+            mostrarMensajeDeError(ex.getMessage());
+        }
+    }//GEN-LAST:event_bFinalizarLlamadaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,12 +354,40 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
         txtNombreCliente.setText(nombreCliente);
     }
     
-    @Override
-    public void estadoLlamada(String estadoLlamada) {
-        txtEstadoLLamada.setText(estadoLlamada);
-    }
     private void inicializar() {
         controlador.inicializar();
+    }
+
+    @Override
+    public void estadoLlamadaEnCurso() {
+        txtEstadoLLamada.setForeground(new Color(50,155,13));
+        txtEstadoLLamada.setText("Llamada en Curso...");
+        bFinalizarLlamada.setEnabled(true);
+    }
+
+    @Override
+    public void estadoLlamadaEsperandoLlamada() {
+        txtEstadoLLamada.setForeground(new Color(121,13,155));
+        txtEstadoLLamada.setText("Esperando Llamada...");
+        bFinalizarLlamada.setEnabled(false);
+    }
+    
+    @Override
+    public void estadoLlamadaFinalizada() {
+        txtEstadoLLamada.setForeground(new Color(158, 16, 72 ));
+        txtEstadoLLamada.setText("Llamada Finalizada...");
+        bFinalizarLlamada.setEnabled(false);
+    }
+    
+    @Override
+    public void mostrarMensajeDeError(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+    
+    @Override
+    public void reset(){
+        txtNombreCliente.setText("");
+        txtaDescripcionLlamada.setText("");
     }
 }
     

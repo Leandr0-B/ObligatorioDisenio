@@ -12,7 +12,8 @@ package edu.ort.obligatorio.observador;
 public interface Observador {
     public enum Eventos{
         LOGIN_TRABAJADOR,
-        LLAMADA_EN_CURSO;
+        LLAMADA_EN_CURSO,
+        LLAMADA_FINALIZADA;
     }
    
     public void actualizar(Observable origen, Object evento);

@@ -5,15 +5,10 @@
  */
 package edu.ort.obligatorio.ui;
 
-import edu.ort.obligatorio.dominio.Cliente;
-import edu.ort.obligatorio.dominio.ClienteGestor;
-import edu.ort.obligatorio.dominio.Llamada;
-import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.logica.ServicioTrabajador;
 import edu.ort.obligatorio.utilidades.DatosDePrueba;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -152,7 +147,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 DatosDePrueba.cargar();
-                System.out.println("cargue todo");
                 new VentanaPrincipal().setVisible(true);
 
             }

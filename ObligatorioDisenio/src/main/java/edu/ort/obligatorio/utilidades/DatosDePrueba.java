@@ -23,12 +23,17 @@ public class DatosDePrueba {
     public static void cargar(){
         Trabajador trabajador1 = new Trabajador("123","pass");
         trabajador1.setNombreCompleto("Trabajador1");
-        Puesto puesto1 = new Puesto();
-        puesto1.setNumeroPuesto(1);
-        Puesto puesto2 = new Puesto();
-        puesto2.setNumeroPuesto(2);
         Sector sector1 = new Sector();
         sector1.setNombre("Sector1");
+        Sector sector2 = new Sector();
+        sector2.setNombre("Sector2");
+        sector2.setNumeroSector(2);
+        
+        Puesto puesto1 = new Puesto(sector1);
+        puesto1.setNumeroPuesto(1);
+        Puesto puesto2 = new Puesto(sector1);
+        puesto2.setNumeroPuesto(2);
+       
         
         sector1.agregarPuesto(puesto1);
         sector1.agregarPuesto(puesto2);
@@ -36,6 +41,7 @@ public class DatosDePrueba {
         sector1.setNumeroSector(1);
         Fachada.getInstancia().agregar(sector1);
         Fachada.getInstancia().agregar(trabajador1, 1);
+        
         
         Trabajador trabajador2 = new Trabajador("234","pass");
         trabajador2.setNombreCompleto("Trabajador2");
@@ -45,6 +51,16 @@ public class DatosDePrueba {
         Trabajador trabajador3 = new Trabajador("345","pass");
         trabajador3.setNombreCompleto("Trabajador3");
         Fachada.getInstancia().agregar(trabajador3, 1);
+        
+        
+//        Fachada.getInstancia().agregar(sector2);
+//        Puesto puesto3 = new Puesto(sector2);
+//        puesto1.setNumeroPuesto(1);
+//        sector2.agregarPuesto(puesto3);
+
+        
+        
+
         
     }
     

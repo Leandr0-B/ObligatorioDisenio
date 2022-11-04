@@ -18,12 +18,22 @@ public class Puesto extends Observable{
     private Trabajador trabajador;
     private ArrayList<Llamada> llamadas;
     private Llamada llamadaEnCurso;
+    private Sector sector;
 
-    public Puesto() {
+    public Puesto(Sector sector) {
         this.llamadas = new ArrayList();
         this.estado = new PuestoDisponible();
+        this.sector = sector;
     }
 
+    public Sector getSector() {
+        return sector;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
+    
     public Llamada getLlamadaEnCurso() {
         return llamadaEnCurso;
     }
@@ -96,21 +106,34 @@ public class Puesto extends Observable{
      public void puestoConTrabajadorNoDisponible()throws Exception{
         this.trabajador.cambiarEstadoANoDisponble();
     }
-     
-     public int cantidadDeLlamadas() {
+    
+    public int cantidadDeLlamadas() {
         return llamadas.size();
     }
     
-    public float tiempoPromedioLlamadas() {
-        int cantidadDeLlamadas = this.cantidadDeLlamadas();
-        return cantidadDeLlamadas > 0 ? this.duracionTotalLlamadas()/this.cantidadDeLlamadas() : 0;
+    public int cantidadDeLlamadasAtendidas() {
+        int cantidad = 0;
+        for(Llamada l:llamadas) {
+            if(l.esLlamadaFinalizada()) {
+                cantidad++;
+            }
+        }
+        return cantidad;
     }
-    private long duracionTotalLlamadas() {
+    
+    private long duracionTotalLlamadasAtendidas() {
         long duracionTotal = 0;
         for(Llamada l: this.llamadas) {
-            duracionTotal+=l.duracionLlamada();
+            if(l.esLlamadaFinalizada()) {
+                duracionTotal+=l.duracionLlamada();
+            }
         }
         return duracionTotal;
+    }
+    
+    public float tiempoPromedioLlamadas() {
+        int cantidadDeLlamadasAtendidas = this.cantidadDeLlamadasAtendidas();
+        return cantidadDeLlamadasAtendidas > 0 ? this.duracionTotalLlamadasAtendidas()/cantidadDeLlamadasAtendidas : 0;
     }
     
     // se cuentan solamente las llamadas finalizadas del puesto;
@@ -129,7 +152,20 @@ public class Puesto extends Observable{
     }
 
     public String getNombreDelSector() {
-        return this.getTrabajador().getNombreDelSector();
+        return this.sector.getNombre();
+    }
+    
+    public void finalizarLlamadaDelPuesto() throws Exception {
+        this.llamadaEnCurso.cambiarALLamadaFinalizada();
+        // vacío la llamada en curso
+        this.setLlamadaEnCurso(null);
+        this.trabajador.cambiarEstadoADisponble();
+        this.avisar(Observador.Eventos.LLAMADA_FINALIZADA);
+        
+    }
+    
+    public void setearDescripcionDeLlamada(String descrpcion) {
+       this.llamadaEnCurso.setDescripcion(descrpcion);
     }
     
 }

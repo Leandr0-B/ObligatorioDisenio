@@ -1,12 +1,11 @@
 package edu.ort.obligatorio.controladores;
 
-import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Puesto;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
-import edu.ort.obligatorio.ui.VistaAtenderLlamadaImp;
-import edu.ort.obligatorio.ui.VistaLogin;
 import edu.ort.obligatorio.ui.VistaAtenderLlamada;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -26,15 +25,30 @@ public class ControladorVistaAtenderLlamada implements Observador {
         this.modelo = modelo;
         this.vista = vista;
         this.modelo.agregarObservador(this);
+        this.modelo.agregarObservador(modelo.getSector());
     }
 
     
     @Override
     public void actualizar(Observable origen, Object evento) {
-        if(evento.equals(Observador.Eventos.LLAMADA_EN_CURSO)) {
-            // TO DO
+        if(evento.equals(Observador.Eventos.LLAMADA_EN_CURSO)) {           
             vista.nombreCliente(modelo.getLlamadaEnCurso().getNombreDelCliente());
-            vista.estadoLlamada("En Curso");
+            vista.estadoLlamadaEnCurso();          
+        }
+        if(evento.equals(Observador.Eventos.LLAMADA_FINALIZADA)) {
+            vista.reset();
+            vista.estadoLlamadaFinalizada();
+            
+            // TO DO: ver con el profe
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(ControladorVistaAtenderLlamada.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            
+            vista.cantidadLlamadasAtendidas(modelo.cantidadLlamadasAtendidas());
+            vista.tiempoPromedioLlamadas(modelo.tiempoPromedioLlamadas());
+            
         }
     }
 
@@ -68,7 +82,16 @@ public class ControladorVistaAtenderLlamada implements Observador {
         vista.numeroPuesto(modelo.getNumeroPuesto());
         vista.cantidadLlamadasAtendidas(modelo.cantidadLlamadasAtendidas());
         vista.tiempoPromedioLlamadas(modelo.tiempoPromedioLlamadas());
+        vista.estadoLlamadaEsperandoLlamada();
         
+    }
+
+    public void finalizarLlamada() throws Exception {
+        modelo.finalizarLlamadaDelPuesto();
+    }
+
+    public void setearDescirpcionDeLlamada(String descripcionDeLLamada) {
+        modelo.setearDescripcionDeLlamada(descripcionDeLLamada);
     }
     
 }

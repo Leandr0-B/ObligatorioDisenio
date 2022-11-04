@@ -236,6 +236,9 @@
         <Property name="text" type="java.lang.String" value="Finalizar Llamada"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bFinalizarLlamadaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bSalir">
       <Properties>

@@ -64,5 +64,5 @@ public class ServicioTrabajador extends Observable{
         this.avisar(Observador.Eventos.LOGIN_TRABAJADOR);
         return t;
     }
-
+    
 }
