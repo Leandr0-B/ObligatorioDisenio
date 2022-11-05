@@ -5,15 +5,8 @@
 package edu.ort.obligatorio.ui;
 
 import edu.ort.obligatorio.controladores.ControladorVistaAtenderLlamada;
-import edu.ort.obligatorio.dominio.Cliente;
-import edu.ort.obligatorio.dominio.ClienteGestor;
-import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Puesto;
-import edu.ort.obligatorio.dominio.Sector;
-import edu.ort.obligatorio.logica.Fachada;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -62,6 +55,9 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -236,54 +232,8 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        Cliente c = new Cliente("789","Cliente1",new ClienteGestor(),500f);
-        Cliente c2 = new Cliente("4568","Cliente2",new ClienteGestor(),500f);
+        controlador.nuevoTrabajadorEnPuestoAviso();
 
-        Sector sector1 = Fachada.getInstancia().getSector(1);
-        Llamada l = new Llamada(c,sector1);
-        Llamada l2 = new Llamada(c2,sector1);
-        Llamada l3 = new Llamada(c,sector1);
-        Llamada l4 = new Llamada(c,sector1);
-        Llamada l5 = new Llamada(c,sector1);
-        Llamada l6 = new Llamada(c,sector1);
-
-
-
-        try {
-            Fachada.getInstancia().iniciarLlamada(l);
-        } catch (Exception ex) {
-            mostrarMensajeDeError(ex.getMessage());
-        }
-        
-        try {
-            Fachada.getInstancia().iniciarLlamada(l2);
-        } catch (Exception ex) {
-            mostrarMensajeDeError(ex.getMessage());
-        }
-        
-        try {
-            Fachada.getInstancia().iniciarLlamada(l3);
-        } catch (Exception ex) {
-            mostrarMensajeDeError(ex.getMessage());
-        }
-        
-        try {
-            Fachada.getInstancia().iniciarLlamada(l4);
-        } catch (Exception ex) {
-            mostrarMensajeDeError(ex.getMessage());
-        }
-        
-        try {
-            Fachada.getInstancia().iniciarLlamada(l5);
-        } catch (Exception ex) {
-            mostrarMensajeDeError(ex.getMessage());
-        }
-        
-        try {
-            Fachada.getInstancia().iniciarLlamada(l6);
-        } catch (Exception ex) {
-            mostrarMensajeDeError(ex.getMessage());
-        }
     }//GEN-LAST:event_formWindowOpened
 
     private void bFinalizarLlamadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFinalizarLlamadaActionPerformed
@@ -292,11 +242,19 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
             String descripcionDeLLamada = txtaDescripcionLlamada.getText();
             controlador.setearDescirpcionDeLlamada(descripcionDeLLamada);
             controlador.finalizarLlamada();
+            
+            controlador.puestoConTrabajadorDisponibleAviso();
         }
         catch(Exception ex){
             mostrarMensajeDeError(ex.getMessage());
         }
     }//GEN-LAST:event_bFinalizarLlamadaActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+//        Fachada.getInstancia().getServicioTrabajador().agregarObservador(p.getSector());
+//        Fachada.getInstancia().getServicioTrabajador().avisar(Observador.Eventos.LOGIN_TRABAJADOR);
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -373,13 +331,6 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
     }
     
     @Override
-    public void estadoLlamadaFinalizada() {
-        txtEstadoLLamada.setForeground(new Color(158, 16, 72 ));
-        txtEstadoLLamada.setText("Llamada Finalizada...");
-        bFinalizarLlamada.setEnabled(false);
-    }
-    
-    @Override
     public void mostrarMensajeDeError(String mensaje){
         JOptionPane.showMessageDialog(this, mensaje);
     }
@@ -388,6 +339,12 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
     public void reset(){
         txtNombreCliente.setText("");
         txtaDescripcionLlamada.setText("");
+    }
+    
+    @Override
+    public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo) {
+        String mensaje = String.format("Duracion de la llamada: %s segundos\nCosto de la llamada: $%s",duracion,50);
+        JOptionPane.showMessageDialog(this, mensaje, "Llamada Finalizada", JOptionPane.DEFAULT_OPTION);
     }
 }
     

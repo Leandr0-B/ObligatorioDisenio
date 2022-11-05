@@ -9,7 +9,6 @@ import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.observador.Observable;
-import edu.ort.obligatorio.observador.Observador;
 import java.util.HashMap;
 
 /**
@@ -60,8 +59,6 @@ public class ServicioTrabajador extends Observable{
         Sector sector = t.getSector();
         sector.asignarPuesto(t);
         
-        
-        this.avisar(Observador.Eventos.LOGIN_TRABAJADOR);
         return t;
     }
     

@@ -8,7 +8,6 @@ import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -119,10 +118,8 @@ public class Sector implements Observador{
             l.setTrabajador(t);
             
             // asignar la llamada al puesto y al reves
-            // TO DO: en lugar de agregar llamada, deberia ser atender llamada?
             p.agregarLlamada(l);
             l.setPuesto(p);
-            // asignar la llamada al sector , ver
             
             //hay un puesto disponbile voy a poder mover la llamda de la lista de espera
             // a la lista de en curso o finalizada
@@ -238,17 +235,16 @@ public class Sector implements Observador{
 
     @Override
     public void actualizar(Observable origen, Object evento) {
-        if(evento.equals(Observador.Eventos.LLAMADA_FINALIZADA)) {
+        if(evento.equals(Observador.Eventos.PUESTO_CON_TRABAJADOR_DISPONIBLE)) {
             try {
                 asignarPrimeraLlamaEnEsperaAPuesto((Puesto)origen);
             } catch (Exception ex) {
                 Logger.getLogger(Sector.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if(evento.equals(Observador.Eventos.LOGIN_TRABAJADOR)){
-            Puesto puesto = obtenerPuestoConTrabajadorDisponible();
+        if(evento.equals(Observador.Eventos.NUEVO_TRABAJADOR_EN_PUESTO)){
             try {
-                asignarPrimeraLlamaEnEsperaAPuesto(puesto);
+                asignarPrimeraLlamaEnEsperaAPuesto((Puesto)origen);
             } catch (Exception ex) {
                 Logger.getLogger(Sector.class.getName()).log(Level.SEVERE, null, ex);
             }

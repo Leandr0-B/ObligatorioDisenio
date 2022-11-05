@@ -25,9 +25,9 @@ public interface VistaAtenderLlamada {
     
     public void estadoLlamadaEsperandoLlamada();
     
-    public void estadoLlamadaFinalizada();
-
     public void mostrarMensajeDeError(String mensaje);
     
     public void reset();
+    
+    public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo);
 }

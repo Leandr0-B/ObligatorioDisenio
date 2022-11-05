@@ -13,7 +13,9 @@ public interface Observador {
     public enum Eventos{
         LOGIN_TRABAJADOR,
         LLAMADA_EN_CURSO,
-        LLAMADA_FINALIZADA;
+        LLAMADA_FINALIZADA,
+        PUESTO_CON_TRABAJADOR_DISPONIBLE,
+        NUEVO_TRABAJADOR_EN_PUESTO;
     }
    
     public void actualizar(Observable origen, Object evento);

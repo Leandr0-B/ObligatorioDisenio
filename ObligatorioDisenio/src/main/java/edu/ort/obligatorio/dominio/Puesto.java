@@ -158,14 +158,25 @@ public class Puesto extends Observable{
     public void finalizarLlamadaDelPuesto() throws Exception {
         this.llamadaEnCurso.cambiarALLamadaFinalizada();
         // vacío la llamada en curso
-        this.setLlamadaEnCurso(null);
         this.trabajador.cambiarEstadoADisponble();
         this.avisar(Observador.Eventos.LLAMADA_FINALIZADA);
-        
+        this.setLlamadaEnCurso(null);
     }
     
     public void setearDescripcionDeLlamada(String descrpcion) {
        this.llamadaEnCurso.setDescripcion(descrpcion);
+    }
+    
+    public void nuevoTrabajadorEnPuestoAviso() {
+        this.avisar(Observador.Eventos.NUEVO_TRABAJADOR_EN_PUESTO);
+    }
+    
+    public void puestoConTrabajadorDisponibleAviso() {
+        this.avisar(Observador.Eventos.PUESTO_CON_TRABAJADOR_DISPONIBLE);
+    }
+    
+    public long duracionDeLlamada() {
+        return this.llamadaEnCurso.duracionLlamada();
     }
     
 }

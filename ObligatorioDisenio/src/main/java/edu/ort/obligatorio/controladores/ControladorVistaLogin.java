@@ -6,7 +6,6 @@
 package edu.ort.obligatorio.controladores;
 
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
-import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.logica.ServicioTrabajador;
 import edu.ort.obligatorio.observador.Observable;
