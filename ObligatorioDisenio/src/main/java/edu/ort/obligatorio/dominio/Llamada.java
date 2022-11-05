@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package edu.ort.obligatorio.dominio;
+import edu.ort.obligatorio.logica.ServicioLlamada;
 import java.time.ZonedDateTime;
 import java.time.Duration;
 
@@ -106,6 +107,10 @@ public class Llamada {
         return Duration.between(fechaHoraInicioAtencion, fechaHoraFin).toSeconds();
     }
     
+    public long tiempoEnEspera(){
+        return Duration.between(fechaHoraInicio, fechaHoraInicioAtencion).toSeconds();
+    }
+    
     public void cambiarALLamadaEnCurso() throws Exception {
         this.estado.llamadaEnCurso(this);
         setFechaHoraInicioAtencion(ZonedDateTime.now());
@@ -125,5 +130,13 @@ public class Llamada {
     
     public String getNombreDelCliente() {
         return this.getCliente().getNombreCompleto();
+    }
+    
+    public float costoFijoDeLlamada(){
+        return ServicioLlamada.costoFijoLlamadaPorSegundo * duracionLlamada();
+    }
+    
+    public float costoLlamada(){
+        return this.cliente.costoLlamada(this);
     }
 }

@@ -26,7 +26,7 @@ public class ControladorVistaAtenderLlamada implements Observador {
         this.modelo.agregarObservador(modelo.getSector());
     }
 
-    
+  
     @Override
     public void actualizar(Observable origen, Object evento) {
         if(evento.equals(Observador.Eventos.LLAMADA_EN_CURSO)) {           
@@ -38,7 +38,7 @@ public class ControladorVistaAtenderLlamada implements Observador {
             vista.estadoLlamadaEsperandoLlamada();
             vista.cantidadLlamadasAtendidas(modelo.cantidadLlamadasAtendidas());
             vista.tiempoPromedioLlamadas(modelo.tiempoPromedioLlamadas());
-            vista.mostrarDatosDeLaLLamadaFinalizada(modelo.duracionDeLlamada(), 0);
+            vista.mostrarDatosDeLaLLamadaFinalizada(modelo.duracionDeLlamada(), modelo.costoLlamada());
         }
     }
     public void inicializar() {

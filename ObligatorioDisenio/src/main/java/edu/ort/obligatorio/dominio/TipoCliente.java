@@ -21,4 +21,6 @@ public abstract class TipoCliente {
     public void cambiarAClienteExonerado(Cliente c) throws Exception {
         c.setTipo(new ClienteExonerado());
     }
+    
+    public abstract float costoLlamada(Llamada l);
 }

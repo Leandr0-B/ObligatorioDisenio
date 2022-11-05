@@ -66,7 +66,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="txtLlamadasAtendidas" pref="63" max="32767" attributes="0"/>
+                                      <Component id="txtLlamadasAtendidas" max="32767" attributes="0"/>
                                       <Component id="txtTiempoPromedio" max="32767" attributes="0"/>
                                   </Group>
                               </Group>

@@ -41,5 +41,12 @@ public class Cliente extends Persona{
         this.saldo = saldo;
     }
     
+    public float costoLlamada(Llamada l){
+        
+        return this.tipo.costoLlamada(l);
+    }
     
+//    public float calculoSaldo(){
+//        return saldo = saldo - costoLlamada();
+//    }
 }

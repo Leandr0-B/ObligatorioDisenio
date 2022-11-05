@@ -343,7 +343,7 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
     
     @Override
     public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo) {
-        String mensaje = String.format("Duracion de la llamada: %s segundos\nCosto de la llamada: $%s",duracion,50);
+        String mensaje = String.format("Duracion de la llamada: %s segundos\nCosto de la llamada: $%s",duracion,costo);
         JOptionPane.showMessageDialog(this, mensaje, "Llamada Finalizada", JOptionPane.DEFAULT_OPTION);
     }
 }

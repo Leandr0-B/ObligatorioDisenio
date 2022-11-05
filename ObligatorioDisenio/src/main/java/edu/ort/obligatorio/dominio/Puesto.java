@@ -179,5 +179,8 @@ public class Puesto extends Observable{
         return this.llamadaEnCurso.duracionLlamada();
     }
     
+    public float costoLlamada(){
+        return this.llamadaEnCurso.costoLlamada();
+    }
 }
 

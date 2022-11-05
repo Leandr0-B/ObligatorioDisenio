@@ -14,4 +14,11 @@ public class ClienteExonerado extends TipoCliente{
     public void cambiarAClienteExonerado(Cliente c) throws Exception{
         throw new Exception("Cliente Exonerado no puede cambiarse a Cliente Exonerado");
     }
+
+    @Override
+    public float costoLlamada(Llamada l) {
+        return 0;
+    }
+    
+    
 }

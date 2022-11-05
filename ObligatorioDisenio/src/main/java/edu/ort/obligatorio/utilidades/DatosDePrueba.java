@@ -6,6 +6,7 @@
 package edu.ort.obligatorio.utilidades;
 
 import edu.ort.obligatorio.dominio.Cliente;
+import edu.ort.obligatorio.dominio.ClienteConCosto;
 import edu.ort.obligatorio.dominio.ClienteGestor;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Puesto;
@@ -56,7 +57,7 @@ public class DatosDePrueba {
         
         ArrayList<Llamada> llamadasEnEspera = new ArrayList<>();
         Cliente c = new Cliente("789","Cliente1",new ClienteGestor(),500f);
-        Cliente c2 = new Cliente("4568","Cliente2",new ClienteGestor(),500f);
+        Cliente c2 = new Cliente("4568","Cliente2",new ClienteConCosto(),500f);
         Llamada l = new Llamada(c,sector1);
         Llamada l2 = new Llamada(c2,sector1);
         Llamada l3 = new Llamada(c,sector1);
