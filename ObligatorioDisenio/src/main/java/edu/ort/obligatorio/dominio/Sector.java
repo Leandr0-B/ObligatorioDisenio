@@ -245,6 +245,14 @@ public class Sector implements Observador{
                 Logger.getLogger(Sector.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if(evento.equals(Observador.Eventos.LOGIN_TRABAJADOR)){
+            Puesto puesto = obtenerPuestoConTrabajadorDisponible();
+            try {
+                asignarPrimeraLlamaEnEsperaAPuesto(puesto);
+            } catch (Exception ex) {
+                Logger.getLogger(Sector.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
    
