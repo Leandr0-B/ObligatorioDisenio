@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package edu.ort.obligatorio.dominio;
-import edu.ort.obligatorio.logica.ServicioLlamada;
 import java.time.ZonedDateTime;
 import java.time.Duration;
 
@@ -22,6 +21,8 @@ public class Llamada {
     private Trabajador trabajador;
     private Cliente cliente;
     private Sector sector;
+    public static float costoFijoLlamadaPorSegundo = 1;
+
     
 
     public Llamada(Cliente cliente, Sector sector) {
@@ -118,6 +119,7 @@ public class Llamada {
     public void cambiarALLamadaFinalizada() throws Exception {
         this.estado.llamadaFinalizada(this);
         setFechaHoraFin(ZonedDateTime.now());
+        cliente.actualizarSaldo(this.costoLlamada());
     }
     
     public boolean esLlamadaFinalizada() {
@@ -133,10 +135,16 @@ public class Llamada {
     }
     
     public float costoFijoDeLlamada(){
-        return ServicioLlamada.costoFijoLlamadaPorSegundo * duracionLlamada();
+        return costoFijoLlamadaPorSegundo * duracionLlamada();
     }
     
     public float costoLlamada(){
-        return this.cliente.costoLlamada(this);
+        float costoLlamada = costoFijoDeLlamada() * this.cliente.factorDeAjuste(this);
+        
+        if(this.cliente.getTipo() instanceof ClienteGestor && this.duracionLlamada() <= 180) {
+            costoLlamada -= costoFijoLlamadaPorSegundo * tiempoEnEspera();
+        }
+        
+        return costoLlamada < 0 ? 0 : costoLlamada;
     }
 }

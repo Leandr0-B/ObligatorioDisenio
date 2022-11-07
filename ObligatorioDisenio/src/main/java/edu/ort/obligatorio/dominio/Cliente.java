@@ -3,22 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package edu.ort.obligatorio.dominio;
-
 /**
  *
  * @author leand
  */
 public class Cliente extends Persona{
     private TipoCliente tipo;
-    private Float saldo;
+    private float saldo;
 
-    public Cliente(String ci, String nombreCompleto, TipoCliente tipo, Float saldo) {
+    public Cliente(String ci, String nombreCompleto, TipoCliente tipo, float saldo) {
         super(ci, nombreCompleto);
         this.tipo = tipo;
         this.saldo = saldo;
     }
 
-    public Cliente(TipoCliente tipo, Float saldo, String ci) {
+    public Cliente(TipoCliente tipo, float saldo, String ci) {
         super(ci);
         this.tipo = tipo;
         this.saldo = saldo;
@@ -33,20 +32,20 @@ public class Cliente extends Persona{
         this.tipo = tipo;
     }
 
-    public Float getSaldo() {
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Float saldo) {
+    public void setSaldo(float saldo) {
         this.saldo = saldo;
     }
-    
-    public float costoLlamada(Llamada l){
-        
-        return this.tipo.costoLlamada(l);
+       
+    public void actualizarSaldo(float costoLlamada) {
+        this.saldo -= costoLlamada;
     }
     
-//    public float calculoSaldo(){
-//        return saldo = saldo - costoLlamada();
-//    }
+    public float factorDeAjuste(Llamada l) {
+        return this.tipo.factorDeAjuste(l);
+    }
+    
 }

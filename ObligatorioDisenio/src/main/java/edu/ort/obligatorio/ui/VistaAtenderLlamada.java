@@ -30,4 +30,6 @@ public interface VistaAtenderLlamada {
     public void reset();
     
     public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo);
+    
+    public void cerrarVista();
 }

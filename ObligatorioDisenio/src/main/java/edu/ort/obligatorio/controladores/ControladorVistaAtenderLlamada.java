@@ -66,4 +66,12 @@ public class ControladorVistaAtenderLlamada implements Observador {
         modelo.puestoConTrabajadorDisponibleAviso();
     }
     
+    public void trabajadorLiberaElPuesto() throws Exception {
+        modelo.trabajadorLiberaElPuesto();
+    }
+    
+    public boolean hayLlamadaEnCurso() {
+        return modelo.hayLlamadaEnCurso();
+    }
+    
 }

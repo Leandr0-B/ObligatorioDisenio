@@ -16,8 +16,8 @@ public class ClienteExonerado extends TipoCliente{
     }
 
     @Override
-    public float costoLlamada(Llamada l) {
-        return 0;
+    public float factorDeAjuste(Llamada l) {
+        return 0f;
     }
     
     

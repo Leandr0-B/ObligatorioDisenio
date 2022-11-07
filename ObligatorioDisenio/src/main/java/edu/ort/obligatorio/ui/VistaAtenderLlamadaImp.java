@@ -7,23 +7,27 @@ package edu.ort.obligatorio.ui;
 import edu.ort.obligatorio.controladores.ControladorVistaAtenderLlamada;
 import edu.ort.obligatorio.dominio.Puesto;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author leand
  */
-public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements VistaAtenderLlamada{
+public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements VistaAtenderLlamada {
+
     ControladorVistaAtenderLlamada controlador;
+
     /**
      * Creates new form VistaAtenderLlamada
      */
     public VistaAtenderLlamadaImp(Puesto modelo) {
         initComponents();
-        this.controlador = new ControladorVistaAtenderLlamada(this,modelo);
+        this.controlador = new ControladorVistaAtenderLlamada(this, modelo);
         this.setTitle("Aplicacion para trabajadores");
         inicializar();
-        
+
     }
 
     /**
@@ -53,10 +57,13 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
         bFinalizarLlamada = new javax.swing.JButton();
         bSalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -124,6 +131,11 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
         });
 
         bSalir.setText("Salir");
+        bSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,18 +170,20 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(txtNumeroPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGap(29, 29, 29)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lLlamadasAtendidas)
-                                        .addComponent(lTiempoPromedio))
-                                    .addGap(27, 27, 27)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtLlamadasAtendidas, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                                        .addComponent(txtTiempoPromedio)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lLlamadasAtendidas)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtLlamadasAtendidas, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lTiempoPromedio)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txtTiempoPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(lDescripcionLlamada)
                                     .addGap(18, 18, 18)
                                     .addComponent(jScrollPane1))))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,10 +256,9 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
             String descripcionDeLLamada = txtaDescripcionLlamada.getText();
             controlador.setearDescirpcionDeLlamada(descripcionDeLLamada);
             controlador.finalizarLlamada();
-            
+
             controlador.puestoConTrabajadorDisponibleAviso();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             mostrarMensajeDeError(ex.getMessage());
         }
     }//GEN-LAST:event_bFinalizarLlamadaActionPerformed
@@ -256,11 +269,19 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
 //        Fachada.getInstancia().getServicioTrabajador().avisar(Observador.Eventos.LOGIN_TRABAJADOR);
     }//GEN-LAST:event_formWindowActivated
 
+    private void bSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirActionPerformed
+        // TODO add your handling code here:
+        this.cerrarVista();
+    }//GEN-LAST:event_bSalirActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        this.cerrarVista();
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bFinalizarLlamada;
@@ -311,41 +332,62 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
     public void nombreCliente(String nombreCliente) {
         txtNombreCliente.setText(nombreCliente);
     }
-    
+
     private void inicializar() {
         controlador.inicializar();
     }
 
     @Override
     public void estadoLlamadaEnCurso() {
-        txtEstadoLLamada.setForeground(new Color(50,155,13));
+        txtEstadoLLamada.setForeground(new Color(50, 155, 13));
         txtEstadoLLamada.setText("Llamada en Curso...");
         bFinalizarLlamada.setEnabled(true);
     }
 
     @Override
     public void estadoLlamadaEsperandoLlamada() {
-        txtEstadoLLamada.setForeground(new Color(121,13,155));
+        txtEstadoLLamada.setForeground(new Color(121, 13, 155));
         txtEstadoLLamada.setText("Esperando Llamada...");
         bFinalizarLlamada.setEnabled(false);
     }
-    
+
     @Override
-    public void mostrarMensajeDeError(String mensaje){
+    public void mostrarMensajeDeError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
-    
+
     @Override
-    public void reset(){
+    public void reset() {
         txtNombreCliente.setText("");
         txtaDescripcionLlamada.setText("");
     }
-    
+
     @Override
     public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo) {
-        String mensaje = String.format("Duracion de la llamada: %s segundos\nCosto de la llamada: $%s",duracion,costo);
+        String mensaje = String.format("Duracion de la llamada: %s segundos\nCosto de la llamada: $%s", duracion, costo);
         JOptionPane.showMessageDialog(this, mensaje, "Llamada Finalizada", JOptionPane.DEFAULT_OPTION);
     }
+    
+    @Override
+    public void cerrarVista() {
+        if (controlador.hayLlamadaEnCurso()) {
+            int opt = JOptionPane.showConfirmDialog(this, "¿Desea Finalizar la llamada en curso y salir de la aplicación?", "Salir de La Aplicación", JOptionPane.OK_CANCEL_OPTION);
+            if (opt == JOptionPane.OK_OPTION) {
+                try {
+                    controlador.finalizarLlamada();
+                    controlador.trabajadorLiberaElPuesto();
+                } catch (Exception ex1) {
+                    mostrarMensajeDeError(ex1.getMessage());
+                }
+                this.dispose();
+            } 
+        } else {
+            try {
+                controlador.trabajadorLiberaElPuesto();
+                this.dispose();
+            } catch (Exception ex) {
+                mostrarMensajeDeError(ex.getMessage());
+            }
+        }
+    }
 }
-    
-    

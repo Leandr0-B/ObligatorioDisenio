@@ -22,5 +22,5 @@ public abstract class TipoCliente {
         c.setTipo(new ClienteExonerado());
     }
     
-    public abstract float costoLlamada(Llamada l);
+    public abstract float factorDeAjuste(Llamada l);
 }

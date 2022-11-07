@@ -227,22 +227,19 @@ public class Sector implements Observador{
     }
      
     public void asignarPrimeraLlamaEnEsperaAPuesto(Puesto p) throws Exception {
-        Llamada primerLlamadaEnEspera = obtenerPrimeraLlamadaEnEspera();
-        if(primerLlamadaEnEspera != null) {
-            asignarLlamadaAPuesto(primerLlamadaEnEspera, p);
+        if(p.esValido()) {
+            Llamada primerLlamadaEnEspera = obtenerPrimeraLlamadaEnEspera();
+            if(primerLlamadaEnEspera != null) {
+                asignarLlamadaAPuesto(primerLlamadaEnEspera, p);
+            }
         }
+        
+        
     }
 
     @Override
     public void actualizar(Observable origen, Object evento) {
-        if(evento.equals(Observador.Eventos.PUESTO_CON_TRABAJADOR_DISPONIBLE)) {
-            try {
-                asignarPrimeraLlamaEnEsperaAPuesto((Puesto)origen);
-            } catch (Exception ex) {
-                Logger.getLogger(Sector.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if(evento.equals(Observador.Eventos.NUEVO_TRABAJADOR_EN_PUESTO)){
+        if(evento.equals(Observador.Eventos.PUESTO_CON_TRABAJADOR_DISPONIBLE) || evento.equals(Observador.Eventos.NUEVO_TRABAJADOR_EN_PUESTO)) {
             try {
                 asignarPrimeraLlamaEnEsperaAPuesto((Puesto)origen);
             } catch (Exception ex) {

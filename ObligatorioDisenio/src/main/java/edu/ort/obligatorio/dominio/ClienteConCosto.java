@@ -16,14 +16,14 @@ public class ClienteConCosto extends TipoCliente{
     }
     
     @Override
-    public float costoLlamada(Llamada l){
-        float costoLlamada = 0;
+    public float factorDeAjuste(Llamada l){
+        float factorDeAjuste;
         if(l.tiempoEnEspera() < 60){
-           costoLlamada = l.costoFijoDeLlamada();
+           factorDeAjuste = 1f;
         }
         else{
-            costoLlamada =l.costoFijoDeLlamada()/2;
+            factorDeAjuste = 1/2f;
         }
-        return costoLlamada < 0 ? 0 : costoLlamada;
+        return factorDeAjuste;
     }
 }

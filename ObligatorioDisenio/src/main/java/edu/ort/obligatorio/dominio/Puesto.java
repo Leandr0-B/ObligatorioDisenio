@@ -156,6 +156,7 @@ public class Puesto extends Observable{
     }
     
     public void finalizarLlamadaDelPuesto() throws Exception {
+        
         this.llamadaEnCurso.cambiarALLamadaFinalizada();
         // vacío la llamada en curso
         this.trabajador.cambiarEstadoADisponble();
@@ -181,6 +182,19 @@ public class Puesto extends Observable{
     
     public float costoLlamada(){
         return this.llamadaEnCurso.costoLlamada();
+    }
+    
+    public void trabajadorLiberaElPuesto() throws Exception {
+            this.setTrabajador(null);
+            this.cambiarEstadoADisponible();
+    } 
+    
+    public boolean hayLlamadaEnCurso() {
+        return this.llamadaEnCurso != null;
+    }
+    
+    public boolean esValido() {
+        return this.trabajadorDisponible() && !this.estaDisponible();
     }
 }
 

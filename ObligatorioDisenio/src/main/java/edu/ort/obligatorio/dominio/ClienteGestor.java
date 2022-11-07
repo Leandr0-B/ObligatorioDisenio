@@ -4,7 +4,6 @@
  */
 package edu.ort.obligatorio.dominio;
 
-import edu.ort.obligatorio.logica.ServicioLlamada;
 
 /**
  *
@@ -18,17 +17,14 @@ public class ClienteGestor extends TipoCliente{
     }
 
     @Override
-    public float costoLlamada(Llamada l) {
-        float costoLlamada = 0;
-        float costoFijoLlamada = l.costoFijoDeLlamada();
-        
-        if(l.duracionLlamada()>180){
-            costoLlamada = costoFijoLlamada;
+    public float factorDeAjuste(Llamada l) {
+        float factorDeAjuste = 1f;
+        if(l.duracionLlamada() > 180){
+                factorDeAjuste = factorDeAjuste;
         }
         else{
-            costoLlamada = costoFijoLlamada/2;
-            costoLlamada -= ServicioLlamada.costoFijoLlamadaPorSegundo * l.tiempoEnEspera();
+            factorDeAjuste = (factorDeAjuste/2f);
         }
-        return costoLlamada < 0 ? 0 : costoLlamada;
+        return factorDeAjuste;
     }
 }
