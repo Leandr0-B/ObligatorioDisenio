@@ -27,4 +27,9 @@ public class ClienteGestor extends TipoCliente{
         }
         return factorDeAjuste;
     }
+    
+    @Override
+    public float descuento(Llamada l) {
+        return (float)Llamada.costoFijoLlamadaPorSegundo * (float)l.tiempoEnEspera();
+    }
 }

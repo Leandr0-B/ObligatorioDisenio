@@ -48,4 +48,8 @@ public class Cliente extends Persona{
         return this.tipo.factorDeAjuste(l);
     }
     
+    public float descuento(Llamada l) {
+        return this.tipo.descuento(l);
+    }
+    
 }

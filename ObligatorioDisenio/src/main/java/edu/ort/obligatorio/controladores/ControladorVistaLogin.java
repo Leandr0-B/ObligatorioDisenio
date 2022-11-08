@@ -7,6 +7,7 @@ package edu.ort.obligatorio.controladores;
 
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
 import edu.ort.obligatorio.dominio.Trabajador;
+import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.logica.ServicioTrabajador;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
@@ -19,7 +20,6 @@ import edu.ort.obligatorio.ui.VistaLogin;
  */
 public class ControladorVistaLogin implements Observador{
 
-    ServicioTrabajador modelo;
     VistaLogin vista;   
     
     @Override
@@ -27,14 +27,11 @@ public class ControladorVistaLogin implements Observador{
         //System.out.println("llegue");
     }
 
-    public ControladorVistaLogin(VistaLogin login, ServicioTrabajador modelo) {
-        this.modelo = modelo;
-        this.vista = login;
-        this.modelo.agregarObservador(this);
+    public ControladorVistaLogin() {
     }
     
     public Trabajador login(String ci, String password) throws LoginException, Exception{
-        return modelo.login(ci, password);
+        return Fachada.getInstancia().login(ci, password);
     }
     
 }

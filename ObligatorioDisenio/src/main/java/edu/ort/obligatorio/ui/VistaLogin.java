@@ -11,7 +11,5 @@ package edu.ort.obligatorio.ui;
  */
 public interface VistaLogin {
     
-    //public void login(String ci, String password);
-        
     public void mostrarMensajeDeError(String mensaje);
 }

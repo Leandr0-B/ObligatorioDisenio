@@ -23,4 +23,8 @@ public abstract class TipoCliente {
     }
     
     public abstract float factorDeAjuste(Llamada l);
+    
+    public float descuento(Llamada l) {
+        return 0;
+    };
 }

@@ -92,10 +92,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void mLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mLoginActionPerformed
         // TODO add your handling code here:
         
-        // TODO: el Servicio de Trabajo no puede ser el modelo, deberia ser la fachada
-        // esperar a la clase del Lunes 7/11 
-        ServicioTrabajador modelo = Fachada.getInstancia().getServicioTrabajador();
-        VistaLoginImp login = new VistaLoginImp(modelo);
+        VistaLoginImp login = new VistaLoginImp();
         login.setVisible(true);        
     }//GEN-LAST:event_mLoginActionPerformed
 

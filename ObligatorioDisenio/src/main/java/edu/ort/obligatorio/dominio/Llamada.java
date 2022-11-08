@@ -140,11 +140,7 @@ public class Llamada {
     
     public float costoLlamada(){
         float costoLlamada = costoFijoDeLlamada() * this.cliente.factorDeAjuste(this);
-        
-        if(this.cliente.getTipo() instanceof ClienteGestor && this.duracionLlamada() <= 180) {
-            costoLlamada -= costoFijoLlamadaPorSegundo * tiempoEnEspera();
-        }
-        
+        costoLlamada = costoLlamada - this.cliente.descuento(this);
         return costoLlamada < 0 ? 0 : costoLlamada;
     }
 }
