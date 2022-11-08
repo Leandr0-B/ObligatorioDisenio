@@ -21,6 +21,7 @@ public class Llamada {
     private Trabajador trabajador;
     private Cliente cliente;
     private Sector sector;
+    private float saldoDelCliente;
     public static float costoFijoLlamadaPorSegundo = 1;
 
     
@@ -115,11 +116,18 @@ public class Llamada {
     public void cambiarALLamadaEnCurso() throws Exception {
         this.estado.llamadaEnCurso(this);
         setFechaHoraInicioAtencion(ZonedDateTime.now());
+        this.saldoDelCliente = cliente.getSaldo();
+        System.out.println("llamada en curso " + this.saldoDelCliente);
     }
     public void cambiarALLamadaFinalizada() throws Exception {
         this.estado.llamadaFinalizada(this);
         setFechaHoraFin(ZonedDateTime.now());
-        cliente.actualizarSaldo(this.costoLlamada());
+        // solo se actualizara el saldo si la llamada fue atendida
+        if(this.esllamadaAtendida()) {
+            cliente.actualizarSaldo(this.costoLlamada());
+            this.saldoDelCliente = this.cliente.getSaldo();
+            System.out.println("llamada finalizada " + this.saldoDelCliente);
+        }
     }
     
     public boolean esLlamadaFinalizada() {
@@ -128,6 +136,10 @@ public class Llamada {
     
     public boolean esLlamadaEnEspera() {
         return this.estado.enEspera();
+    }
+    
+    public boolean esllamadaAtendida() {
+        return this.fechaHoraInicioAtencion != null;
     }
     
     public String getNombreDelCliente() {
@@ -143,4 +155,5 @@ public class Llamada {
         costoLlamada = costoLlamada - this.cliente.descuento(this);
         return costoLlamada < 0 ? 0 : costoLlamada;
     }
+    
 }

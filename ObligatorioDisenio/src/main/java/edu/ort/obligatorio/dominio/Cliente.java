@@ -32,7 +32,7 @@ public class Cliente extends Persona{
         this.tipo = tipo;
     }
 
-    public double getSaldo() {
+    public float getSaldo() {
         return saldo;
     }
 
@@ -41,7 +41,7 @@ public class Cliente extends Persona{
     }
        
     public void actualizarSaldo(float costoLlamada) {
-        this.saldo -= costoLlamada;
+        this.saldo += costoLlamada;
     }
     
     public float factorDeAjuste(Llamada l) {

@@ -56,8 +56,8 @@ public class DatosDePrueba {
         Fachada.getInstancia().agregar(trabajador3, 1);
         
         ArrayList<Llamada> llamadasEnEspera = new ArrayList<>();
-        Cliente c = new Cliente("789","Cliente1",new ClienteGestor(),500f);
-        Cliente c2 = new Cliente("4568","Cliente2",new ClienteConCosto(),500f);
+        Cliente c = new Cliente("789","Cliente1",new ClienteGestor(),0f);
+        Cliente c2 = new Cliente("4568","Cliente2",new ClienteConCosto(),0f);
         Llamada l = new Llamada(c,sector1);
         Llamada l2 = new Llamada(c2,sector1);
         Llamada l3 = new Llamada(c,sector1);
