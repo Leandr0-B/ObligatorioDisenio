@@ -147,7 +147,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lNumeroPuesto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="|   Puesto Nro. #"/>
+        <Property name="text" type="java.lang.String" value="Puesto Nro. #"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNombreSector">

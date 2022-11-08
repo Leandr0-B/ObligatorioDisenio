@@ -68,13 +68,83 @@ public class DatosDePrueba {
         llamadasEnEspera.add(l4);
         sector1.setLlamadasEnEspera(llamadasEnEspera);
         
+        /***********************************************************************/
+          /*
+        Trabajador trabajador1 = new Trabajador("12223334","Pass1");
+        Trabajador trabajador2 = new Trabajador("23334445","Pass2");
+        Trabajador trabajador3 = new Trabajador("34445556","Pass3");
+        Trabajador trabajador4 = new Trabajador("45556667","Pass4");
+        Trabajador trabajador5 = new Trabajador("56667778","Pass5");
+        trabajador1.setNombreCompleto("María López");
+        trabajador2.setNombreCompleto("Juan Perez");
+        trabajador3.setNombreCompleto("Pablo Suárez");
+        trabajador4.setNombreCompleto("Ana Díaz");
+        trabajador5.setNombreCompleto("Ema Gómez");
+        Sector sector1 = new Sector();
+        Sector sector2 = new Sector();
+        Sector sector3 = new Sector();
+        Sector sector4 = new Sector();
+        sector1.setNumeroSector(1);
+        sector2.setNumeroSector(2);
+        sector3.setNumeroSector(3);
+        sector4.setNumeroSector(4);
+        sector1.setNombre("Ventas");
+        sector2.setNombre("Servicio técnico");
+        sector3.setNombre("Postventa");
+        sector4.setNombre("Facturación");
+        Puesto puesto1 = new Puesto(sector1);
+        Puesto puesto2 = new Puesto(sector1);
+        Puesto puesto3 = new Puesto(sector1);
+        Puesto puesto4 = new Puesto(sector1);
+        Puesto puesto5 = new Puesto(sector2);
+        Puesto puesto6 = new Puesto(sector2);
+        Puesto puesto7 = new Puesto(sector2);
+        Puesto puesto8 = new Puesto(sector3);
+        Puesto puesto9 = new Puesto(sector3);
+        Puesto puesto10 = new Puesto(sector3);
+        Puesto puesto11 = new Puesto(sector3);
+        Puesto puesto12 = new Puesto(sector4);
+        Puesto puesto14 = new Puesto(sector4);
+        sector1.agregarPuesto(puesto1);
+        sector1.agregarPuesto(puesto2);
+        sector1.agregarPuesto(puesto3);
+        sector1.agregarPuesto(puesto4);
+        sector2.agregarPuesto(puesto5);
+        sector2.agregarPuesto(puesto6);
+        sector2.agregarPuesto(puesto7);
+        sector3.agregarPuesto(puesto8);
+        sector3.agregarPuesto(puesto9);
+        sector3.agregarPuesto(puesto10);
+        sector3.agregarPuesto(puesto11);
+        sector4.agregarPuesto(puesto12);
+        sector4.agregarPuesto(puesto14);
+        puesto1.setNumeroPuesto(1);
+        puesto2.setNumeroPuesto(2);  
+        puesto3.setNumeroPuesto(3);
+        puesto4.setNumeroPuesto(4);
+        puesto5.setNumeroPuesto(5);
+        puesto6.setNumeroPuesto(6);  
+        puesto7.setNumeroPuesto(7);
+        puesto8.setNumeroPuesto(8);
+        puesto9.setNumeroPuesto(9);
+        puesto10.setNumeroPuesto(10);
+        puesto11.setNumeroPuesto(11);
+        puesto12.setNumeroPuesto(12);
+        puesto14.setNumeroPuesto(14);
         
-//        Fachada.getInstancia().agregar(sector2);
-//        Puesto puesto3 = new Puesto(sector2);
-//        puesto1.setNumeroPuesto(1);
-//        sector2.agregarPuesto(puesto3);
+        
+       Fachada.getInstancia().agregar(sector1);
+       Fachada.getInstancia().agregar(sector2);
+       Fachada.getInstancia().agregar(sector3);
+       Fachada.getInstancia().agregar(sector4);
 
-        
+       Fachada.getInstancia().agregar(trabajador1, 1);
+       Fachada.getInstancia().agregar(trabajador2, 2);
+       Fachada.getInstancia().agregar(trabajador3, 3);
+       Fachada.getInstancia().agregar(trabajador4, 4);
+       Fachada.getInstancia().agregar(trabajador5, 1);
+       
+        */
     }
     
     

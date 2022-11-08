@@ -23,7 +23,7 @@ public class Sector implements Observador{
     private ArrayList<Puesto> puestos;
     private ArrayList<Llamada> llamadasEnEspera;
     private ArrayList<Llamada> llamadasEnCursoOFinalizadas;
-    private static final String NO_HAY_PUESTOS_DISPONIBLES = "no hay puestos disponibles";
+    private static final String NO_HAY_PUESTOS_DISPONIBLES = "No hay puestos disponibles";
     private String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a N llamadas de ser " +
        "atendido, la espera estimada es de X minutos";
 

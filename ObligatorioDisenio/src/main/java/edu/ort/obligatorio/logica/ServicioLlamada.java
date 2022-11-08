@@ -21,6 +21,7 @@ public class ServicioLlamada {
     private HashMap<Integer, Sector> sectores = new HashMap<>();
     private ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
     private static final String SECTOR_NO_DISPONIBLE = "Sector No Disponible";
+    private static final String SECTOR_NO_VALIDO = "Sector No Válido";
     private static final String CANTIDAD_MAXIMA_DE_LLAMADAS = "Comuníquese más tarde, cantidad máxima de llamadas alcanzada";
     
     public Sector getSector(Integer numeroSector) {
