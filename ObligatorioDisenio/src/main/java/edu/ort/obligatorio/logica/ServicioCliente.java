@@ -13,6 +13,7 @@ import java.util.HashMap;
  */
 public class ServicioCliente {
     private HashMap<String, Cliente> clientes = new HashMap<>();
+    private static final String CLIENTE_NO_REGISTRADO = "Cliente No Registrado";
 
     public Boolean agregar(Cliente cliente) {
         Boolean usuarioAgregado = false;

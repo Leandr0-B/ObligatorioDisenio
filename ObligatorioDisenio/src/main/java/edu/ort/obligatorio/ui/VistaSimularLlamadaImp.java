@@ -5,16 +5,21 @@
  */
 package edu.ort.obligatorio.ui;
 
+import edu.ort.obligatorio.controladores.ControladorVistaSimularLlamada;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Nadia
  */
-public class DialogoSimularLlamadaImp extends javax.swing.JDialog {
+public class VistaSimularLlamadaImp extends javax.swing.JDialog implements VistaSimularLlamada{
 
+    
+    ControladorVistaSimularLlamada controlador;
     /**
      * Creates new form DialogoSimularLlamada
      */
-    public DialogoSimularLlamadaImp(java.awt.Frame parent, boolean modal) {
+    public VistaSimularLlamadaImp(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Simulador de llamadas");
@@ -32,7 +37,7 @@ public class DialogoSimularLlamadaImp extends javax.swing.JDialog {
         btnIniciar = new javax.swing.JButton();
         btnFinalizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        iMensaje = new javax.swing.JTextArea();
+        txtMensaje = new javax.swing.JTextArea();
         lMensaje = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btn1 = new javax.swing.JButton();
@@ -49,18 +54,28 @@ public class DialogoSimularLlamadaImp extends javax.swing.JDialog {
         btnNumeral = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         btnIniciar.setText("Iniciar");
 
         btnFinalizar.setText("Finalizar");
 
-        iMensaje.setColumns(20);
-        iMensaje.setRows(5);
-        jScrollPane1.setViewportView(iMensaje);
+        txtMensaje.setColumns(20);
+        txtMensaje.setRows(5);
+        jScrollPane1.setViewportView(txtMensaje);
 
         lMensaje.setText("Mensaje");
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         btn1.setText("1");
 
@@ -186,6 +201,16 @@ public class DialogoSimularLlamadaImp extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn2ActionPerformed
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.cerrarVista();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        this.cerrarVista();
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -203,21 +228,23 @@ public class DialogoSimularLlamadaImp extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogoSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogoSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogoSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogoSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DialogoSimularLlamadaImp dialog = new DialogoSimularLlamadaImp(new javax.swing.JFrame(), true);
+                VistaSimularLlamadaImp dialog = new VistaSimularLlamadaImp(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -245,8 +272,44 @@ public class DialogoSimularLlamadaImp extends javax.swing.JDialog {
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnNumeral;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JTextArea iMensaje;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lMensaje;
+    private javax.swing.JTextArea txtMensaje;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarMensajeDeError(String mensaje) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void reset() {
+        txtMensaje.setText("");
+    }
+
+    @Override
+    public void cerrarVista() {
+         if (controlador.hayLlamadaEnCurso()) {
+            int opt = JOptionPane.showConfirmDialog(this, "¿Desea Finalizar la llamada en curso y salir de la aplicación?", "Salir de la Aplicación", JOptionPane.OK_CANCEL_OPTION);
+            if (opt == JOptionPane.OK_OPTION) {
+                try {
+                    controlador.finalizarLlamada();
+                } catch (Exception ex1) {
+                    mostrarMensajeDeError(ex1.getMessage());
+                }
+                this.dispose();
+            } 
+        } else {
+            try {
+                this.dispose();
+            } catch (Exception ex) {
+                mostrarMensajeDeError(ex.getMessage());
+            }
+        }
+    }
 }
