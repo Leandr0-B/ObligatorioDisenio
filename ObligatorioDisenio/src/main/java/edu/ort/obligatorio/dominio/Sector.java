@@ -6,6 +6,7 @@ package edu.ort.obligatorio.dominio;
 
 import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
+import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import java.util.ArrayList;
@@ -169,6 +170,7 @@ public class Sector implements Observador{
         llamadasEnEspera.remove(l);
         llamadasEnCursoOFinalizadas.add(l);
         l.cambiarALLamadaEnCurso();
+        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_EN_CURSO);
     }
     
     public boolean estaDisponible(){
@@ -246,6 +248,11 @@ public class Sector implements Observador{
                 Logger.getLogger(Sector.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return getNombre();
     }
     
    

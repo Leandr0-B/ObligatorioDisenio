@@ -30,6 +30,10 @@ public class ClienteGestor extends TipoCliente{
     
     @Override
     public float descuento(Llamada l) {
-        return (float)Llamada.costoFijoLlamadaPorSegundo * (float)l.tiempoEnEspera();
+        float descuento  = 0f;
+        if(l.duracionLlamada() <= 180){
+            descuento = (float)Llamada.getCostoFijoLlamadaPorSegundo() * (float)l.tiempoEnEspera();
+        }
+        return descuento;
     }
 }

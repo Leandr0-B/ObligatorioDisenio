@@ -23,7 +23,7 @@ public class VistaLoginImp extends javax.swing.JDialog implements VistaLogin {
      */
     public VistaLoginImp() {
         initComponents();
-        controlador = new ControladorVistaLogin();
+        controlador = new ControladorVistaLogin(this);
         setTitle("Ingreso");
     }
     
@@ -115,24 +115,13 @@ public class VistaLoginImp extends javax.swing.JDialog implements VistaLogin {
     
    // @Override
     public void login(String ci, String password) {
-        
-        try{
-            Trabajador t = controlador.login(ci, password);
+        Trabajador t = controlador.login(ci, password);
+        if(t != null) {
             VistaAtenderLlamadaImp vistaAtenderLlamada = new VistaAtenderLlamadaImp(t.getPuestoTrabajo());
             vistaAtenderLlamada.setVisible(true);
             this.dispose();
         }
-        catch(LoginException ex){
-            mostrarMensajeDeError(ex.getMessage());
-            
-        }
-        catch(PuestoNoDisponibleException ex){
-            mostrarMensajeDeError(ex.getMessage());
-            
-        }
-        catch(Exception ex){
-            mostrarMensajeDeError(ex.getMessage());
-        }
+        
     }
     
     @Override

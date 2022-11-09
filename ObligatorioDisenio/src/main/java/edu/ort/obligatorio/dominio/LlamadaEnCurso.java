@@ -13,5 +13,10 @@ public class LlamadaEnCurso extends EstadoLlamada{
     public void llamadaFinalizada(Llamada l) throws Exception{
         l.setEstado(new LlamadaFinalizada());
     }
+
+    @Override
+    public String toString() {
+        return "Llamada en Curso";
+    }
     
 }

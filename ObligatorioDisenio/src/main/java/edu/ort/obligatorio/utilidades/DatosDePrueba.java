@@ -43,6 +43,8 @@ public class DatosDePrueba {
 
         
         Fachada.getInstancia().agregar(sector1);
+        Fachada.getInstancia().agregar(sector2);
+
         Fachada.getInstancia().agregar(trabajador1, 1);
         
         

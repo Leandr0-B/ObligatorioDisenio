@@ -15,7 +15,7 @@ import java.util.HashMap;
  *
  * @author leand
  */
-public class ServicioTrabajador extends Observable{
+public class ServicioTrabajador {
     private HashMap<String, Trabajador> trabajadores = new HashMap<>();
     private static final String ACCESO_DENEGADO = "Acceso denegado";
         

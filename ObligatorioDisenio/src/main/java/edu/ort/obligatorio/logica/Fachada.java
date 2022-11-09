@@ -10,13 +10,16 @@ import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
+import edu.ort.obligatorio.observador.Observable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
  *
  * @author leand
  */
-public class Fachada {
+public class Fachada extends Observable{
     private ServicioTrabajador servicioTrabajador;
     private ServicioCliente servicioCliente;
     private ServicioLlamada servicioLlamada;
@@ -67,5 +70,9 @@ public class Fachada {
     
     public void iniciarLlamada(Llamada l) throws SectorNoDisponibleException, CantidadMaximaDeLlamadasException,Exception {
         servicioLlamada.iniciarLlamada(l);
+    }
+    
+     public HashMap<Integer, Sector> getListaSectores() {
+        return servicioLlamada.getListaSectores();
     }
 }

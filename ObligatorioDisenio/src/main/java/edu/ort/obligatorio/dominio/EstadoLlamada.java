@@ -26,4 +26,6 @@ public abstract class EstadoLlamada {
     public boolean enEspera(){
         return false;
     }
+    
+    public abstract String toString();
 }

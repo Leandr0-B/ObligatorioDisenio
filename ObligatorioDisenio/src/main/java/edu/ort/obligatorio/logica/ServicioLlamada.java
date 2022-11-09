@@ -17,7 +17,7 @@ import java.util.HashMap;
  */
 public class ServicioLlamada {
     
-    public static int cantidadMaximaLLamadaEnCursoyEnEspera = 5;
+    private static int cantidadMaximaLLamadaEnCursoyEnEspera = 5;
     private HashMap<Integer, Sector> sectores = new HashMap<>();
     private ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
     private static final String SECTOR_NO_DISPONIBLE = "Sector No Disponible";

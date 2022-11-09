@@ -4,6 +4,7 @@
  */
 package edu.ort.obligatorio.dominio;
 
+import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import java.util.ArrayList;
@@ -161,6 +162,8 @@ public class Puesto extends Observable{
         // vacío la llamada en curso
         this.trabajador.cambiarEstadoADisponble();
         this.avisar(Observador.Eventos.LLAMADA_FINALIZADA);
+        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_FINALIZADA);
+
         this.setLlamadaEnCurso(null);
     }
     
@@ -181,7 +184,7 @@ public class Puesto extends Observable{
     }
     
     public float costoLlamada(){
-        return this.llamadaEnCurso.costoLlamada();
+        return this.llamadaEnCurso.getCostoLlamada();
     }
     
     public void trabajadorLiberaElPuesto() throws Exception {

@@ -6,6 +6,7 @@
 package edu.ort.obligatorio.controladores;
 
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
+import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.logica.ServicioTrabajador;
@@ -27,11 +28,24 @@ public class ControladorVistaLogin implements Observador{
         //System.out.println("llegue");
     }
 
-    public ControladorVistaLogin() {
+    public ControladorVistaLogin(VistaLogin vista) {
+        this.vista = vista;
     }
     
-    public Trabajador login(String ci, String password) throws LoginException, Exception{
-        return Fachada.getInstancia().login(ci, password);
+    public Trabajador login(String ci, String password){
+        Trabajador t = null;
+        try{
+            t = Fachada.getInstancia().login(ci, password);
+        } catch(LoginException ex){
+            vista.mostrarMensajeDeError(ex.getMessage());
+        }
+        catch(PuestoNoDisponibleException ex){
+            vista.mostrarMensajeDeError(ex.getMessage());
+        }
+        catch(Exception ex){
+            vista.mostrarMensajeDeError(ex.getMessage());
+        }
+        return t;
     }
     
 }
