@@ -80,11 +80,6 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         btn1.setText("1");
 
         btn2.setText("2");
-        btn2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn2ActionPerformed(evt);
-            }
-        });
 
         btn3.setText("3");
 
@@ -197,10 +192,6 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn2ActionPerformed
-
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
         this.cerrarVista();
@@ -278,13 +269,8 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public void mostrarMensajeDeError(String mensaje) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        JOptionPane.showMessageDialog(this, mensaje);
     }
 
     @Override

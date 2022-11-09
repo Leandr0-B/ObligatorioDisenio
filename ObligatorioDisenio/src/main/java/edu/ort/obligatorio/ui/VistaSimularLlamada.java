@@ -10,7 +10,6 @@ package edu.ort.obligatorio.ui;
  */
 public interface VistaSimularLlamada {
     
-    public void mostrarDatosDeLaLLamadaFinalizada(long duracion, float costo);
     public void mostrarMensajeDeError(String mensaje);
     public void reset();
     public void cerrarVista();
