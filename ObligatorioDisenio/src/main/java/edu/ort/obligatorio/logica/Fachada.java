@@ -10,13 +10,14 @@ import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
+import edu.ort.obligatorio.observador.Observable;
 
 
 /**
  *
  * @author leand
  */
-public class Fachada {
+public class Fachada extends Observable{
     private ServicioTrabajador servicioTrabajador;
     private ServicioCliente servicioCliente;
     private ServicioLlamada servicioLlamada;

@@ -4,7 +4,7 @@
  */
 package edu.ort.obligatorio.controladores;
 
-import edu.ort.obligatorio.dominio.Puesto;
+import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import edu.ort.obligatorio.ui.VistaSimularLlamada;
@@ -16,12 +16,13 @@ import edu.ort.obligatorio.ui.VistaSimularLlamada;
 public class ControladorVistaSimularLlamada implements Observador {
     
     VistaSimularLlamada vista;
-    Puesto modelo;
+    Fachada modelo;
 
-    public ControladorVistaSimularLlamada(VistaSimularLlamada vista, Puesto modelo) {
+    public ControladorVistaSimularLlamada(VistaSimularLlamada vista) {
         this.vista = vista;
+        this.modelo = Fachada.getInstancia();
         this.modelo.agregarObservador(this);
-        this.modelo.agregarObservador(modelo.getSector());
+  
     }
     
     @Override
@@ -31,10 +32,14 @@ public class ControladorVistaSimularLlamada implements Observador {
     
     
     public void finalizarLlamada() throws Exception {
-        modelo.finalizarLlamadaDelPuesto();
+        
+        //modelo.finalizarLlamadaDelPuesto();
     }
     
     public boolean hayLlamadaEnCurso() {
-        return modelo.hayLlamadaEnCurso();
+        //retorno true para evitar error
+        return true;
+        //return modelo.hayLlamadaEnCurso();
     }
+
 }

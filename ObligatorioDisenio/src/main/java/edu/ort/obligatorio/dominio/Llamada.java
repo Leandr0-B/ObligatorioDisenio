@@ -123,7 +123,7 @@ public class Llamada {
         this.estado.llamadaFinalizada(this);
         setFechaHoraFin(ZonedDateTime.now());
         // solo se actualizara el saldo si la llamada fue atendida
-        if(this.esllamadaAtendida()) {
+        if(this.esLlamadaAtendida()) {
             cliente.actualizarSaldo(this.costoLlamada());
             this.saldoDelCliente = this.cliente.getSaldo();
             System.out.println("llamada finalizada " + this.saldoDelCliente);
@@ -138,7 +138,7 @@ public class Llamada {
         return this.estado.enEspera();
     }
     
-    public boolean esllamadaAtendida() {
+    public boolean esLlamadaAtendida() {
         return this.fechaHoraInicioAtencion != null;
     }
     
