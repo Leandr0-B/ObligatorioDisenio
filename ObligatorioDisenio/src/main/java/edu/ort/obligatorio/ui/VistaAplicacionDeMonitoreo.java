@@ -16,9 +16,13 @@ import java.util.HashMap;
 public interface VistaAplicacionDeMonitoreo {
     public void mostrarSectores(HashMap<Integer, Sector> sectores);
      
-    public void mostrarLlamadas(ArrayList<Llamada> llamadas);
+    public void mostrarLlamadasDeSector(ArrayList<Llamada> llamadas);
+    
+    public void mostrarLlamadasDeTodosLosSectores(ArrayList<Llamada> llamadas);
 
     public void reset();
 
     public void recargarListaLlamadas();
+    
+    public void mostrarMensajeDeError(String mensaje);
 }

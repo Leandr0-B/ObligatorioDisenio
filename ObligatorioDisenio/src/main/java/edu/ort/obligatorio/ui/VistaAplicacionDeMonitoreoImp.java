@@ -6,13 +6,13 @@
 package edu.ort.obligatorio.ui;
 
 import edu.ort.obligatorio.controladores.ControladorVistaAplicacionDeMonitoreo;
-import edu.ort.obligatorio.controladores.ControladorVistaAtenderLlamada;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
+import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import static java.util.stream.Collectors.joining;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.joining;
  */
 public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implements VistaAplicacionDeMonitoreo{
     ControladorVistaAplicacionDeMonitoreo controlador;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss");
 
     /**
      * Creates new form DialogoAplicacionDeMonitoreo
@@ -30,8 +31,6 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
         setTitle("Aplicacion de monitoreo");
         inicializar();
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,6 +61,11 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
         jLabel1.setText("Sectores");
 
         checkVerTodos.setText("Todos los Sectores");
+        checkVerTodos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkVerTodosMouseClicked(evt);
+            }
+        });
         checkVerTodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkVerTodosActionPerformed(evt);
@@ -90,7 +94,7 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
                             .addComponent(checkVerTodos)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,12 +102,12 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkVerTodos)
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -120,17 +124,17 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
 
     private void lstSectoresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstSectoresValueChanged
         // TODO add your handling code here:
-        sectorSeleccionado();
+        sectorSeleccionado(true);
     }//GEN-LAST:event_lstSectoresValueChanged
+
+    private void checkVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkVerTodosMouseClicked
+        // TODO add your handling code here:
+        mostrarLlamadasDeTodosLosSectoresCheckBox(true);
+    }//GEN-LAST:event_checkVerTodosMouseClicked
 
     @Override
     public void mostrarSectores(HashMap<Integer, Sector> sectores) {
-//        ArrayList<String> sectoresFormat = new ArrayList();
-//        for(Sector s: sectores.values()) {
-//            sectoresFormat.add(s.getNombre());
-//        }
         lstSectores.setListData(sectores.values().toArray());
-
     }
 
     /**
@@ -151,17 +155,22 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
     }
 
     @Override
-    public void mostrarLlamadas(ArrayList<Llamada> llamadas) {
+    public void mostrarLlamadasDeSector(ArrayList<Llamada> llamadas) {
         ArrayList<String> llamadasFormat = new ArrayList();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss");
-        llamadasFormat.add("# llamada | Estado | Inicio | Fin | # Puesto | Trabajador | Duracion | Costo | Cliente | Saldo");
+        llamadasFormat.add("# llamada   |   Estado   |   Inicio   |   Fin   |   # Puesto   |   Trabajador   |   Duracion   |   Costo   |   Cliente   |   Saldo");
         for(Llamada l: llamadas) {
-            String test = l.getFechaHoraFin() != null ? l.getFechaHoraFin().format(formatter): "-";
-            String test2 = l.duracionLlamada() != -1 ? l.duracionLlamada()+"" : "-";
-            String stringLlamada = l.getNumeroLlamada() + " | " + l.getEstado() + " | " +
-            l.getFechaHoraInicio().format(formatter) + " | " + test + " | " + l.getNumeroPuesto() + " | " +
-            l.getNombreDelTrabajador() + " | " + test2 + " | " + l.getCostoLlamada() + " | " +
-            l.getNombreDelCliente() + " | " + l.getSaldoDelCliente();
+            String stringLlamada = this.stringDeLlamada(l);
+            llamadasFormat.add(stringLlamada);
+        }
+        lstLlamadas.setListData(llamadasFormat.toArray());
+    }
+    
+    @Override
+    public void mostrarLlamadasDeTodosLosSectores(ArrayList<Llamada> llamadas) {
+        ArrayList<String> llamadasFormat = new ArrayList();
+        llamadasFormat.add("#Sector   |   # llamada   |   Estado   |   Inicio   |   Fin   |   # Puesto   |   Trabajador   |   Duracion   |   Costo   |   Cliente   |   Saldo");
+        for(Llamada l: llamadas) {
+            String stringLlamada = this.stringDeLlamadaConSector(l);
             llamadasFormat.add(stringLlamada);
         }
         lstLlamadas.setListData(llamadasFormat.toArray());
@@ -169,15 +178,52 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
 
     @Override
     public void reset() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Llamada> l = new ArrayList<>();
+        lstLlamadas.setListData(l.toArray());
     }
 
-    private void sectorSeleccionado() {
+    private void sectorSeleccionado(boolean mostrarMensajeDeError) {
         Sector sector = (Sector) lstSectores.getSelectedValue();
-        controlador.sectorSeleccionado(sector);
+        controlador.sectorSeleccionado(sector, mostrarMensajeDeError);
     }
     
     public void recargarListaLlamadas() {
-        sectorSeleccionado();
+        if(checkVerTodos.isSelected()) {
+            mostrarLlamadasDeTodosLosSectoresCheckBox(false);
+        } else {
+            sectorSeleccionado(false);
+        }
+    }
+    
+    @Override
+    public void mostrarMensajeDeError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    private void mostrarLlamadasDeTodosLosSectoresCheckBox(boolean mostrarMensajeDeError) {
+        if(checkVerTodos.isSelected()) {
+            lstSectores.clearSelection();
+            lstSectores.enable(false);
+            lstSectores.setForeground(Color.DARK_GRAY);
+            controlador.llamadasDeTodosLosSectores(mostrarMensajeDeError);
+        } else {
+            this.reset();
+            lstSectores.setForeground(null);
+            lstSectores.enable(true);
+        }
+    }
+
+    private String stringDeLlamada(Llamada l) {
+        String fechaHoraFin = l.getFechaHoraFin() != null ? l.getFechaHoraFin().format(formatter): " -- ";
+        String duracionLlamada = l.duracionLlamada() != -1 ? l.duracionLlamada()+"" : " -- ";
+        String stringLlamada = l.getNumeroLlamada() + "  |  " + l.getEstado() + "  |  " +
+        l.getFechaHoraInicio().format(formatter) + "  |  " + fechaHoraFin + "  |  " + l.getNumeroPuesto() + "  |  " +
+        l.getNombreDelTrabajador() + "  |  " + duracionLlamada + "  |  " + l.getCostoLlamada() + "  |  " +
+        l.getNombreDelCliente() + "  |  " + l.getSaldoDelCliente();
+        return stringLlamada;
+    }
+    
+    private String stringDeLlamadaConSector(Llamada l) {
+        return l.getNombreSector() + "  |  " + stringDeLlamada(l);
     }
 }

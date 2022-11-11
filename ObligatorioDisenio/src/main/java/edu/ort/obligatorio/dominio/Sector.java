@@ -5,6 +5,7 @@
 package edu.ort.obligatorio.dominio;
 
 import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
+import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
@@ -27,6 +28,7 @@ public class Sector implements Observador{
     private static final String NO_HAY_PUESTOS_DISPONIBLES = "no hay puestos disponibles";
     private String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a N llamadas de ser " +
        "atendido, la espera estimada es de X minutos";
+    private String NO_HAY_LLAMADAS ="No hay llamadas en curso o finalizadas en el Sector";
 
     public Sector() {
         this.puestos = new ArrayList<>();
@@ -43,8 +45,12 @@ public class Sector implements Observador{
         this.llamadasEnEspera = llamadasEnEspera;
     }
 
-    public ArrayList<Llamada> getLlamadasEnCursoOFinalizadas() {
-        return llamadasEnCursoOFinalizadas;
+    public ArrayList<Llamada> getLlamadasEnCursoOFinalizadas() throws NoHayLlamadasException {
+        if(!llamadasEnCursoOFinalizadas.isEmpty()) {
+            return llamadasEnCursoOFinalizadas;
+        } else {
+            throw new NoHayLlamadasException(NO_HAY_LLAMADAS);
+        }
     }
 
     public void setLlamadasEnCursoOFinalizadas(ArrayList<Llamada> llamadasEnCursoOFinalizadas) {
@@ -170,7 +176,6 @@ public class Sector implements Observador{
         llamadasEnEspera.remove(l);
         llamadasEnCursoOFinalizadas.add(l);
         l.cambiarALLamadaEnCurso();
-        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_EN_CURSO);
     }
     
     public boolean estaDisponible(){
@@ -228,15 +233,13 @@ public class Sector implements Observador{
         return llamada;
     }
      
-    public void asignarPrimeraLlamaEnEsperaAPuesto(Puesto p) throws Exception {
+    public synchronized void asignarPrimeraLlamaEnEsperaAPuesto(Puesto p) throws Exception {
         if(p.esValido()) {
             Llamada primerLlamadaEnEspera = obtenerPrimeraLlamadaEnEspera();
             if(primerLlamadaEnEspera != null) {
                 asignarLlamadaAPuesto(primerLlamadaEnEspera, p);
             }
         }
-        
-        
     }
 
     @Override

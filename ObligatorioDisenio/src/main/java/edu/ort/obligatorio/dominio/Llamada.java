@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package edu.ort.obligatorio.dominio;
+import edu.ort.obligatorio.logica.Fachada;
+import edu.ort.obligatorio.observador.Observador;
 import java.time.ZonedDateTime;
 import java.time.Duration;
 
@@ -125,7 +127,7 @@ public class Llamada {
         this.estado.llamadaEnCurso(this);
         setFechaHoraInicioAtencion(ZonedDateTime.now());
         this.saldoDelCliente = cliente.getSaldo();
-        System.out.println("llamada en curso " + this.saldoDelCliente);
+        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_EN_CURSO);
     }
     public void cambiarALLamadaFinalizada() throws Exception {
         this.estado.llamadaFinalizada(this);
@@ -134,7 +136,7 @@ public class Llamada {
         this.setCostoLlamada(this.costoLlamada());
         cliente.actualizarSaldo(this.getCostoLlamada());
         this.saldoDelCliente = this.cliente.getSaldo();
-        
+        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_FINALIZADA);
     }
     
     public boolean esLlamadaFinalizada() {
@@ -201,6 +203,10 @@ public class Llamada {
 
     private void setSaldoDelCliente(float saldoDelCliente) {
         this.saldoDelCliente = saldoDelCliente;
+    }
+    
+    public String getNombreSector() {
+        return this.getSector().getNombre();
     }
 
     
