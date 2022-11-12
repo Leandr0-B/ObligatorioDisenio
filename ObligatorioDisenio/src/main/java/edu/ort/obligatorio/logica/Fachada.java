@@ -6,11 +6,14 @@ package edu.ort.obligatorio.logica;
 
 import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
+import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.observador.Observable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -41,6 +44,7 @@ public class Fachada extends Observable{
         return servicioLlamada.getSector(numeroSector);
     }
 
+    //// TODO QUITAR ////
     public ServicioTrabajador getServicioTrabajador() {
         return servicioTrabajador;
     }
@@ -52,6 +56,7 @@ public class Fachada extends Observable{
     public ServicioLlamada getServicioLlamada() {
         return servicioLlamada;
     }
+    ////////
     
     public Trabajador login(String ci, String password) throws LoginException, Exception{
         
@@ -69,4 +74,13 @@ public class Fachada extends Observable{
     public void iniciarLlamada(Llamada l) throws SectorNoDisponibleException, CantidadMaximaDeLlamadasException,Exception {
         servicioLlamada.iniciarLlamada(l);
     }
+    
+    public HashMap<Integer, Sector> getListaSectores() {
+        return servicioLlamada.getListaSectores();
+    }
+    
+    public ArrayList<Llamada> listarLlamadasAtendidas() throws NoHayLlamadasException {
+        return servicioLlamada.listarLlamadasAtendidas();
+    }
+    
 }
