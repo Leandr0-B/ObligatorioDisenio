@@ -4,10 +4,13 @@
  */
 package edu.ort.obligatorio.logica;
 
+import edu.ort.obligatorio.dominio.Cliente;
 import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
+import edu.ort.obligatorio.dominio.Exceptions.ClienteNoRegistradoException;
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
 import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
+import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
@@ -40,7 +43,7 @@ public class Fachada extends Observable{
         return instancia;
     }
     
-    public Sector getSector(Integer numeroSector) {
+    public Sector getSector(Integer numeroSector) throws SectorNoValidoException {
         return servicioLlamada.getSector(numeroSector);
     }
 
@@ -63,8 +66,12 @@ public class Fachada extends Observable{
         return servicioTrabajador.login(ci, password);      
     }
     
-    public boolean agregar(Trabajador trabajador, Integer numeroSector){
+    public boolean agregar(Trabajador trabajador, Integer numeroSector) throws SectorNoValidoException{
         return servicioTrabajador.agregar(trabajador, numeroSector);
+    }
+    
+    public boolean agregar(Cliente c){
+        return servicioCliente.agregar(c);
     }
     
     public boolean agregar(Sector s){
@@ -81,6 +88,10 @@ public class Fachada extends Observable{
     
     public ArrayList<Llamada> listarLlamadasAtendidas() throws NoHayLlamadasException {
         return servicioLlamada.listarLlamadasAtendidas();
+    }
+
+    public Cliente buscarCliente(String ci) throws ClienteNoRegistradoException {
+        return servicioCliente.buscarCliente(ci);
     }
     
 }

@@ -6,7 +6,12 @@
 package edu.ort.obligatorio.ui;
 
 import edu.ort.obligatorio.controladores.ControladorVistaSimularLlamada;
-import edu.ort.obligatorio.dominio.Puesto;
+import edu.ort.obligatorio.dominio.Cliente;
+import edu.ort.obligatorio.dominio.Llamada;
+import edu.ort.obligatorio.dominio.Sector;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,17 +19,20 @@ import javax.swing.JOptionPane;
  * @author Nadia
  */
 public class VistaSimularLlamadaImp extends javax.swing.JDialog implements VistaSimularLlamada{
-
-    
+    private String ci = "";
+    private String sector = "";
+    private EstadoVistaSimularLlamada estado;
+    private Llamada llamada;
+    private String mensajeDeConsola = "";
     ControladorVistaSimularLlamada controlador;
     /**
      * Creates new form DialogoSimularLlamada
      */
     public VistaSimularLlamadaImp(){
-        
         initComponents();
         setTitle("Simulador de llamadas");
         this.controlador = new ControladorVistaSimularLlamada(this);
+        this.estado = new EsperandoInicioLlamada();
     }
 
     /**
@@ -63,6 +71,11 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         });
 
         btnIniciar.setText("Iniciar");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarActionPerformed(evt);
+            }
+        });
 
         btnFinalizar.setText("Finalizar");
 
@@ -80,28 +93,88 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         });
 
         btn1.setText("1");
+        btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn1ActionPerformed(evt);
+            }
+        });
 
         btn2.setText("2");
+        btn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn2ActionPerformed(evt);
+            }
+        });
 
         btn3.setText("3");
+        btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn3ActionPerformed(evt);
+            }
+        });
 
         btn4.setText("4");
+        btn4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn4ActionPerformed(evt);
+            }
+        });
 
         btn5.setText("5");
+        btn5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn5ActionPerformed(evt);
+            }
+        });
 
         btn6.setText("6");
+        btn6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn6ActionPerformed(evt);
+            }
+        });
 
         btn7.setText("7");
+        btn7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn7ActionPerformed(evt);
+            }
+        });
 
         btn8.setText("8");
+        btn8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn8ActionPerformed(evt);
+            }
+        });
 
         btn9.setText("9");
+        btn9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn9ActionPerformed(evt);
+            }
+        });
 
         btnAsterisco.setText("*");
+        btnAsterisco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsteriscoActionPerformed(evt);
+            }
+        });
 
         btn0.setText("0");
+        btn0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn0ActionPerformed(evt);
+            }
+        });
 
         btnNumeral.setText("#");
+        btnNumeral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNumeralActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,6 +277,77 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         this.cerrarVista();
     }//GEN-LAST:event_formWindowClosing
 
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        try {
+            // TODO add your handling code here:
+            inicioLlamada();
+        } catch (Exception ex) {
+            Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("1");
+    }//GEN-LAST:event_btn1ActionPerformed
+
+    private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("2");
+    }//GEN-LAST:event_btn2ActionPerformed
+
+    private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("3");
+    }//GEN-LAST:event_btn3ActionPerformed
+
+    private void btnNumeralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNumeralActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("#");
+    }//GEN-LAST:event_btnNumeralActionPerformed
+
+    private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("4");
+    }//GEN-LAST:event_btn4ActionPerformed
+
+    private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("5");
+
+    }//GEN-LAST:event_btn5ActionPerformed
+
+    private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("6");
+    }//GEN-LAST:event_btn6ActionPerformed
+
+    private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("7");
+    }//GEN-LAST:event_btn7ActionPerformed
+
+    private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("8");
+    }//GEN-LAST:event_btn8ActionPerformed
+
+    private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("9");
+    }//GEN-LAST:event_btn9ActionPerformed
+
+    private void btnAsteriscoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsteriscoActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("*");
+    }//GEN-LAST:event_btnAsteriscoActionPerformed
+
+    private void btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0ActionPerformed
+        // TODO add your handling code here:
+        armarSeleccion("0");
+    }//GEN-LAST:event_btn0ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -237,7 +381,13 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
 
     @Override
     public void reset() {
+        btnIniciar.setEnabled(true);
         txtMensaje.setText("");
+        this.ci = "";
+        this.mensajeDeConsola = "";
+        this.sector = "";
+        this.estado = new EsperandoInicioLlamada();
+        this.llamada = null;
     }
 
     @Override
@@ -259,5 +409,66 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
                 mostrarMensajeDeError(ex.getMessage());
             }
         }
+    }
+
+    @Override
+    public void setEstado(EstadoVistaSimularLlamada estado) {
+        this.estado = estado;
+    }
+    
+    private void armarSeleccion(String seleccion) {
+        if(this.estado.esperandoCI()) {
+            if(seleccion.equalsIgnoreCase("#")) {
+                Cliente cliente = controlador.buscarCliente(ci);
+                if(cliente != null) {
+                    
+                    try {
+                        
+                        llamada.setCliente(cliente);
+                        this.estado.esperandoSector(this);
+                        mostrarSectores(controlador.getListaSectores());
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+            } else {
+                this.ci += seleccion;
+                this.mostrarMensajePorConsola(this.mensajeDeConsola +"\nCI:"+ this.ci);
+            }
+        } else if(this.estado.esperandoSector()) {
+            this.sector += seleccion;
+            Sector sector = controlador.getSector(this.sector);
+            if(sector != null) {
+                llamada.setSector(sector);
+                controlador.iniciarLlamada(llamada);
+            }
+        }
+    }
+    
+    private void inicioLlamada() throws Exception {
+        this.btnIniciar.setEnabled(false);
+        this.txtMensaje.setText("");
+        this.llamada = new Llamada();
+        this.estado.esperandoCI(this);
+        this.mensajeDeConsola = "Ingrese su cédula seguida de la tecla numeral";
+        this.mostrarMensajePorConsola(this.mensajeDeConsola);
+    }
+    
+    @Override
+    public void mostrarMensajePorConsola(String mensaje) {
+        this.txtMensaje.setText(mensaje);
+    }
+
+    @Override
+    public void mostrarSectores(HashMap<Integer, Sector> sectores) {
+        String cadenaSectores = "Para comunicarse con: \n";
+        for(Sector s: sectores.values()) {
+            cadenaSectores += s.getNombre() + " digite " + s.getNumeroSector() + " , ";
+        }
+        cadenaSectores = cadenaSectores.substring(0, cadenaSectores.length()-2);
+        this.mensajeDeConsola = cadenaSectores + ".";
+        this.mostrarMensajePorConsola(mensajeDeConsola);
     }
 }

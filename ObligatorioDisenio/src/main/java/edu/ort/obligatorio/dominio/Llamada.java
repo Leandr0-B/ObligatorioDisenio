@@ -30,6 +30,11 @@ public class Llamada {
     private static int numeralDeLlamada = 0;
 
     
+    public Llamada() {
+        this.fechaHoraInicio = ZonedDateTime.now();
+        this.estado = new LlamadaEnEspera();
+        this.siguienteNumeroDeLlamada();
+    }
 
     public Llamada(Cliente cliente, Sector sector) {
         this.fechaHoraInicio = ZonedDateTime.now();
@@ -161,7 +166,7 @@ public class Llamada {
     
     private float costoLlamada() {
         float costoLlamada = 0f;
-        if(this.esllamadaAtendida()) {
+        if(this.esLlamadaAtendida()) {
             costoLlamada = costoFijoDeLlamada() * this.cliente.factorDeAjuste(this);
             costoLlamada = costoLlamada - this.cliente.descuento(this);
         }

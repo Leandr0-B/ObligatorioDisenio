@@ -7,6 +7,7 @@ package edu.ort.obligatorio.logica;
 import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
+import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
 import java.util.ArrayList;
@@ -25,12 +26,17 @@ public class ServicioLlamada {
     private static final String SECTOR_NO_VALIDO = "Sector No Válido";
     private static final String CANTIDAD_MAXIMA_DE_LLAMADAS = "Comuníquese más tarde, cantidad máxima de llamadas alcanzada";
     private static final String NO_HAY_LLAMADAS = "No hay llamadas en curso o finalizadas en los Sectores";
+
     
-    public Sector getSector(Integer numeroSector) {
-        return sectores.get(numeroSector);
+    public Sector getSector(Integer numeroSector) throws SectorNoValidoException{
+        Sector s = sectores.get(numeroSector);;
+        if(s == null) {
+            throw new SectorNoValidoException(SECTOR_NO_VALIDO);
+        }
+        return s;
     }
         
-    public HashMap<Integer, Sector> getListaSectores(){
+    public HashMap<Integer, Sector> getListaSectores() {
         return sectores;
     }    
     

@@ -5,6 +5,7 @@
 package edu.ort.obligatorio.logica;
 
 import edu.ort.obligatorio.dominio.Cliente;
+import edu.ort.obligatorio.dominio.Exceptions.ClienteNoRegistradoException;
 import java.util.HashMap;
 
 /**
@@ -26,8 +27,12 @@ public class ServicioCliente {
         return usuarioAgregado;
     }
     
-    public Cliente buscarCliente(String ci) {
+    public Cliente buscarCliente(String ci) throws ClienteNoRegistradoException{
         Cliente c = clientes.get(ci);
-        return c;
+        if(c != null) {
+            return c;
+        } else {
+            throw new ClienteNoRegistradoException(CLIENTE_NO_REGISTRADO);
+        }
     }
 }
