@@ -162,7 +162,6 @@ public class Puesto extends Observable{
         // vacío la llamada en curso
         this.trabajador.cambiarEstadoADisponble();
         this.avisar(Observador.Eventos.LLAMADA_FINALIZADA);
-//        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_FINALIZADA);
 
         this.setLlamadaEnCurso(null);
     }

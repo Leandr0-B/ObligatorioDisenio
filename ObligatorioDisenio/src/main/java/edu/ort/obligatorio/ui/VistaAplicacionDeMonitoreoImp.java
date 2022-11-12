@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implements VistaAplicacionDeMonitoreo{
     ControladorVistaAplicacionDeMonitoreo controlador;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 
     /**
      * Creates new form DialogoAplicacionDeMonitoreo
