@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package edu.ort.obligatorio.dominio;
+import edu.ort.obligatorio.logica.Fachada;
+import edu.ort.obligatorio.observador.Observador;
 import java.time.ZonedDateTime;
 import java.time.Duration;
 
@@ -12,6 +14,7 @@ import java.time.Duration;
  * @author leand
  */
 public class Llamada {
+    private int numeroLlamada;
     private ZonedDateTime fechaHoraInicio;
     private ZonedDateTime fechaHoraInicioAtencion;
     private ZonedDateTime fechaHoraFin;
@@ -21,8 +24,10 @@ public class Llamada {
     private Trabajador trabajador;
     private Cliente cliente;
     private Sector sector;
+    private float costoLlamada;
     private float saldoDelCliente;
-    public static float costoFijoLlamadaPorSegundo = 1;
+    private static float costoFijoLlamadaPorSegundo = 1;
+    private static int numeralDeLlamada = 0;
 
     
 
@@ -31,6 +36,7 @@ public class Llamada {
         this.sector= sector;
         this.cliente= cliente;
         this.estado = new LlamadaEnEspera();
+        this.siguienteNumeroDeLlamada();
     }
 
     public Sector getSector() {
@@ -106,7 +112,11 @@ public class Llamada {
     }
     
     public long duracionLlamada(){
-        return Duration.between(fechaHoraInicioAtencion, fechaHoraFin).toSeconds();
+        long duracion = -1;
+        if(fechaHoraFin != null &&  fechaHoraInicioAtencion != null) {
+            duracion = Duration.between(fechaHoraInicioAtencion, fechaHoraFin).toSeconds();
+        }
+        return duracion;
     }
     
     public long tiempoEnEspera(){
@@ -117,17 +127,16 @@ public class Llamada {
         this.estado.llamadaEnCurso(this);
         setFechaHoraInicioAtencion(ZonedDateTime.now());
         this.saldoDelCliente = cliente.getSaldo();
-        System.out.println("llamada en curso " + this.saldoDelCliente);
+        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_EN_CURSO);
     }
     public void cambiarALLamadaFinalizada() throws Exception {
         this.estado.llamadaFinalizada(this);
         setFechaHoraFin(ZonedDateTime.now());
-        // solo se actualizara el saldo si la llamada fue atendida
-        if(this.esllamadaAtendida()) {
-            cliente.actualizarSaldo(this.costoLlamada());
-            this.saldoDelCliente = this.cliente.getSaldo();
-            System.out.println("llamada finalizada " + this.saldoDelCliente);
-        }
+        // seteo el costo de la llamada;
+        this.setCostoLlamada(this.costoLlamada());
+        cliente.actualizarSaldo(this.getCostoLlamada());
+        this.saldoDelCliente = this.cliente.getSaldo();
+        Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_FINALIZADA);
     }
     
     public boolean esLlamadaFinalizada() {
@@ -150,10 +159,55 @@ public class Llamada {
         return costoFijoLlamadaPorSegundo * duracionLlamada();
     }
     
-    public float costoLlamada(){
-        float costoLlamada = costoFijoDeLlamada() * this.cliente.factorDeAjuste(this);
-        costoLlamada = costoLlamada - this.cliente.descuento(this);
+    private float costoLlamada() {
+        float costoLlamada = 0f;
+        if(this.esllamadaAtendida()) {
+            costoLlamada = costoFijoDeLlamada() * this.cliente.factorDeAjuste(this);
+            costoLlamada = costoLlamada - this.cliente.descuento(this);
+        }
         return costoLlamada < 0 ? 0 : costoLlamada;
     }
+    
+    public float getCostoLlamada() {
+        return costoLlamada;
+    }
+    
+    private void setCostoLlamada(float costo) {
+        this.costoLlamada = costo;
+    }
+    
+    private void siguienteNumeroDeLlamada() {
+        Llamada.numeralDeLlamada += 1;
+        this.numeroLlamada = Llamada.numeralDeLlamada;
+    }
+
+    public int getNumeroLlamada() {
+        return numeroLlamada;
+    }
+
+    public static float getCostoFijoLlamadaPorSegundo() {
+        return costoFijoLlamadaPorSegundo;
+    }
+    
+    public int getNumeroPuesto() {
+        return getPuesto().getNumeroPuesto();
+    }
+
+    public String getNombreDelTrabajador() {
+        return getTrabajador().getNombreCompleto();
+    }
+
+    public float getSaldoDelCliente() {
+        return saldoDelCliente;
+    }
+
+    private void setSaldoDelCliente(float saldoDelCliente) {
+        this.saldoDelCliente = saldoDelCliente;
+    }
+    
+    public String getNombreSector() {
+        return this.getSector().getNombre();
+    }
+
     
 }

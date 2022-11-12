@@ -22,4 +22,9 @@ public class LlamadaEnEspera extends EstadoLlamada{
     public boolean enEspera(){
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Llamada En Espera";
+    }
 }

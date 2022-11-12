@@ -5,6 +5,7 @@
 package edu.ort.obligatorio.logica;
 
 import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
+import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
@@ -17,11 +18,12 @@ import java.util.HashMap;
  */
 public class ServicioLlamada {
     
-    public static int cantidadMaximaLLamadaEnCursoyEnEspera = 5;
+    private static int cantidadMaximaLLamadaEnCursoyEnEspera = 5;
     private HashMap<Integer, Sector> sectores = new HashMap<>();
     private ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
     private static final String SECTOR_NO_DISPONIBLE = "Sector No Disponible";
     private static final String CANTIDAD_MAXIMA_DE_LLAMADAS = "Comuníquese más tarde, cantidad máxima de llamadas alcanzada";
+    private static final String NO_HAY_LLAMADAS = "No hay llamadas en curso o finalizadas en los Sectores";
     
     public Sector getSector(Integer numeroSector) {
         return sectores.get(numeroSector);
@@ -61,16 +63,20 @@ public class ServicioLlamada {
         return cantidadLlamadasEnCursoOEspera() < cantidadMaximaLLamadaEnCursoyEnEspera;
     }
     
-    public ArrayList<Llamada> listarLlamadasAtendidas(){
+    public ArrayList<Llamada> listarLlamadasAtendidas() throws NoHayLlamadasException{
         
-        ArrayList<Llamada> atendidas = null;
+        ArrayList<Llamada> atendidas = new ArrayList<>();
         for(Llamada l:llamadas){
             
             if(!l.esLlamadaEnEspera()){
                 atendidas.add(l);
             }
         }
-        return atendidas;
+        if(!atendidas.isEmpty()) {
+            return atendidas;
+        } else {
+            throw new NoHayLlamadasException(NO_HAY_LLAMADAS);
+        }
     }
     
     public boolean agregar(Sector s){
@@ -82,4 +88,14 @@ public class ServicioLlamada {
         }
         return agregado;
     }
+    
+    //// TODO QUITAR ////
+    public void setLlamadas(ArrayList<Llamada> llamadas) {
+        this.llamadas = llamadas;
+    }
+    
+     public ArrayList<Llamada> getLlamadas() {
+        return this.llamadas;
+    }
+    ///////////////////////
 }

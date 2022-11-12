@@ -104,7 +104,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void mMonitoreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMonitoreoActionPerformed
         // TODO add your handling code here:
-        DialogoAplicacionDeMonitoreoImp monitoreo = new DialogoAplicacionDeMonitoreoImp(this,true);
+        VistaAplicacionDeMonitoreoImp monitoreo = new VistaAplicacionDeMonitoreoImp();
         monitoreo.setVisible(true);
     }//GEN-LAST:event_mMonitoreoActionPerformed
 

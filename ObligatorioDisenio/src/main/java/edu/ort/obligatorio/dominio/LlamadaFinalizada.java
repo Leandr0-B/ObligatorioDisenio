@@ -14,4 +14,9 @@ public class LlamadaFinalizada extends EstadoLlamada{
     public boolean finalizada(){
         return true;
     } 
+
+    @Override
+    public String toString() {
+        return "Llamada Finalizada";
+    }
 }
