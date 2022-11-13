@@ -64,19 +64,21 @@ public class DatosDePrueba {
             Cliente c = new Cliente("789", "Cliente1", new ClienteGestor(), 0f);
             Cliente c2 = new Cliente("4568", "Cliente2", new ClienteConCosto(), 0f);
             Fachada.getInstancia().agregar(c);
+            Fachada.getInstancia().agregar(c2);
+
             Llamada l = new Llamada(c, sector1);
             Llamada l2 = new Llamada(c2, sector1);
             Llamada l3 = new Llamada(c, sector1);
             Llamada l4 = new Llamada(c, sector1);
-            llamadasEnEspera.add(l);
-            llamadasEnEspera.add(l2);
-            llamadasEnEspera.add(l3);
-            llamadasEnEspera.add(l4);
-            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l);
-            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l2);
-            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l3);
-            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l4);
-            sector1.setLlamadasEnEspera(llamadasEnEspera);
+//            llamadasEnEspera.add(l);
+//            llamadasEnEspera.add(l2);
+//            llamadasEnEspera.add(l3);
+//            llamadasEnEspera.add(l4);
+//            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l);
+//            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l2);
+//            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l3);
+//            Fachada.getInstancia().getServicioLlamada().getLlamadas().add(l4);
+//            sector1.setLlamadasEnEspera(llamadasEnEspera);
             
             /***********************************************************************/
             /*

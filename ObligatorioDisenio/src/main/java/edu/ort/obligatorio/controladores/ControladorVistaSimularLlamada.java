@@ -7,6 +7,7 @@ package edu.ort.obligatorio.controladores;
 import edu.ort.obligatorio.dominio.Cliente;
 import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.ClienteNoRegistradoException;
+import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Llamada;
@@ -27,71 +28,103 @@ import java.util.logging.Logger;
 public class ControladorVistaSimularLlamada implements Observador {
     
     VistaSimularLlamada vista;
-    Fachada modelo;
+    Fachada fachada;
+    Llamada modelo;
 
     public ControladorVistaSimularLlamada(VistaSimularLlamada vista) {
         this.vista = vista;
-        this.modelo = Fachada.getInstancia();
-        this.modelo.agregarObservador(this);
+        this.fachada = Fachada.getInstancia();
+        
     }
     
     @Override
     public void actualizar(Observable origen, Object evento) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(evento.equals(Observador.Eventos.LLAMADA_EN_CURSO)) {           
+            vista.mostrarInformacionDeLlamadaAtendida(this.modelo);
+        }
+        if(evento.equals(Observador.Eventos.LLAMADA_FINALIZADA)) {
+            vista.reset();
+            vista.mostrarInformacionDeLlamadaFinalizada(this.modelo);
+        }
     }
     
     
-    public void finalizarLlamada() throws Exception {
-        
-        //modelo.finalizarLlamadaDelPuesto();
+    public void finalizarLlamada() {
+        try {
+            fachada.finalizarLlamada(this.modelo);
+            //modelo.finalizarLlamadaDelPuesto();
+        } catch (Exception ex) {
+            Logger.getLogger(ControladorVistaSimularLlamada.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public boolean hayLlamadaEnCurso() {
         //retorno true para evitar error
         return true;
         //return modelo.hayLlamadaEnCurso();
-    }
-    
-    public Cliente buscarCliente(String ci) {
-        Cliente cliente = null;
-        try {
-            cliente = modelo.buscarCliente(ci);
-        } catch (ClienteNoRegistradoException ex) {
-            vista.mostrarMensajeDeError(ex.getMessage());
-            vista.reset();
-        }
-        return cliente;
-    }
-    
+    }   
     public HashMap<Integer, Sector> getListaSectores() {
-        return modelo.getListaSectores();
+        return fachada.getListaSectores();
     }
     
-    public Sector getSector(String sector){
+    public void iniciarLlamada() {
+        try {
+            fachada.iniciarLlamada(this.modelo);
+        } catch (CantidadMaximaDeLlamadasException ex) {
+            vista.reset();
+            vista.mostrarMensajePorConsola(ex.getMessage());
+        } catch (SectorNoDisponibleException ex) {
+            vista.reset();
+            vista.mostrarMensajePorConsola(ex.getMessage());
+        } catch (SectorNoValidoException ex) {
+            vista.reset();
+            vista.mostrarMensajePorConsola(ex.getMessage());
+        } catch (LlamadaEnEsperaException ex) {
+            vista.mostrarMensajePorConsola(ex.getMessage());
+        } catch (Exception ex) {
+            // esta exception captura cuando se cambia de un tipo de llamada 
+            // al mismo tipo, eso no deberia ocurrir
+            vista.mostrarMensajePorConsola(ex.getMessage());
+        }
+    }
+    
+    public Llamada crearNuevaLlamada() {
+        this.modelo = new Llamada();
+        this.modelo.agregarObservador(this);
+        return this.modelo;
+    }
+    
+    public boolean agregarClienteALlamada(String ci){
+        boolean ret = false;
+        try {
+            Cliente cliente = fachada.buscarCliente(ci);
+            if(cliente != null) {
+                this.modelo.setCliente(cliente);
+                ret = true;
+            }
+        } catch (ClienteNoRegistradoException ex) {
+            vista.reset();
+            vista.mostrarMensajePorConsola(ex.getMessage());
+        } finally {
+            return ret;
+        }
+    }
+    
+    public boolean agregarSectorALlamada(String sector) {
+        boolean ret = false;
         int sectorInt = Integer.parseInt(sector);
         Sector s = null;
         try {
-            s = modelo.getSector(sectorInt);
+            s = fachada.getSector(sectorInt);
+            if(s != null) {
+                this.modelo.setSector(s);
+                ret = true;
+            }
         } catch (SectorNoValidoException ex) {
-           vista.mostrarMensajeDeError(ex.getMessage());
+           vista.mostrarMensajePorConsola(ex.getMessage());
            vista.reset();
-        }
-        return s;
-    }
-
-    public void iniciarLlamada(Llamada l) {
-        try {
-            modelo.iniciarLlamada(l);
-        } catch (CantidadMaximaDeLlamadasException ex) {
-            vista.mostrarMensajeDeError(ex.getMessage());
-            vista.reset();
-        } catch (SectorNoDisponibleException ex) {
-            vista.mostrarMensajeDeError(ex.getMessage());
-            vista.reset();
-        } catch (Exception ex) {
-            vista.mostrarMensajeDeError(ex.getMessage());
-            vista.reset();
+        } finally {
+            return ret;
         }
     }
-
 }

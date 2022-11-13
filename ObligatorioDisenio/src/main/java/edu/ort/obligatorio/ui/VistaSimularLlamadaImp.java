@@ -6,13 +6,12 @@
 package edu.ort.obligatorio.ui;
 
 import edu.ort.obligatorio.controladores.ControladorVistaSimularLlamada;
-import edu.ort.obligatorio.dominio.Cliente;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,9 +21,9 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
     private String ci = "";
     private String sector = "";
     private EstadoVistaSimularLlamada estado;
-    private Llamada llamada;
     private String mensajeDeConsola = "";
     ControladorVistaSimularLlamada controlador;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
     /**
      * Creates new form DialogoSimularLlamada
      */
@@ -34,7 +33,6 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         this.controlador = new ControladorVistaSimularLlamada(this);
         this.estado = new EsperandoInicioLlamada();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,6 +76,11 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         });
 
         btnFinalizar.setText("Finalizar");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarActionPerformed(evt);
+            }
+        });
 
         txtMensaje.setColumns(20);
         txtMensaje.setRows(5);
@@ -348,6 +351,11 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         armarSeleccion("0");
     }//GEN-LAST:event_btn0ActionPerformed
 
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        // TODO add your handling code here:
+        finalizarLlamada();
+    }//GEN-LAST:event_btnFinalizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -375,11 +383,6 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void mostrarMensajeDeError(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje);
-    }
-
-    @Override
     public void reset() {
         btnIniciar.setEnabled(true);
         txtMensaje.setText("");
@@ -387,28 +390,27 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         this.mensajeDeConsola = "";
         this.sector = "";
         this.estado = new EsperandoInicioLlamada();
-        this.llamada = null;
     }
 
     @Override
     public void cerrarVista() {
-         if (controlador.hayLlamadaEnCurso()) {
-            int opt = JOptionPane.showConfirmDialog(this, "¿Desea Finalizar la llamada en curso y salir de la aplicación?", "Salir de la Aplicación", JOptionPane.OK_CANCEL_OPTION);
-            if (opt == JOptionPane.OK_OPTION) {
-                try {
-                    controlador.finalizarLlamada();
-                } catch (Exception ex1) {
-                    mostrarMensajeDeError(ex1.getMessage());
-                }
-                this.dispose();
-            } 
-        } else {
-            try {
-                this.dispose();
-            } catch (Exception ex) {
-                mostrarMensajeDeError(ex.getMessage());
-            }
-        }
+//         if (controlador.hayLlamadaEnCurso()) {
+//            int opt = JOptionPane.showConfirmDialog(this, "¿Desea Finalizar la llamada en curso y salir de la aplicación?", "Salir de la Aplicación", JOptionPane.OK_CANCEL_OPTION);
+//            if (opt == JOptionPane.OK_OPTION) {
+//                try {
+//                    controlador.finalizarLlamada();
+//                } catch (Exception ex1) {
+//                    mostrarMensajeDeError(ex1.getMessage());
+//                }
+//                this.dispose();
+//            } 
+//        } else {
+//            try {
+//                this.dispose();
+//            } catch (Exception ex) {
+//                mostrarMensajeDeError(ex.getMessage());
+//            }
+//        }
     }
 
     @Override
@@ -419,19 +421,13 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
     private void armarSeleccion(String seleccion) {
         if(this.estado.esperandoCI()) {
             if(seleccion.equalsIgnoreCase("#")) {
-                Cliente cliente = controlador.buscarCliente(ci);
-                if(cliente != null) {
-                    
+                if (controlador.agregarClienteALlamada(ci)) {
                     try {
-                        
-                        llamada.setCliente(cliente);
                         this.estado.esperandoSector(this);
-                        mostrarSectores(controlador.getListaSectores());
-                        
                     } catch (Exception ex) {
                         Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+                    mostrarSectores(controlador.getListaSectores());
                 }
             } else {
                 this.ci += seleccion;
@@ -439,18 +435,16 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
             }
         } else if(this.estado.esperandoSector()) {
             this.sector += seleccion;
-            Sector sector = controlador.getSector(this.sector);
-            if(sector != null) {
-                llamada.setSector(sector);
-                controlador.iniciarLlamada(llamada);
-            }
+            if (controlador.agregarSectorALlamada(this.sector)) {
+                controlador.iniciarLlamada();
+            };
         }
     }
     
     private void inicioLlamada() throws Exception {
         this.btnIniciar.setEnabled(false);
         this.txtMensaje.setText("");
-        this.llamada = new Llamada();
+        controlador.crearNuevaLlamada();
         this.estado.esperandoCI(this);
         this.mensajeDeConsola = "Ingrese su cédula seguida de la tecla numeral";
         this.mostrarMensajePorConsola(this.mensajeDeConsola);
@@ -471,4 +465,24 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         this.mensajeDeConsola = cadenaSectores + ".";
         this.mostrarMensajePorConsola(mensajeDeConsola);
     }
+
+    private void finalizarLlamada() {
+        controlador.finalizarLlamada();
+    }
+    
+    @Override 
+    public void mostrarInformacionDeLlamadaAtendida(Llamada l) {
+        String mensaje = "Llamada en curso… ud. se está comunicando con el sector: " + l.getNombreSector() + 
+                "\nY está siendo atendido por " + l.getNombreDelTrabajador() +
+                "\nSu llamada se ha iniciado en " + l.getFechaHoraInicioAtencion().format(formatter);
+        this.mostrarMensajePorConsola(mensaje);
+    }
+    
+    @Override 
+    public void mostrarInformacionDeLlamadaFinalizada(Llamada l) {
+        String mensaje = "Llamada finalizada... Duración: " + l.duracionLlamada() + " segundos " +
+                "\nCosto: " + l.getCostoLlamada() + ". Su saldo es de: " + l.getSaldoDelCliente();
+        this.mostrarMensajePorConsola(mensaje);
+    }
+    
 }

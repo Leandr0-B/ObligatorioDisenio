@@ -4,6 +4,7 @@
  */
 package edu.ort.obligatorio.dominio;
 import edu.ort.obligatorio.logica.Fachada;
+import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import java.time.ZonedDateTime;
 import java.time.Duration;
@@ -13,7 +14,7 @@ import java.time.Duration;
  *
  * @author leand
  */
-public class Llamada {
+public class Llamada extends Observable {
     private int numeroLlamada;
     private ZonedDateTime fechaHoraInicio;
     private ZonedDateTime fechaHoraInicioAtencion;
@@ -132,6 +133,7 @@ public class Llamada {
         this.estado.llamadaEnCurso(this);
         setFechaHoraInicioAtencion(ZonedDateTime.now());
         this.saldoDelCliente = cliente.getSaldo();
+        this.avisar(Observador.Eventos.LLAMADA_EN_CURSO);
         Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_EN_CURSO);
     }
     public void cambiarALLamadaFinalizada() throws Exception {
@@ -141,6 +143,7 @@ public class Llamada {
         this.setCostoLlamada(this.costoLlamada());
         cliente.actualizarSaldo(this.getCostoLlamada());
         this.saldoDelCliente = this.cliente.getSaldo();
+        this.avisar(Observador.Eventos.LLAMADA_FINALIZADA);
         Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_FINALIZADA);
     }
     

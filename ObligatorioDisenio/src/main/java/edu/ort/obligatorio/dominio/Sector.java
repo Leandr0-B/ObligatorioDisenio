@@ -7,7 +7,6 @@ package edu.ort.obligatorio.dominio;
 import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
 import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
-import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import java.util.ArrayList;
@@ -157,7 +156,7 @@ public class Sector implements Observador{
         return auxPuesto;
     }
     
-    public void iniciarLlamada(Llamada l) throws Exception{
+    public void iniciarLlamada(Llamada l) throws LlamadaEnEsperaException, Exception{
         // primero recibo la llamada y la agrego a la lista de espera
         llamadasEnEspera.add(l);
         if(hayPuestoConTrabajadorDisponible()){
@@ -166,7 +165,7 @@ public class Sector implements Observador{
         }
         else{
             String LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA.replace("N",String.valueOf(cantidadLlamadasEnEspera()));
-            LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA_Mensaje.replace("X",String.valueOf(tiempoPromedioDeAtencionDelSector()));
+            LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA_Mensaje.replace("X",String.valueOf(tiempoPromedioDeAtencionDelSector()/60f));
             throw new LlamadaEnEsperaException(LLAMADA_EN_ESPERA_Mensaje);
         }
     }
@@ -212,9 +211,12 @@ public class Sector implements Observador{
     //Es el promedio De Los Tiempos Promedio De Atención De Cada Puesto
     public float tiempoPromedioDeAtencionDelSector(){
         float promedioAcumulado = 0;
-        int cantidadPuestos = puestos.size();
+        int cantidadPuestos = 0;
         for(Puesto p:puestos){
-            promedioAcumulado += p.tiempoPromedioLlamadas();
+            if(!p.estaDisponible()) {
+                promedioAcumulado += p.tiempoPromedioLlamadas();
+                cantidadPuestos++;
+            }
         }
         return cantidadPuestos > 0 ? promedioAcumulado/cantidadPuestos : 0;
     }

@@ -82,6 +82,7 @@ public class Puesto extends Observable{
         this.cambiarEstadoANoDisponible();
     }
     
+    // el puesto esta disponible si no tiene trabajador asignado
     public boolean estaDisponible() {
         return this.estado.estaDisponible();
     }

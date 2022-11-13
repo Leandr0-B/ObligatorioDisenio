@@ -9,6 +9,7 @@ import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Llamada;
+import edu.ort.obligatorio.dominio.Puesto;
 import edu.ort.obligatorio.dominio.Sector;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,4 +106,18 @@ public class ServicioLlamada {
         return this.llamadas;
     }
     ///////////////////////
+
+    public void finalizarLlamada(Llamada l) throws Exception {
+        if(l != null && !l.esLlamadaFinalizada()) {
+            if(l.esLlamadaAtendida()) {
+                Puesto p = l.getPuesto();
+                p.finalizarLlamadaDelPuesto();
+            } else {
+                Sector s = l.getSector();
+                if(s != null) {
+                    s.finalizarLlamadaSinSerAtendida(l);
+                }
+            }
+        }
+    }
 }

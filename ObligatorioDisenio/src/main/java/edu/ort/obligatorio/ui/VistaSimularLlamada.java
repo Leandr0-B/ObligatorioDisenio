@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package edu.ort.obligatorio.ui;
+import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
 import java.util.HashMap;
 
@@ -12,10 +13,11 @@ import java.util.HashMap;
  */
 public interface VistaSimularLlamada {
     
-    public void mostrarMensajeDeError(String mensaje);
     public void mostrarMensajePorConsola(String mensaje);
     public void reset();
     public void mostrarSectores(HashMap<Integer, Sector> sectores);
+    public void mostrarInformacionDeLlamadaAtendida(Llamada l);    
+    public void mostrarInformacionDeLlamadaFinalizada(Llamada l);
 
     
     

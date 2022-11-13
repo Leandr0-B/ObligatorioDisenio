@@ -93,5 +93,9 @@ public class Fachada extends Observable{
     public Cliente buscarCliente(String ci) throws ClienteNoRegistradoException {
         return servicioCliente.buscarCliente(ci);
     }
+
+    public void finalizarLlamada(Llamada l) throws Exception {
+        servicioLlamada.finalizarLlamada(l);
+    }
     
 }
