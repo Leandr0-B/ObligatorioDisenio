@@ -118,7 +118,7 @@ public class Llamada extends Observable {
     }
     
     public long duracionLlamada(){
-        long duracion = -1;
+        long duracion = 0;
         if(fechaHoraFin != null &&  fechaHoraInicioAtencion != null) {
             duracion = Duration.between(fechaHoraInicioAtencion, fechaHoraFin).toSeconds();
         }
@@ -156,7 +156,7 @@ public class Llamada extends Observable {
     }
     
     public boolean esLlamadaAtendida() {
-        return this.fechaHoraInicioAtencion != null;
+        return this.fechaHoraInicioAtencion != null && this.puesto != null;
     }
     
     public String getNombreDelCliente() {

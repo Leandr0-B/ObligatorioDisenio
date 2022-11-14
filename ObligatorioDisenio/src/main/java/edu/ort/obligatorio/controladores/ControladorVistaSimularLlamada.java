@@ -88,10 +88,19 @@ public class ControladorVistaSimularLlamada implements Observador {
         }
     }
     
-    public Llamada crearNuevaLlamada() {
-        this.modelo = new Llamada();
-        this.modelo.agregarObservador(this);
-        return this.modelo;
+    public boolean crearNuevaLlamada() {
+        boolean esPosible = false;
+        try {
+            if (fachada.esPosibleIniciarLlamada()) {
+                this.modelo = new Llamada();
+                this.modelo.agregarObservador(this);
+                esPosible = true;
+            }
+        } catch (CantidadMaximaDeLlamadasException ex) {
+           vista.reset();
+           vista.mostrarMensajePorConsola(ex.getMessage());
+        }
+        return esPosible;
     }
     
     public boolean agregarClienteALlamada(String ci){
@@ -121,8 +130,8 @@ public class ControladorVistaSimularLlamada implements Observador {
                 ret = true;
             }
         } catch (SectorNoValidoException ex) {
-           vista.mostrarMensajePorConsola(ex.getMessage());
            vista.reset();
+           vista.mostrarMensajePorConsola(ex.getMessage());
         } finally {
             return ret;
         }

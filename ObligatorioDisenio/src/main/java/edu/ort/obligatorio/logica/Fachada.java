@@ -98,4 +98,8 @@ public class Fachada extends Observable{
         servicioLlamada.finalizarLlamada(l);
     }
     
+    public boolean esPosibleIniciarLlamada() throws CantidadMaximaDeLlamadasException {
+        return servicioLlamada.esPosibleIniciarLlamada();
+    }
+    
 }

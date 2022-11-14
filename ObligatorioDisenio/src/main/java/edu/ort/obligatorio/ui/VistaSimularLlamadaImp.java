@@ -437,17 +437,17 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
             this.sector += seleccion;
             if (controlador.agregarSectorALlamada(this.sector)) {
                 controlador.iniciarLlamada();
-            };
+            }
         }
     }
     
     private void inicioLlamada() throws Exception {
         this.btnIniciar.setEnabled(false);
         this.txtMensaje.setText("");
-        controlador.crearNuevaLlamada();
         this.estado.esperandoCI(this);
         this.mensajeDeConsola = "Ingrese su cédula seguida de la tecla numeral";
         this.mostrarMensajePorConsola(this.mensajeDeConsola);
+        controlador.crearNuevaLlamada();
     }
     
     @Override

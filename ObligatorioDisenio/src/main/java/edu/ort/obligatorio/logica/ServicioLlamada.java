@@ -52,9 +52,7 @@ public class ServicioLlamada {
             }else{
                 throw new SectorNoDisponibleException(SECTOR_NO_DISPONIBLE);
             }
-        } else {
-            throw new CantidadMaximaDeLlamadasException(CANTIDAD_MAXIMA_DE_LLAMADAS);
-        }
+        } 
     }
        
     private int cantidadLlamadasEnCursoOEspera(){
@@ -67,8 +65,13 @@ public class ServicioLlamada {
         return cantidad;
     }
     
-    private boolean esPosibleIniciarLlamada(){
-        return cantidadLlamadasEnCursoOEspera() < cantidadMaximaLLamadaEnCursoyEnEspera;
+    public boolean esPosibleIniciarLlamada() throws CantidadMaximaDeLlamadasException{
+        if(cantidadLlamadasEnCursoOEspera() < cantidadMaximaLLamadaEnCursoyEnEspera) {
+            return true;
+        } else {
+            throw new CantidadMaximaDeLlamadasException(CANTIDAD_MAXIMA_DE_LLAMADAS);
+        }
+        
     }
     
     public ArrayList<Llamada> listarLlamadasAtendidas() throws NoHayLlamadasException{
@@ -76,7 +79,7 @@ public class ServicioLlamada {
         ArrayList<Llamada> atendidas = new ArrayList<>();
         for(Llamada l:llamadas){
             
-            if(!l.esLlamadaEnEspera()){
+            if(l.esLlamadaAtendida()){
                 atendidas.add(l);
             }
         }
@@ -112,8 +115,10 @@ public class ServicioLlamada {
             if(l.esLlamadaAtendida()) {
                 Puesto p = l.getPuesto();
                 p.finalizarLlamadaDelPuesto();
+                p.puestoConTrabajadorDisponibleAviso();
             } else {
                 Sector s = l.getSector();
+                 // TO DO CHECK
                 if(s != null) {
                     s.finalizarLlamadaSinSerAtendida(l);
                 }

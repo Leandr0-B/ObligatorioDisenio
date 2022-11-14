@@ -45,8 +45,14 @@ public class Sector implements Observador{
     }
 
     public ArrayList<Llamada> getLlamadasEnCursoOFinalizadas() throws NoHayLlamadasException {
-        if(!llamadasEnCursoOFinalizadas.isEmpty()) {
-            return llamadasEnCursoOFinalizadas;
+        ArrayList<Llamada> llamadasEnCursooFinalizadasyAtendidas = new ArrayList<>();
+        for(Llamada l: llamadasEnCursoOFinalizadas) {
+            if(l.esLlamadaAtendida()) {
+                llamadasEnCursooFinalizadasyAtendidas.add(l);
+            }
+        }
+        if(!llamadasEnCursooFinalizadasyAtendidas.isEmpty()) {
+            return llamadasEnCursooFinalizadasyAtendidas;
         } else {
             throw new NoHayLlamadasException(NO_HAY_LLAMADAS);
         }
@@ -221,10 +227,14 @@ public class Sector implements Observador{
         return cantidadPuestos > 0 ? promedioAcumulado/cantidadPuestos : 0;
     }
     
+   
     public void finalizarLlamadaSinSerAtendida(Llamada l) throws Exception{
-        this.llamadasEnCursoOFinalizadas.add(l);
-        this.llamadasEnEspera.remove(l);    
-        l.cambiarALLamadaFinalizada();
+        if(this.llamadasEnEspera.remove(l)) {
+            this.llamadasEnCursoOFinalizadas.add(l);
+            this.llamadasEnEspera.remove(l);
+            l.cambiarALLamadaFinalizada();
+        }
+            
     }
     
     public Llamada obtenerPrimeraLlamadaEnEspera() {

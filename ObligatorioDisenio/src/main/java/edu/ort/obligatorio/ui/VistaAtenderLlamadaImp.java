@@ -254,7 +254,6 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
             String descripcionDeLLamada = txtaDescripcionLlamada.getText();
             controlador.setearDescirpcionDeLlamada(descripcionDeLLamada);
             controlador.finalizarLlamada();
-
             controlador.puestoConTrabajadorDisponibleAviso();
         } catch (Exception ex) {
             mostrarMensajeDeError(ex.getMessage());
