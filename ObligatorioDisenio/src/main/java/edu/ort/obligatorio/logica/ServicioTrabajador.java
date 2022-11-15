@@ -9,7 +9,6 @@ import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
-import edu.ort.obligatorio.observador.Observable;
 import java.util.HashMap;
 
 /**

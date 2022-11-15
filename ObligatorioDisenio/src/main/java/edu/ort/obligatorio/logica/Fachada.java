@@ -47,20 +47,6 @@ public class Fachada extends Observable{
         return servicioLlamada.getSector(numeroSector);
     }
 
-    //// TODO QUITAR ////
-    public ServicioTrabajador getServicioTrabajador() {
-        return servicioTrabajador;
-    }
-
-    public ServicioCliente getServicioCliente() {
-        return servicioCliente;
-    }
-
-    public ServicioLlamada getServicioLlamada() {
-        return servicioLlamada;
-    }
-    ////////
-    
     public Trabajador login(String ci, String password) throws LoginException, Exception{
         
         return servicioTrabajador.login(ci, password);      

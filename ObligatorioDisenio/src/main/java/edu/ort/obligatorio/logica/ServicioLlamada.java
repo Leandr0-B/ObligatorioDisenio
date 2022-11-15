@@ -104,16 +104,6 @@ public class ServicioLlamada {
         return agregado;
     }
     
-    //// TODO QUITAR ////
-    public void setLlamadas(ArrayList<Llamada> llamadas) {
-        this.llamadas = llamadas;
-    }
-    
-     public ArrayList<Llamada> getLlamadas() {
-        return this.llamadas;
-    }
-    ///////////////////////
-
     public void finalizarLlamada(Llamada l) throws Exception {
         if(l != null && !l.esLlamadaFinalizada()) {
             if(l.esLlamadaAtendida()) {
@@ -122,7 +112,6 @@ public class ServicioLlamada {
                 p.puestoConTrabajadorDisponibleAviso();
             } else {
                 Sector s = l.getSector();
-                 // TO DO CHECK
                 if(s != null && l.esLlamadaEnEspera()) {
                     s.finalizarLlamadaSinSerAtendida(l);
                 }
