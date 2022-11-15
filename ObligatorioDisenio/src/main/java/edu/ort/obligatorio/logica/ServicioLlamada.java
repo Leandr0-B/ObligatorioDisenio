@@ -31,7 +31,6 @@ public class ServicioLlamada {
     private static final String NO_HAY_LLAMADAS = "No hay llamadas en curso o finalizadas en los Sectores";
 
     
-    
     public Sector getSector(Integer numeroSector) throws SectorNoValidoException{
         Sector s = sectores.get(numeroSector);;
         if(s == null) {
@@ -39,7 +38,6 @@ public class ServicioLlamada {
         }
         
         return s;
-        
     }
         
     public HashMap<Integer, Sector> getListaSectores() {

@@ -18,9 +18,5 @@ public interface VistaSimularLlamada {
     public void mostrarSectores(HashMap<Integer, Sector> sectores);
     public void mostrarInformacionDeLlamadaAtendida(Llamada l);    
     public void mostrarInformacionDeLlamadaFinalizada(Llamada l);
-
-    
-    
     public void cerrarVista();
-    public void setEstado(EstadoVistaSimularLlamada estado);
 }

@@ -8,15 +8,20 @@ package edu.ort.obligatorio.dominio;
  *
  * @author leand
  */
-public class LlamadaEnInicio extends EstadoLlamada{
-   
+public class LlamadaEsperandoSector extends EstadoLlamada {
+    
     @Override
     public void llamadaEnEspera(Llamada l) throws Exception{
         l.setEstado(new LlamadaEnEspera());
     }
-    
+       
+    @Override
+    public boolean esperandoSector() {
+        return true;
+    }
+
     @Override
     public String toString() {
-        return "Llamada En Inicio";
+        return "Esperando Sector";
     }
 }

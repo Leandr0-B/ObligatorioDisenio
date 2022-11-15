@@ -9,7 +9,6 @@ import edu.ort.obligatorio.dominio.Exceptions.LoginException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.logica.Fachada;
-import edu.ort.obligatorio.logica.ServicioTrabajador;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import edu.ort.obligatorio.ui.VistaLogin;
@@ -42,6 +41,7 @@ public class ControladorVistaLogin implements Observador{
         catch(PuestoNoDisponibleException ex){
             vista.mostrarMensajeDeError(ex.getMessage());
         }
+        // Exception por cambio de estado
         catch(Exception ex){
             vista.mostrarMensajeDeError(ex.getMessage());
         }

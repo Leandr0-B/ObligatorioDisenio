@@ -8,7 +8,6 @@ package edu.ort.obligatorio.ui;
 import edu.ort.obligatorio.controladores.ControladorVistaSimularLlamada;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
-import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -21,7 +20,6 @@ import java.util.logging.Logger;
 public class VistaSimularLlamadaImp extends javax.swing.JDialog implements VistaSimularLlamada{
     private String ci = "";
     private String sector = "";
-    private EstadoVistaSimularLlamada estado;
     private String mensajeDeConsola = "";
     ControladorVistaSimularLlamada controlador;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
@@ -32,7 +30,7 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         initComponents();
         setTitle("Simulador de llamadas");
         this.controlador = new ControladorVistaSimularLlamada(this);
-        this.estado = new EsperandoInicioLlamada();
+        //this.estado = new EsperandoInicioLlamada();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -390,7 +388,7 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         this.ci = "";
         this.mensajeDeConsola = "";
         this.sector = "";
-        this.estado = new EsperandoInicioLlamada();
+        //this.estado = new EsperandoInicioLlamada();
     }
 
     @Override
@@ -401,40 +399,13 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         this.dispose();
     }
 
-    @Override
-    public void setEstado(EstadoVistaSimularLlamada estado) {
-        this.estado = estado;
-    }
-    
     private void armarSeleccion(String seleccion) {
-        if(this.estado.esperandoCI()) {
-            if(seleccion.equalsIgnoreCase("#")) {
-                if (controlador.agregarClienteALlamada(ci)) {
-                    try {
-                        this.estado.esperandoSector(this);
-                    } catch (Exception ex) {
-                        Logger.getLogger(VistaSimularLlamadaImp.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    mostrarSectores(controlador.getListaSectores());
-                }
-            } else {
-                this.ci += seleccion;
-                this.mostrarMensajePorConsola(this.mensajeDeConsola +"\nCI:"+ this.ci);
-            }
-        } else if(this.estado.esperandoSector()) {
-            this.sector += seleccion;
-            if (controlador.agregarSectorALlamada(this.sector)) {
-                controlador.iniciarLlamada();
-            }
-        }
+        controlador.armarSeleccion(seleccion);
     }
     
     private void inicioLlamada() throws Exception {
         this.btnIniciar.setEnabled(false);
         this.txtMensaje.setText("");
-        this.estado.esperandoCI(this);
-        this.mensajeDeConsola = "Ingrese su cédula seguida de la tecla numeral";
-        this.mostrarMensajePorConsola(this.mensajeDeConsola);
         controlador.crearNuevaLlamada();
     }
     

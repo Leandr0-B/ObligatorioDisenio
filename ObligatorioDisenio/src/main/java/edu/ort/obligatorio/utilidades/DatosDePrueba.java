@@ -65,10 +65,10 @@ public class DatosDePrueba {
             Fachada.getInstancia().agregar(c);
             Fachada.getInstancia().agregar(c2);
 
-            Llamada l = new Llamada(c, sector1);
-            Llamada l2 = new Llamada(c2, sector1);
-            Llamada l3 = new Llamada(c, sector1);
-            Llamada l4 = new Llamada(c, sector1);
+//            Llamada l = new Llamada(c, sector1);
+//            Llamada l2 = new Llamada(c2, sector1);
+//            Llamada l3 = new Llamada(c, sector1);
+//            Llamada l4 = new Llamada(c, sector1);
 //            llamadasEnEspera.add(l);
 //            llamadasEnEspera.add(l2);
 //            llamadasEnEspera.add(l3);

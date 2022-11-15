@@ -18,8 +18,11 @@ public abstract class EstadoLlamada {
     public void llamadaFinalizada(Llamada l) throws Exception{
         throw new Exception("El estado de la llamada ya es Finalizada/ o no puede cambiar a Finalizada");
     }
-    public void llamadaEnInicio(Llamada l) throws Exception{
-	throw new Exception("El estado de la llamada ya es en Inicio/ o no puede cambiar a Inicio");
+    public void llamadaEsperandoCi(Llamada l) throws Exception{
+	throw new Exception("El estado de la llamada ya es en Esprando CI/ o no puede cambiar a Esperando CI");
+    }
+    public void llamadaEsperandoSector(Llamada l) throws Exception{
+	throw new Exception("El estado de la llamada ya es en Esperando Sector/ o no puede cambiar a Esperando Sector");
     }
     
     public boolean finalizada() {
@@ -31,6 +34,14 @@ public abstract class EstadoLlamada {
     }
     
     public boolean enCurso() {
+        return false;
+    }
+    
+    public boolean esperandoCliente() {
+        return false;
+    }
+    
+    public boolean esperandoSector() {
         return false;
     }
     

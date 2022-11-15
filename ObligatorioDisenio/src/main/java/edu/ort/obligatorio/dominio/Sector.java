@@ -95,6 +95,7 @@ public class Sector implements Observador{
 
     public void agregarPuesto(Puesto p) {
         this.puestos.add(p);
+        p.agregarObservador(this);
     }
     
     public int cantidadPuestos() {
@@ -170,7 +171,7 @@ public class Sector implements Observador{
     
     public void iniciarLlamada(Llamada l) throws LlamadaEnEsperaException, Exception{
         // primero recibo la llamada y la agrego a la lista de espera
-        l.cambiarALlamadaEnEspera();
+//        l.cambiarALlamadaEnEspera();
         llamadasEnEspera.add(l);
         if(hayPuestoConTrabajadorDisponible()){
             // luego intento asignar la llamda a un puesto

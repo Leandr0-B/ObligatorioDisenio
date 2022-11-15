@@ -24,7 +24,6 @@ public class ControladorVistaAtenderLlamada implements Observador {
         this.modelo = modelo;
         this.vista = vista;
         this.modelo.agregarObservador(this);
-        this.modelo.agregarObservador(modelo.getSector());
     }
 
   
@@ -71,7 +70,6 @@ public class ControladorVistaAtenderLlamada implements Observador {
         Fachada.getInstancia().logOut(modelo.getTrabajador());
         modelo.trabajadorLiberaElPuesto();
         modelo.eliminarObservador(this);
-        modelo.eliminarObservador(modelo.getSector());
     }
     
     public boolean hayLlamadaEnCurso() {

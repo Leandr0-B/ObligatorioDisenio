@@ -16,7 +16,6 @@ import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import edu.ort.obligatorio.ui.VistaSimularLlamada;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,10 +29,14 @@ public class ControladorVistaSimularLlamada implements Observador {
     VistaSimularLlamada vista;
     Fachada fachada;
     Llamada modelo;
+    String ci = "";
+    String mensajeParaConsola = "";
+    String sector = "";
 
     public ControladorVistaSimularLlamada(VistaSimularLlamada vista) {
         this.vista = vista;
         this.fachada = Fachada.getInstancia();
+        this.modelo = new Llamada();
         
     }
     
@@ -45,6 +48,10 @@ public class ControladorVistaSimularLlamada implements Observador {
         if(evento.equals(Observador.Eventos.LLAMADA_FINALIZADA)) {
             vista.reset();
             vista.mostrarInformacionDeLlamadaFinalizada(this.modelo);
+            modelo = new Llamada();
+            ci = "";
+            mensajeParaConsola = "";
+            sector = "";
         }
     }
     
@@ -58,26 +65,17 @@ public class ControladorVistaSimularLlamada implements Observador {
         }
     }
     
-    public boolean hayLlamadaEnCurso() {
-        //retorno true para evitar error
-        return true;
-        //return modelo.hayLlamadaEnCurso();
-    }   
-    public HashMap<Integer, Sector> getListaSectores() {
-        return fachada.getListaSectores();
-    }
-    
     public void iniciarLlamada() {
         try {
             fachada.iniciarLlamada(this.modelo);
         } catch (CantidadMaximaDeLlamadasException ex) {
-            vista.reset();
+            this.reset();
             vista.mostrarMensajePorConsola(ex.getMessage());
         } catch (SectorNoDisponibleException ex) {
-            vista.reset();
+            this.reset();
             vista.mostrarMensajePorConsola(ex.getMessage());
         } catch (SectorNoValidoException ex) {
-            vista.reset();
+            this.reset();
             vista.mostrarMensajePorConsola(ex.getMessage());
         } catch (LlamadaEnEsperaException ex) {
             vista.mostrarMensajePorConsola(ex.getMessage());
@@ -92,13 +90,17 @@ public class ControladorVistaSimularLlamada implements Observador {
         boolean esPosible = false;
         try {
             if (fachada.esPosibleIniciarLlamada()) {
-                this.modelo = new Llamada();
+                this.modelo.iniciarLlamada();
                 this.modelo.agregarObservador(this);
                 esPosible = true;
+                this.mensajeParaConsola = "Ingrese su cédula seguida de la tecla numeral";
+                vista.mostrarMensajePorConsola(this.mensajeParaConsola);
             }
         } catch (CantidadMaximaDeLlamadasException ex) {
-           vista.reset();
+           this.reset();
            vista.mostrarMensajePorConsola(ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(ControladorVistaSimularLlamada.class.getName()).log(Level.SEVERE, null, ex);
         }
         return esPosible;
     }
@@ -112,7 +114,7 @@ public class ControladorVistaSimularLlamada implements Observador {
                 ret = true;
             }
         } catch (ClienteNoRegistradoException ex) {
-            vista.reset();
+            this.reset();
             vista.mostrarMensajePorConsola(ex.getMessage());
         } finally {
             return ret;
@@ -130,7 +132,7 @@ public class ControladorVistaSimularLlamada implements Observador {
                 ret = true;
             }
         } catch (SectorNoValidoException ex) {
-           vista.reset();
+           this.reset();
            vista.mostrarMensajePorConsola(ex.getMessage());
         } finally {
             return ret;
@@ -139,5 +141,31 @@ public class ControladorVistaSimularLlamada implements Observador {
     
     public boolean hayLlamadaEnCursoOEspera() {
         return this.modelo != null && (this.modelo.esLlamadaEnCurso() || this.modelo.esLlamadaEnEspera());
+    }
+
+    public void armarSeleccion(String seleccion) {
+        if(this.modelo.esLlamadaEsperandoCliente()) {
+            if(seleccion.equalsIgnoreCase("#")) {
+                if (this.agregarClienteALlamada(ci)) {
+                    vista.mostrarSectores(fachada.getListaSectores());
+                }
+            } else {
+                this.ci += seleccion;
+                vista.mostrarMensajePorConsola(this.mensajeParaConsola +"\nCI:"+ this.ci);
+            }
+        } else if(this.modelo.esperandoSector()) {
+            this.sector += seleccion;
+            if (this.agregarSectorALlamada(this.sector)) {
+                this.iniciarLlamada();
+            }
+        }
+    }
+    
+    private void reset() {
+        this.ci = "";
+        this.mensajeParaConsola = "";
+        this.sector = "";
+        this.modelo = new Llamada();
+        vista.reset();
     }
 }

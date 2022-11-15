@@ -30,37 +30,30 @@ public class Llamada extends Observable {
     private float costoLlamada;
     private float saldoDelCliente;
     private static float costoFijoLlamadaPorSegundo = ac.obtenerConfiguracion("costoFijoLlamadaPorSegundo");
-    private static int numeralDeLlamada = 0;
+    private static int ultimoNumeroDeLlamada = 0;
 
     
     public Llamada() {
-        this.fechaHoraInicio = ZonedDateTime.now();
-        this.estado = new LlamadaEnInicio();
+        this.estado = new LlamadaEsperandoCliente();
         this.siguienteNumeroDeLlamada();
     }
-
-    public Llamada(Cliente cliente, Sector sector) {
-        this.fechaHoraInicio = ZonedDateTime.now();
-        this.sector= sector;
-        this.cliente= cliente;
-        this.estado = new LlamadaEnInicio();
-        this.siguienteNumeroDeLlamada();
-    }
-
+    
     public Sector getSector() {
         return sector;
     }
 
-    public void setSector(Sector sector) {
+    public void setSector(Sector sector) throws Exception {
         this.sector = sector;
+        this.estado.llamadaEnEspera(this);
     } 
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Cliente cliente) throws Exception {
         this.cliente = cliente;
+        this.estado.llamadaEsperandoSector(this);
     }
 
     public Trabajador getTrabajador() {
@@ -148,9 +141,9 @@ public class Llamada extends Observable {
         this.avisar(Observador.Eventos.LLAMADA_FINALIZADA);
         Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_FINALIZADA);
     }
-    public void cambiarALlamadaEnEspera() throws Exception {
-        this.estado.llamadaEnEspera(this);
-    }
+//    public void cambiarALlamadaEnEspera() throws Exception {
+//        this.estado.llamadaEnEspera(this);
+//    }
     public boolean esLlamadaFinalizada() {
         return this.estado.finalizada();
     }
@@ -193,8 +186,8 @@ public class Llamada extends Observable {
     }
     
     private void siguienteNumeroDeLlamada() {
-        Llamada.numeralDeLlamada += 1;
-        this.numeroLlamada = Llamada.numeralDeLlamada;
+        Llamada.ultimoNumeroDeLlamada += 1;
+        this.numeroLlamada = Llamada.ultimoNumeroDeLlamada;
     }
 
     public int getNumeroLlamada() {
@@ -224,6 +217,17 @@ public class Llamada extends Observable {
     public String getNombreSector() {
         return this.getSector().getNombre();
     }
+    
+    public void iniciarLlamada() throws Exception {
+        this.fechaHoraInicio = ZonedDateTime.now();
+    }
 
+    public boolean esLlamadaEsperandoCliente() {
+        return this.estado.esperandoCliente();
+    }
+
+    public boolean esperandoSector() {
+        return this.estado.esperandoSector();
+    }
     
 }
