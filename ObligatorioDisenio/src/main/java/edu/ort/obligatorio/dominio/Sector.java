@@ -7,9 +7,9 @@ package edu.ort.obligatorio.dominio;
 import edu.ort.obligatorio.dominio.Exceptions.LlamadaEnEsperaException;
 import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
-import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +25,12 @@ public class Sector implements Observador{
     private ArrayList<Puesto> puestos;
     private ArrayList<Llamada> llamadasEnEspera;
     private ArrayList<Llamada> llamadasEnCursoOFinalizadas;
-    private static final String NO_HAY_PUESTOS_DISPONIBLES = "no hay puestos disponibles";
+    private static final String NO_HAY_PUESTOS_DISPONIBLES = "No hay puestos disponibles";
     private String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a N llamadas de ser " +
        "atendido, la espera estimada es de X minutos";
     private String NO_HAY_LLAMADAS ="No hay llamadas en curso o finalizadas en el Sector";
+    DecimalFormat df = new DecimalFormat("0.00");
+
 
     public Sector() {
         this.puestos = new ArrayList<>();
@@ -46,8 +48,14 @@ public class Sector implements Observador{
     }
 
     public ArrayList<Llamada> getLlamadasEnCursoOFinalizadas() throws NoHayLlamadasException {
-        if(!llamadasEnCursoOFinalizadas.isEmpty()) {
-            return llamadasEnCursoOFinalizadas;
+        ArrayList<Llamada> llamadasEnCursooFinalizadasyAtendidas = new ArrayList<>();
+        for(Llamada l: llamadasEnCursoOFinalizadas) {
+            if(l.esLlamadaAtendida()) {
+                llamadasEnCursooFinalizadasyAtendidas.add(l);
+            }
+        }
+        if(!llamadasEnCursooFinalizadasyAtendidas.isEmpty()) {
+            return llamadasEnCursooFinalizadasyAtendidas;
         } else {
             throw new NoHayLlamadasException(NO_HAY_LLAMADAS);
         }
@@ -157,8 +165,9 @@ public class Sector implements Observador{
         return auxPuesto;
     }
     
-    public void iniciarLlamada(Llamada l) throws Exception{
+    public void iniciarLlamada(Llamada l) throws LlamadaEnEsperaException, Exception{
         // primero recibo la llamada y la agrego a la lista de espera
+        l.cambiarALlamadaEnEspera();
         llamadasEnEspera.add(l);
         if(hayPuestoConTrabajadorDisponible()){
             // luego intento asignar la llamda a un puesto
@@ -166,7 +175,7 @@ public class Sector implements Observador{
         }
         else{
             String LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA.replace("N",String.valueOf(cantidadLlamadasEnEspera()));
-            LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA_Mensaje.replace("X",String.valueOf(tiempoPromedioDeAtencionDelSector()));
+            LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA_Mensaje.replace("X",String.valueOf(df.format(tiempoPromedioDeAtencionDelSector()/60f)));
             throw new LlamadaEnEsperaException(LLAMADA_EN_ESPERA_Mensaje);
         }
     }
@@ -212,17 +221,24 @@ public class Sector implements Observador{
     //Es el promedio De Los Tiempos Promedio De Atención De Cada Puesto
     public float tiempoPromedioDeAtencionDelSector(){
         float promedioAcumulado = 0;
-        int cantidadPuestos = puestos.size();
+        int cantidadPuestos = 0;
         for(Puesto p:puestos){
-            promedioAcumulado += p.tiempoPromedioLlamadas();
+            if(!p.estaDisponible()) {
+                promedioAcumulado += p.tiempoPromedioLlamadas();
+                cantidadPuestos++;
+            }
         }
         return cantidadPuestos > 0 ? promedioAcumulado/cantidadPuestos : 0;
     }
     
+   
     public void finalizarLlamadaSinSerAtendida(Llamada l) throws Exception{
-        this.llamadasEnCursoOFinalizadas.add(l);
-        this.llamadasEnEspera.remove(l);    
-        l.cambiarALLamadaFinalizada();
+        if(this.llamadasEnEspera.remove(l)) {
+            this.llamadasEnCursoOFinalizadas.add(l);
+            this.llamadasEnEspera.remove(l);
+            l.cambiarALLamadaFinalizada();
+        }
+            
     }
     
     public Llamada obtenerPrimeraLlamadaEnEspera() {

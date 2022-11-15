@@ -7,8 +7,11 @@ package edu.ort.obligatorio.logica;
 import edu.ort.obligatorio.dominio.Exceptions.CantidadMaximaDeLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoDisponibleException;
+import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Llamada;
+import edu.ort.obligatorio.dominio.Puesto;
 import edu.ort.obligatorio.dominio.Sector;
+import edu.ort.obligatorio.utilidades.ArchivoDeConfiguracion;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,22 +21,31 @@ import java.util.HashMap;
  */
 public class ServicioLlamada {
     
-    private static int cantidadMaximaLLamadaEnCursoyEnEspera = 5;
+    private static ArchivoDeConfiguracion ac = ArchivoDeConfiguracion.getInstancia();
+    private static int cantidadMaximaLLamadaEnCursoyEnEspera = ac.obtenerConfiguracion("cantidadMaximaLLamadaEnCursoyEnEspera");
     private HashMap<Integer, Sector> sectores = new HashMap<>();
     private ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
     private static final String SECTOR_NO_DISPONIBLE = "Sector No Disponible";
+    private static final String SECTOR_NO_VALIDO = "Sector No Válido";
     private static final String CANTIDAD_MAXIMA_DE_LLAMADAS = "Comuníquese más tarde, cantidad máxima de llamadas alcanzada";
     private static final String NO_HAY_LLAMADAS = "No hay llamadas en curso o finalizadas en los Sectores";
+
     
-    public Sector getSector(Integer numeroSector) {
-        return sectores.get(numeroSector);
+    
+    public Sector getSector(Integer numeroSector) throws SectorNoValidoException{
+        Sector s = sectores.get(numeroSector);;
+        if(s == null) {
+            throw new SectorNoValidoException(SECTOR_NO_VALIDO);
+        }
+        
+        return s;
+        
     }
         
-    public HashMap<Integer, Sector> getListaSectores(){
+    public HashMap<Integer, Sector> getListaSectores() {
         return sectores;
     }    
     
-    // TO DO , ver como manejar esa Exception que viene del los tipos de llamada
     public void iniciarLlamada(Llamada l) throws SectorNoDisponibleException, CantidadMaximaDeLlamadasException, Exception{
        if(esPosibleIniciarLlamada()) {
             Sector s = l.getSector();
@@ -44,9 +56,7 @@ public class ServicioLlamada {
             }else{
                 throw new SectorNoDisponibleException(SECTOR_NO_DISPONIBLE);
             }
-        } else {
-            throw new CantidadMaximaDeLlamadasException(CANTIDAD_MAXIMA_DE_LLAMADAS);
-        }
+        } 
     }
        
     private int cantidadLlamadasEnCursoOEspera(){
@@ -59,8 +69,13 @@ public class ServicioLlamada {
         return cantidad;
     }
     
-    private boolean esPosibleIniciarLlamada(){
-        return cantidadLlamadasEnCursoOEspera() < cantidadMaximaLLamadaEnCursoyEnEspera;
+    public boolean esPosibleIniciarLlamada() throws CantidadMaximaDeLlamadasException{
+        if(cantidadLlamadasEnCursoOEspera() < cantidadMaximaLLamadaEnCursoyEnEspera) {
+            return true;
+        } else {
+            throw new CantidadMaximaDeLlamadasException(CANTIDAD_MAXIMA_DE_LLAMADAS);
+        }
+        
     }
     
     public ArrayList<Llamada> listarLlamadasAtendidas() throws NoHayLlamadasException{
@@ -68,7 +83,7 @@ public class ServicioLlamada {
         ArrayList<Llamada> atendidas = new ArrayList<>();
         for(Llamada l:llamadas){
             
-            if(!l.esLlamadaEnEspera()){
+            if(l.esLlamadaAtendida()){
                 atendidas.add(l);
             }
         }
@@ -98,4 +113,20 @@ public class ServicioLlamada {
         return this.llamadas;
     }
     ///////////////////////
+
+    public void finalizarLlamada(Llamada l) throws Exception {
+        if(l != null && !l.esLlamadaFinalizada()) {
+            if(l.esLlamadaAtendida()) {
+                Puesto p = l.getPuesto();
+                p.finalizarLlamadaDelPuesto();
+                p.puestoConTrabajadorDisponibleAviso();
+            } else {
+                Sector s = l.getSector();
+                 // TO DO CHECK
+                if(s != null && l.esLlamadaEnEspera()) {
+                    s.finalizarLlamadaSinSerAtendida(l);
+                }
+            }
+        }
+    }
 }

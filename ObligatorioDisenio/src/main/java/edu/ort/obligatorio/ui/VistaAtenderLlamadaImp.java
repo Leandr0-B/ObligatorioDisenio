@@ -70,7 +70,7 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
 
         lNombreSector.setText("Sector:");
 
-        lNumeroPuesto.setText("|   Puesto Nro. #");
+        lNumeroPuesto.setText("Puesto Nro. #");
 
         txtNombreSector.setEditable(false);
 
@@ -163,8 +163,8 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
                                             .addComponent(lNombreSector)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(txtNombreSector, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(lNumeroPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(27, 27, 27)
+                                            .addComponent(lNumeroPuesto)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(txtNumeroPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGap(29, 29, 29)
@@ -254,7 +254,6 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
             String descripcionDeLLamada = txtaDescripcionLlamada.getText();
             controlador.setearDescirpcionDeLlamada(descripcionDeLLamada);
             controlador.finalizarLlamada();
-
             controlador.puestoConTrabajadorDisponibleAviso();
         } catch (Exception ex) {
             mostrarMensajeDeError(ex.getMessage());

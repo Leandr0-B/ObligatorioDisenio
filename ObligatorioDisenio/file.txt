@@ -1,0 +1,2 @@
+cantidadMaximaLLamadaEnCursoyEnEspera=2
+costoFijoLlamadaPorSegundo=1

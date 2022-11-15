@@ -215,7 +215,7 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
 
     private String stringDeLlamada(Llamada l) {
         String fechaHoraFin = l.getFechaHoraFin() != null ? l.getFechaHoraFin().format(formatter): " -- ";
-        String duracionLlamada = l.duracionLlamada() != -1 ? l.duracionLlamada()+"" : " -- ";
+        String duracionLlamada = l.duracionLlamada() > 0 ? l.duracionLlamada()+"" : " -- ";
         String stringLlamada = l.getNumeroLlamada() + "  |  " + l.getEstado() + "  |  " +
         l.getFechaHoraInicio().format(formatter) + "  |  " + fechaHoraFin + "  |  " + l.getNumeroPuesto() + "  |  " +
         l.getNombreDelTrabajador() + "  |  " + duracionLlamada + "  |  " + l.getCostoLlamada() + "  |  " +

@@ -6,6 +6,7 @@ package edu.ort.obligatorio.logica;
 
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
+import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Sector;
 import edu.ort.obligatorio.dominio.Trabajador;
 import edu.ort.obligatorio.observador.Observable;
@@ -20,7 +21,7 @@ public class ServicioTrabajador {
     private static final String ACCESO_DENEGADO = "Acceso denegado";
         
     // el trabajador no va a ser agregado si el sector no existe
-    public boolean agregar(Trabajador trabajador, Integer numeroSector) {
+    public boolean agregar(Trabajador trabajador, Integer numeroSector) throws SectorNoValidoException {
         Boolean retorno = false;
         Sector sector = Fachada.getInstancia().getSector(numeroSector);
         Boolean agregarOk = false;

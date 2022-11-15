@@ -98,7 +98,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void mSimularLlamadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSimularLlamadaActionPerformed
         // TODO add your handling code here:
-        DialogoSimularLlamadaImp simular = new DialogoSimularLlamadaImp(this,true);
+        VistaSimularLlamadaImp simular = new VistaSimularLlamadaImp();
         simular.setVisible(true);
     }//GEN-LAST:event_mSimularLlamadaActionPerformed
 

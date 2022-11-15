@@ -68,10 +68,11 @@ public class ControladorVistaAtenderLlamada implements Observador {
     
     public void trabajadorLiberaElPuesto() throws Exception {
         modelo.trabajadorLiberaElPuesto();
+        modelo.eliminarObservador(this);
+        modelo.eliminarObservador(modelo.getSector());
     }
     
     public boolean hayLlamadaEnCurso() {
         return modelo.hayLlamadaEnCurso();
     }
-    
 }

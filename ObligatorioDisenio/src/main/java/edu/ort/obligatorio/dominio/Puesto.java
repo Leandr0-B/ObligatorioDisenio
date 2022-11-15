@@ -82,6 +82,7 @@ public class Puesto extends Observable{
         this.cambiarEstadoANoDisponible();
     }
     
+    // el puesto esta disponible si no tiene trabajador asignado
     public boolean estaDisponible() {
         return this.estado.estaDisponible();
     }
@@ -112,16 +113,6 @@ public class Puesto extends Observable{
         return llamadas.size();
     }
     
-    public int cantidadDeLlamadasAtendidas() {
-        int cantidad = 0;
-        for(Llamada l:llamadas) {
-            if(l.esLlamadaFinalizada()) {
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-    
     private long duracionTotalLlamadasAtendidas() {
         long duracionTotal = 0;
         for(Llamada l: this.llamadas) {
@@ -133,7 +124,7 @@ public class Puesto extends Observable{
     }
     
     public float tiempoPromedioLlamadas() {
-        int cantidadDeLlamadasAtendidas = this.cantidadDeLlamadasAtendidas();
+        int cantidadDeLlamadasAtendidas = this.cantidadLlamadasAtendidas();
         return cantidadDeLlamadasAtendidas > 0 ? this.duracionTotalLlamadasAtendidas()/cantidadDeLlamadasAtendidas : 0;
     }
     

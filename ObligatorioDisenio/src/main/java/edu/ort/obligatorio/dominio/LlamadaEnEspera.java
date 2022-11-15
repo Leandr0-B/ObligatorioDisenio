@@ -19,6 +19,7 @@ public class LlamadaEnEspera extends EstadoLlamada{
         l.setEstado(new LlamadaFinalizada());
     }
     
+    @Override
     public boolean enEspera(){
         return true;
     }
