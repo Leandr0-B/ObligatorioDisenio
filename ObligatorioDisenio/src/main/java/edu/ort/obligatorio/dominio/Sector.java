@@ -106,14 +106,17 @@ public class Sector implements Observador{
     }
     
     //le asigna un puesto disponible al T
-    public void asignarPuesto(Trabajador t) throws PuestoNoDisponibleException, Exception {
+    public boolean asignarPuesto(Trabajador t) throws PuestoNoDisponibleException, Exception {
+        boolean puestoAsignado = false;
         Puesto auxPuestoDisponible = this.obtenerPuestoDisponible();
         if(auxPuestoDisponible != null) {
             auxPuestoDisponible.asignarTrabajador(t);
             t.asignarPuesto(auxPuestoDisponible);
+            puestoAsignado = true;
         } else {
             throw new PuestoNoDisponibleException(NO_HAY_PUESTOS_DISPONIBLES);
         }
+        return puestoAsignado;
     }
     
     

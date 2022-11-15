@@ -88,4 +88,8 @@ public class Fachada extends Observable{
         return servicioLlamada.esPosibleIniciarLlamada();
     }
     
+    public void logOut(Trabajador t) {
+        servicioTrabajador.logOut(t);
+    }
+    
 }

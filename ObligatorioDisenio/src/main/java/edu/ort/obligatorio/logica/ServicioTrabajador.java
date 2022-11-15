@@ -17,7 +17,11 @@ import java.util.HashMap;
  */
 public class ServicioTrabajador {
     private HashMap<String, Trabajador> trabajadores = new HashMap<>();
+    private HashMap<String, Trabajador> trabajadoresLogeados = new HashMap<>();
+
     private static final String ACCESO_DENEGADO = "Acceso denegado";
+    private static final String TRABAJADOR_YA_LOGEADO = "Acceso denegado, Trabajador previamente logeado";
+
         
     // el trabajador no va a ser agregado si el sector no existe
     public boolean agregar(Trabajador trabajador, Integer numeroSector) throws SectorNoValidoException {
@@ -47,19 +51,35 @@ public class ServicioTrabajador {
     }
     
     public Trabajador login(String ci, String password) throws LoginException, PuestoNoDisponibleException, Exception {
-        
-        Trabajador t = trabajadores.get(ci);
-        if (t == null || !t.esPasswordValido(password)) {
-            throw new LoginException(ACCESO_DENEGADO);
+        Trabajador t = null;
+        if(trabajadoresLogeados.get(ci) == null) {
+            t = trabajadores.get(ci);
+            if (t == null || !t.esPasswordValido(password)) {
+                throw new LoginException(ACCESO_DENEGADO);
+            }
+            if(!t.estaDisponible()){
+                //Siempre que se loguea le cambiamos el estado a disponible para que pueda antender llamadas
+                t.cambiarEstadoADisponble();   
+            }
+            Sector sector = t.getSector();
+            if (sector.asignarPuesto(t)) {
+                this.agregarATrabajadoresLogeados(t);
+            }
+        } else {
+            throw new LoginException(TRABAJADOR_YA_LOGEADO);
         }
-        if(!t.estaDisponible()){
-            //Siempre que se loguea le cambiamos el estado a disponible para que pueda antender llamadas
-            t.cambiarEstadoADisponble();   
-        }
-        Sector sector = t.getSector();
-        sector.asignarPuesto(t);
         
         return t;
+    }
+    
+    private void agregarATrabajadoresLogeados(Trabajador t) {
+        this.trabajadoresLogeados.put(t.getCi(),t);
+    }
+    
+    public void logOut(Trabajador t) {
+        if (t != null && trabajadoresLogeados.containsKey(t.getCi())) {
+            trabajadoresLogeados.remove(t.getCi());
+        }
     }
     
 }

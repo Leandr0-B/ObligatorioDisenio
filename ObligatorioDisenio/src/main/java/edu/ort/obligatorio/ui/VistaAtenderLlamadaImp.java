@@ -382,6 +382,7 @@ public class VistaAtenderLlamadaImp extends javax.swing.JDialog implements Vista
             try {
                 controlador.trabajadorLiberaElPuesto();
                 this.dispose();
+                
             } catch (Exception ex) {
                 mostrarMensajeDeError(ex.getMessage());
             }

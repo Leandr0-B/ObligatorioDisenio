@@ -1,6 +1,7 @@
 package edu.ort.obligatorio.controladores;
 
 import edu.ort.obligatorio.dominio.Puesto;
+import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
 import edu.ort.obligatorio.ui.VistaAtenderLlamada;
@@ -67,6 +68,7 @@ public class ControladorVistaAtenderLlamada implements Observador {
     }
     
     public void trabajadorLiberaElPuesto() throws Exception {
+        Fachada.getInstancia().logOut(modelo.getTrabajador());
         modelo.trabajadorLiberaElPuesto();
         modelo.eliminarObservador(this);
         modelo.eliminarObservador(modelo.getSector());
@@ -75,4 +77,5 @@ public class ControladorVistaAtenderLlamada implements Observador {
     public boolean hayLlamadaEnCurso() {
         return modelo.hayLlamadaEnCurso();
     }
+
 }
