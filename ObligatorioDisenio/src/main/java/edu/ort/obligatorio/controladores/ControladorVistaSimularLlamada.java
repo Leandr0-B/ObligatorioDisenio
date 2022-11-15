@@ -136,4 +136,8 @@ public class ControladorVistaSimularLlamada implements Observador {
             return ret;
         }
     }
+    
+    public boolean hayLlamadaEnCursoOEspera() {
+        return this.modelo != null && (this.modelo.esLlamadaEnCurso() || this.modelo.esLlamadaEnEspera());
+    }
 }

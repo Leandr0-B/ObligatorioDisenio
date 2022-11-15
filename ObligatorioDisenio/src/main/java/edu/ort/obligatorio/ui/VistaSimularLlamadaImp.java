@@ -8,6 +8,7 @@ package edu.ort.obligatorio.ui;
 import edu.ort.obligatorio.controladores.ControladorVistaSimularLlamada;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Sector;
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -61,7 +62,7 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
         btn0 = new javax.swing.JButton();
         btnNumeral = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -394,23 +395,10 @@ public class VistaSimularLlamadaImp extends javax.swing.JDialog implements Vista
 
     @Override
     public void cerrarVista() {
-//         if (controlador.hayLlamadaEnCurso()) {
-//            int opt = JOptionPane.showConfirmDialog(this, "¿Desea Finalizar la llamada en curso y salir de la aplicación?", "Salir de la Aplicación", JOptionPane.OK_CANCEL_OPTION);
-//            if (opt == JOptionPane.OK_OPTION) {
-//                try {
-//                    controlador.finalizarLlamada();
-//                } catch (Exception ex1) {
-//                    mostrarMensajeDeError(ex1.getMessage());
-//                }
-//                this.dispose();
-//            } 
-//        } else {
-//            try {
-//                this.dispose();
-//            } catch (Exception ex) {
-//                mostrarMensajeDeError(ex.getMessage());
-//            }
-//        }
+        if (controlador.hayLlamadaEnCursoOEspera()) {
+            controlador.finalizarLlamada();
+        } 
+        this.dispose();
     }
 
     @Override

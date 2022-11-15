@@ -18,12 +18,19 @@ public abstract class EstadoLlamada {
     public void llamadaFinalizada(Llamada l) throws Exception{
         throw new Exception("El estado de la llamada ya es Finalizada/ o no puede cambiar a Finalizada");
     }
+    public void llamadaEnInicio(Llamada l) throws Exception{
+	throw new Exception("El estado de la llamada ya es en Inicio/ o no puede cambiar a Inicio");
+    }
     
     public boolean finalizada() {
         return false;
     }
     
     public boolean enEspera(){
+        return false;
+    }
+    
+    public boolean enCurso() {
         return false;
     }
     

@@ -11,6 +11,7 @@ import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Llamada;
 import edu.ort.obligatorio.dominio.Puesto;
 import edu.ort.obligatorio.dominio.Sector;
+import edu.ort.obligatorio.utilidades.ArchivoDeConfiguracion;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +21,8 @@ import java.util.HashMap;
  */
 public class ServicioLlamada {
     
-    private static int cantidadMaximaLLamadaEnCursoyEnEspera = 5;
+    private static ArchivoDeConfiguracion ac = ArchivoDeConfiguracion.getInstancia();
+    private static int cantidadMaximaLLamadaEnCursoyEnEspera = ac.obtenerConfiguracion("cantidadMaximaLLamadaEnCursoyEnEspera");
     private HashMap<Integer, Sector> sectores = new HashMap<>();
     private ArrayList<Llamada> llamadas = new ArrayList<Llamada>();
     private static final String SECTOR_NO_DISPONIBLE = "Sector No Disponible";
@@ -29,19 +31,21 @@ public class ServicioLlamada {
     private static final String NO_HAY_LLAMADAS = "No hay llamadas en curso o finalizadas en los Sectores";
 
     
+    
     public Sector getSector(Integer numeroSector) throws SectorNoValidoException{
         Sector s = sectores.get(numeroSector);;
         if(s == null) {
             throw new SectorNoValidoException(SECTOR_NO_VALIDO);
         }
+        
         return s;
+        
     }
         
     public HashMap<Integer, Sector> getListaSectores() {
         return sectores;
     }    
     
-    // TO DO , ver como manejar esa Exception que viene del los tipos de llamada
     public void iniciarLlamada(Llamada l) throws SectorNoDisponibleException, CantidadMaximaDeLlamadasException, Exception{
        if(esPosibleIniciarLlamada()) {
             Sector s = l.getSector();
@@ -119,7 +123,7 @@ public class ServicioLlamada {
             } else {
                 Sector s = l.getSector();
                  // TO DO CHECK
-                if(s != null) {
+                if(s != null && l.esLlamadaEnEspera()) {
                     s.finalizarLlamadaSinSerAtendida(l);
                 }
             }

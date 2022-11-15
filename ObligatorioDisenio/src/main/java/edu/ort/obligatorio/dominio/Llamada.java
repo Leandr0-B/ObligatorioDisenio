@@ -6,6 +6,7 @@ package edu.ort.obligatorio.dominio;
 import edu.ort.obligatorio.logica.Fachada;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
+import edu.ort.obligatorio.utilidades.ArchivoDeConfiguracion;
 import java.time.ZonedDateTime;
 import java.time.Duration;
 
@@ -15,6 +16,7 @@ import java.time.Duration;
  * @author leand
  */
 public class Llamada extends Observable {
+    private static ArchivoDeConfiguracion ac = ArchivoDeConfiguracion.getInstancia();
     private int numeroLlamada;
     private ZonedDateTime fechaHoraInicio;
     private ZonedDateTime fechaHoraInicioAtencion;
@@ -27,13 +29,13 @@ public class Llamada extends Observable {
     private Sector sector;
     private float costoLlamada;
     private float saldoDelCliente;
-    private static float costoFijoLlamadaPorSegundo = 1;
+    private static float costoFijoLlamadaPorSegundo = ac.obtenerConfiguracion("costoFijoLlamadaPorSegundo");
     private static int numeralDeLlamada = 0;
 
     
     public Llamada() {
         this.fechaHoraInicio = ZonedDateTime.now();
-        this.estado = new LlamadaEnEspera();
+        this.estado = new LlamadaEnInicio();
         this.siguienteNumeroDeLlamada();
     }
 
@@ -41,7 +43,7 @@ public class Llamada extends Observable {
         this.fechaHoraInicio = ZonedDateTime.now();
         this.sector= sector;
         this.cliente= cliente;
-        this.estado = new LlamadaEnEspera();
+        this.estado = new LlamadaEnInicio();
         this.siguienteNumeroDeLlamada();
     }
 
@@ -146,13 +148,19 @@ public class Llamada extends Observable {
         this.avisar(Observador.Eventos.LLAMADA_FINALIZADA);
         Fachada.getInstancia().avisar(Observador.Eventos.LLAMADA_FINALIZADA);
     }
-    
+    public void cambiarALlamadaEnEspera() throws Exception {
+        this.estado.llamadaEnEspera(this);
+    }
     public boolean esLlamadaFinalizada() {
         return this.estado.finalizada();
     }
     
     public boolean esLlamadaEnEspera() {
         return this.estado.enEspera();
+    }
+    
+    public boolean esLlamadaEnCurso() {
+        return this.estado.enCurso();
     }
     
     public boolean esLlamadaAtendida() {

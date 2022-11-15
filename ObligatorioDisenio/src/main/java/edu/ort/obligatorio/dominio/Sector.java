@@ -9,6 +9,7 @@ import edu.ort.obligatorio.dominio.Exceptions.NoHayLlamadasException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.observador.Observable;
 import edu.ort.obligatorio.observador.Observador;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,8 @@ public class Sector implements Observador{
     private String LLAMADA_EN_ESPERA = "Aguarde en línea, Ud. se encuentra a N llamadas de ser " +
        "atendido, la espera estimada es de X minutos";
     private String NO_HAY_LLAMADAS ="No hay llamadas en curso o finalizadas en el Sector";
+    DecimalFormat df = new DecimalFormat("0.00");
+
 
     public Sector() {
         this.puestos = new ArrayList<>();
@@ -164,6 +167,7 @@ public class Sector implements Observador{
     
     public void iniciarLlamada(Llamada l) throws LlamadaEnEsperaException, Exception{
         // primero recibo la llamada y la agrego a la lista de espera
+        l.cambiarALlamadaEnEspera();
         llamadasEnEspera.add(l);
         if(hayPuestoConTrabajadorDisponible()){
             // luego intento asignar la llamda a un puesto
@@ -171,7 +175,7 @@ public class Sector implements Observador{
         }
         else{
             String LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA.replace("N",String.valueOf(cantidadLlamadasEnEspera()));
-            LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA_Mensaje.replace("X",String.valueOf(tiempoPromedioDeAtencionDelSector()/60f));
+            LLAMADA_EN_ESPERA_Mensaje = LLAMADA_EN_ESPERA_Mensaje.replace("X",String.valueOf(df.format(tiempoPromedioDeAtencionDelSector()/60f)));
             throw new LlamadaEnEsperaException(LLAMADA_EN_ESPERA_Mensaje);
         }
     }
