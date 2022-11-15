@@ -21,10 +21,12 @@ public class Puesto extends Observable{
     private Llamada llamadaEnCurso;
     private Sector sector;
 
-    public Puesto(Sector sector) {
+    public Puesto(int numeroPuesto, Sector sector) {
         this.llamadas = new ArrayList();
         this.estado = new PuestoDisponible();
         this.sector = sector;
+        this.numeroPuesto = numeroPuesto;
+        this.sector.agregarPuesto(this);
     }
 
     public Sector getSector() {

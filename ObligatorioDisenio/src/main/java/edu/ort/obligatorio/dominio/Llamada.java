@@ -34,7 +34,7 @@ public class Llamada extends Observable {
 
     
     public Llamada() {
-        this.estado = new LlamadaEsperandoCliente();
+        this.estado = new LlamadaEsperandoInicio();
         this.siguienteNumeroDeLlamada();
     }
     
@@ -220,6 +220,7 @@ public class Llamada extends Observable {
     
     public void iniciarLlamada() throws Exception {
         this.fechaHoraInicio = ZonedDateTime.now();
+        this.estado.llamadaEsperandoCliente(this);
     }
 
     public boolean esLlamadaEsperandoCliente() {

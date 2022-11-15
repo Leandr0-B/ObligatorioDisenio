@@ -4,6 +4,8 @@
  */
 package edu.ort.obligatorio.dominio;
 
+import edu.ort.obligatorio.dominio.Exceptions.PasswordException;
+
 /**
  *
  * @author leand
@@ -13,9 +15,10 @@ public class Trabajador extends Persona{
     private Puesto puestoTrabajo;
     private String password;
     private Sector sector;
+    private static final String PASSWORD_INVALIDA = "Password Inválida";
 
-    public Trabajador(String ci, String password) {
-        super(ci);
+    public Trabajador(String ci, String password, String nombreCompleto) {
+        super(ci, nombreCompleto);
         this.password = password;
         this.estado = new TrabajadorDisponible();
     }
@@ -44,9 +47,20 @@ public class Trabajador extends Persona{
         this.puestoTrabajo = puestoTrabajo;
     }
 
+   
     public boolean esPasswordValido(String password) {
         return this.password.equals(password);
     }
+    
+    public static boolean passwordValida(String password) throws PasswordException{
+        boolean valida = true;
+        if(password.length() < 4 || password.length() > 50) {
+            valida = false;
+            throw new PasswordException(PASSWORD_INVALIDA);
+        }   
+        return valida;
+    }
+    
 
     public Sector getSector() {
         return sector;
@@ -71,5 +85,8 @@ public class Trabajador extends Persona{
     public boolean estaDisponible() {
         return this.estado.estaDisponible();
     }
+
+  
+    
     
 }

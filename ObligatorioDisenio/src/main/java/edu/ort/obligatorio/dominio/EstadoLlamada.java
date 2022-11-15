@@ -10,19 +10,23 @@ package edu.ort.obligatorio.dominio;
  */
 public abstract class EstadoLlamada {
     public void llamadaEnEspera(Llamada l) throws Exception{
-	throw new Exception("El estado de la llamada ya es en Espera/ o no puede cambiar a Espera");
+	throw new Exception("El estado de la llamada ya es en Espera o no puede cambiar a Espera");
     }
     public void llamadaEnCurso(Llamada l) throws Exception{
-        throw new Exception("El estado de la llamada ya es en Curso/ o no puede cambiar a en Curso");
+        throw new Exception("El estado de la llamada ya es en Curso o no puede cambiar a en Curso");
     }
     public void llamadaFinalizada(Llamada l) throws Exception{
-        throw new Exception("El estado de la llamada ya es Finalizada/ o no puede cambiar a Finalizada");
+        throw new Exception("El estado de la llamada ya es Finalizada o no puede cambiar a Finalizada");
     }
-    public void llamadaEsperandoCi(Llamada l) throws Exception{
-	throw new Exception("El estado de la llamada ya es en Esprando CI/ o no puede cambiar a Esperando CI");
+    public void llamadaEsperandoCliente(Llamada l) throws Exception{
+	throw new Exception("El estado de la llamada ya es en Esprando Cliente o no puede cambiar a Esperando Cliente");
     }
     public void llamadaEsperandoSector(Llamada l) throws Exception{
-	throw new Exception("El estado de la llamada ya es en Esperando Sector/ o no puede cambiar a Esperando Sector");
+	throw new Exception("El estado de la llamada ya es en Esperando Sector o no puede cambiar a Esperando Sector");
+    }
+    
+    public void llamadaEsperandoInicio(Llamada l) throws Exception{
+	throw new Exception("El estado de la llamada ya es en Esperando Inicio o no puede cambiar a Esperando Inicio");
     }
     
     public boolean finalizada() {
@@ -42,6 +46,10 @@ public abstract class EstadoLlamada {
     }
     
     public boolean esperandoSector() {
+        return false;
+    }
+    
+    public boolean esperandoInicio() {
         return false;
     }
     

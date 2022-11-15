@@ -32,11 +32,13 @@ public class Sector implements Observador{
     DecimalFormat df = new DecimalFormat("0.00");
 
 
-    public Sector() {
+    public Sector(int numero, String nombre) {
         this.puestos = new ArrayList<>();
         this.llamadasEnEspera = new ArrayList<>();
         this.llamadasEnCursoOFinalizadas = new ArrayList<>();
         this.trabajadores = new ArrayList<>();
+        this.numeroSector = numero;
+        this.nombre = nombre;
     }
 
     public ArrayList<Llamada> getLlamadasEnEspera() {

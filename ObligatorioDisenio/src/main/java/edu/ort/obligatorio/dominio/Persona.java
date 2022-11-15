@@ -4,6 +4,9 @@
  */
 package edu.ort.obligatorio.dominio;
 
+import edu.ort.obligatorio.dominio.Exceptions.CIException;
+import edu.ort.obligatorio.dominio.Exceptions.NombreCompletoException;
+
 /**
  *
  * @author leand
@@ -11,14 +14,14 @@ package edu.ort.obligatorio.dominio;
 public abstract class Persona {
     private String ci;
     private String nombreCompleto;
+    private static final String  CI_INCORRECTA = "La CI debe contener entre 7 y 9 caracteres";
+    private static final String  NOMBRE_INCORRECTO = "EL nombre debe contener entre 3 y 50 caracteres";
+
+
 
     public Persona(String ci, String nombreCompleto) {
         this.ci = ci;
         this.nombreCompleto = nombreCompleto;
-    }
-    
-    public Persona(String ci) {
-        this.ci = ci;
     }
     
     public String getCi() {
@@ -37,5 +40,21 @@ public abstract class Persona {
         this.nombreCompleto = nombreCompleto;
     }
     
+    public static boolean ciValida(String ci) throws CIException{
+        boolean valida = true;
+        if(ci.length() < 7 || ci.length() > 9) {
+            valida = false;
+            throw new CIException(CI_INCORRECTA);
+        }  
+        return valida;
+    }
     
+    public static boolean nombreCompletoValido(String nombreCompleto) throws NombreCompletoException{
+        boolean valido = false;
+       
+        if(nombreCompleto.length() > 2 && nombreCompleto.length() < 25) {
+            valido = true;
+        }
+        return valido;
+    }
 }

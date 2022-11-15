@@ -4,7 +4,9 @@
  */
 package edu.ort.obligatorio.logica;
 
+import edu.ort.obligatorio.dominio.Exceptions.CIException;
 import edu.ort.obligatorio.dominio.Exceptions.LoginException;
+import edu.ort.obligatorio.dominio.Exceptions.PasswordException;
 import edu.ort.obligatorio.dominio.Exceptions.PuestoNoDisponibleException;
 import edu.ort.obligatorio.dominio.Exceptions.SectorNoValidoException;
 import edu.ort.obligatorio.dominio.Sector;
@@ -50,25 +52,27 @@ public class ServicioTrabajador {
         return usuarioAgregado;
     }
     
-    public Trabajador login(String ci, String password) throws LoginException, PuestoNoDisponibleException, Exception {
+    public Trabajador login(String ci, String password) throws LoginException, PuestoNoDisponibleException, CIException, PasswordException, Exception {
         Trabajador t = null;
-        if(trabajadoresLogeados.get(ci) == null) {
-            t = trabajadores.get(ci);
-            if (t == null || !t.esPasswordValido(password)) {
-                throw new LoginException(ACCESO_DENEGADO);
-            }
-            if(!t.estaDisponible()){
-                //Siempre que se loguea le cambiamos el estado a disponible para que pueda antender llamadas
-                t.cambiarEstadoADisponble();   
-            }
-            Sector sector = t.getSector();
-            if (sector.asignarPuesto(t)) {
-                this.agregarATrabajadoresLogeados(t);
-            }
-        } else {
-            throw new LoginException(TRABAJADOR_YA_LOGEADO);
-        }
         
+        if(Trabajador.ciValida(ci) && Trabajador.passwordValida(password)){
+            if(trabajadoresLogeados.get(ci) == null) {
+                t = trabajadores.get(ci);
+                if (t == null || !t.esPasswordValido(password)) {
+                    throw new LoginException(ACCESO_DENEGADO);
+                }
+                if(!t.estaDisponible()){
+                    //Siempre que se loguea le cambiamos el estado a disponible para que pueda antender llamadas
+                    t.cambiarEstadoADisponble();   
+                }
+                Sector sector = t.getSector();
+                if (sector.asignarPuesto(t)) {
+                    this.agregarATrabajadoresLogeados(t);
+                }
+            } else {
+                throw new LoginException(TRABAJADOR_YA_LOGEADO);
+            } 
+        } 
         return t;
     }
     

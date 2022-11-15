@@ -157,7 +157,7 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
     @Override
     public void mostrarLlamadasDeSector(ArrayList<Llamada> llamadas) {
         ArrayList<String> llamadasFormat = new ArrayList();
-        llamadasFormat.add("# llamada   |   Estado   |   Inicio   |   Fin   |   # Puesto   |   Trabajador   |   Duracion   |   Costo   |   Cliente   |   Saldo");
+        llamadasFormat.add("# Llamada   |   Estado   |   Inicio   |   Fin   |   # Puesto   |   Trabajador   |   Duración   |   Costo   |   Cliente   |   Saldo");
         for(Llamada l: llamadas) {
             String stringLlamada = this.stringDeLlamada(l);
             llamadasFormat.add(stringLlamada);
@@ -168,7 +168,7 @@ public class VistaAplicacionDeMonitoreoImp extends javax.swing.JDialog implement
     @Override
     public void mostrarLlamadasDeTodosLosSectores(ArrayList<Llamada> llamadas) {
         ArrayList<String> llamadasFormat = new ArrayList();
-        llamadasFormat.add("#Sector   |   # llamada   |   Estado   |   Inicio   |   Fin   |   # Puesto   |   Trabajador   |   Duracion   |   Costo   |   Cliente   |   Saldo");
+        llamadasFormat.add("#Sector   |   # Llamada   |   Estado   |   Inicio   |   Fin   |   # Puesto   |   Trabajador   |   Duración   |   Costo   |   Cliente   |   Saldo");
         for(Llamada l: llamadas) {
             String stringLlamada = this.stringDeLlamadaConSector(l);
             llamadasFormat.add(stringLlamada);

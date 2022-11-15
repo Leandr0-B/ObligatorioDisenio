@@ -16,13 +16,6 @@ public class Cliente extends Persona{
         this.tipo = tipo;
         this.saldo = saldo;
     }
-
-    public Cliente(TipoCliente tipo, float saldo, String ci) {
-        super(ci);
-        this.tipo = tipo;
-        this.saldo = saldo;
-    }
-
     
     public TipoCliente getTipo() {
         return tipo;
