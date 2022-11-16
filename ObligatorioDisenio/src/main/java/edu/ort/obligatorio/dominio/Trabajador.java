@@ -15,7 +15,7 @@ public class Trabajador extends Persona{
     private Puesto puestoTrabajo;
     private String password;
     private Sector sector;
-    private static final String PASSWORD_INVALIDA = "Password Inválida";
+    private static final String PASSWORD_INVALIDA = "Acesso Denegado";
 
     public Trabajador(String ci, String password, String nombreCompleto) {
         super(ci, nombreCompleto);
